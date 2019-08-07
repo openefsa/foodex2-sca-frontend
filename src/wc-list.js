@@ -1,16 +1,16 @@
-import {LitElement, html} from 'lit-element';
+import { LitElement, html } from 'lit-element';
 
-import {style} from './main-styles.js'
+import { style } from './main-styles.js'
 
-export class WcList extends LitElement{
+export class WcList extends LitElement {
 
-    static get properties(){
-        return{
-            words: {type: Array}
+    static get properties() {
+        return {
+            words: { type: Array }
         }
     }
 
-    constructor(){
+    constructor() {
         super()
         this.words = [
             "Banana",
@@ -19,13 +19,12 @@ export class WcList extends LitElement{
         ]
     }
 
-    render(){
+    render() {
         return html`
             ${style}
-            <div>
-                ${this.words.map(word =>
-                    html`<h2 class="subtitle">${word}</h2>`)}
-            </div>
+            ${this.words.map(word =>
+                 html`<h2 class="subtitle">${word}</h2>`)}
+             
         `
     }
 }

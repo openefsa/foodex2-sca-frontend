@@ -1,23 +1,25 @@
-import {LitElement, html} from 'lit-element';
+import { LitElement, html } from 'lit-element';
 
-import {style} from './main-styles.js'
+import { style } from './main-styles.js'
 
-export class MainApplication extends LitElement{
-    
-    constructor(){
+export class MainApplication extends LitElement {
+
+    constructor() {
         super()
     }
 
-    render(){
+    render() {
         return html`
             ${style}
             <section class="container">
                 <div>
-                    <wc-title></wc-title>
-                    <wc-sub-title my-text="Insert the food description below:"></wc-sub-title>
-                    <wc-button></wc-button>
+                    <h1 class="title"><img src="src/icons/foodex.ico"/>FoodEX2 WC<h1>
                     <hr>
-                    <wc-textfield></wc-textfield>
+                    <form>
+                        <label class="subtitle">Insert the food description below:</label><br>
+                        <input class="input" type="text" id="text" placeholder="Add some text" /><br>
+                        <wc-button></wc-button>
+                    </form>
                     <wc-list></wc-list>
                 </div>
             </section>

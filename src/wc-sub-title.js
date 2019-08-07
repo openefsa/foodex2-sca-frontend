@@ -17,9 +17,9 @@ export class WcSubTitle extends LitElement {
     render() {
         return html`
             ${style}
-            <h2 class="subtitle">
+            <label class="subtitle">
                 ${this.myText}
-            </h2>
+            </label>
         `
     }
 }

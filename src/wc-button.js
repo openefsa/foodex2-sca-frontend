@@ -18,9 +18,7 @@ export class WcButton extends LitElement {
     render() {
         return html`
             ${style}
-            <div>
-                <button @click="${this.clickHandler}" class="button"> Get the code ${this.counter}</button>
-            </div>
+            <button @click="${this.clickHandler}" class="button"> Get the code ${this.counter}</button>
         `
     }
 
