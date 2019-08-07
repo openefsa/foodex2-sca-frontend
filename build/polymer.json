@@ -1,0 +1,44 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src\\main-application.js",
+  "fragments": [
+    "src/wc-title.js",
+    "src/wc-sub-title.js",
+    "src/wc-button.js",
+    "src/wc-list.js"
+  ],
+  "sources": [
+    "src/main-application.js",
+    "src/wc-title.js",
+    "src/wc-sub-title.js",
+    "src/wc-button.js",
+    "src/wc-list.js",
+    "src/main-styles.js",
+    "package.json",
+    "index.html",
+    "src/main-application.js",
+    "src/wc-title.js",
+    "src/wc-sub-title.js",
+    "src/wc-button.js",
+    "src/wc-list.js"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*.js",
+    "node_modules/@webcomponents/webcomponentsjs/**"
+  ],
+  "builds": [
+    {
+      "bundle": true,
+      "js": {
+        "minify": false,
+        "compile": "es5",
+        "transformModulesToAmd": true
+      },
+      "addServiceWorker": true,
+      "addPushManifest": true
+    }
+  ],
+  "npm": true,
+  "componentDir": "node_modules/",
+  "moduleResolution": "node"
+}
