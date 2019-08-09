@@ -2,22 +2,21 @@
     "shell": "src/main-application.js",
     "entrypoint": "index.html",
     "fragments": [
-        "src/wc-title.js",
-        "src/wc-sub-title.js",
-        "src/wc-button.js",
-        "src/wc-textfield.js",
-        "src/wc-list.js"
+        "src/wc-header.js",
+        "src/wc-body.js",
+        "src/wc-body-textanalysis.js",
+        "src/wc-footer.js"
     ],
     "npm": true,
     "moduleResolution": "node",
     "sources": [
         "src/main-application.js",
-        "src/wc-title.js",
-        "src/wc-sub-title.js",
-        "src/wc-button.js",
-        "src/wc-textfield.js",
-        "src/wc-list.js",
+        "src/wc-header.js",
+        "src/wc-body.js",
+        "src/wc-body-textanalysis.js",
+        "src/wc-footer.js",
         "src/main-styles.js",
+        "lib/stopwords_en.js",
         "package.json"
     ],
     "extraDependencies": [
