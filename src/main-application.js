@@ -14,16 +14,12 @@ export class MainApplication extends LitElement {
 
             ${style}
             <div id="container">
-            
                 <!-- header of the component -->
                 <wc-header></wc-header>
-            
                 <!-- body of the component -->
                 <wc-body></wc-body>
-
                 <!-- footer of the component -->
                 <wc-footer></wc-footer>
-            
             </div>
         `
     }

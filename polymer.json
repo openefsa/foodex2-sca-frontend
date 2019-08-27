@@ -4,7 +4,9 @@
     "fragments": [
         "src/wc-header.js",
         "src/wc-body.js",
-        "src/wc-body-textanalysis.js",
+        "src/wc-body-analyse.js",
+        "src/wc-body-classify.js",
+        "src/wc-body-getcode.js",
         "src/wc-footer.js"
     ],
     "npm": true,
@@ -13,7 +15,9 @@
         "src/main-application.js",
         "src/wc-header.js",
         "src/wc-body.js",
-        "src/wc-body-textanalysis.js",
+        "src/wc-body-analyse.js",
+        "src/wc-body-classify.js",
+        "src/wc-body-getcode.js",
         "src/wc-footer.js",
         "src/main-styles.js",
         "lib/stopwords_en.js",

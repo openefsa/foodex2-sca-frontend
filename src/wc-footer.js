@@ -12,7 +12,7 @@ export class WcFooter extends LitElement {
         return html`
             ${style}
             <div id="footer">
-                <p>European Food Safety Authority</p>
+                <p padding="0px 3px">European Food Safety Authority</p>
             </div>
         `
     }
