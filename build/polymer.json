@@ -2,25 +2,24 @@
   "entrypoint": "index.html",
   "shell": "src\\main-application.js",
   "fragments": [
-    "src/wc-title.js",
-    "src/wc-sub-title.js",
-    "src/wc-button.js",
-    "src/wc-list.js"
+    "src/wc-header.js",
+    "src/wc-body.js",
+    "src/wc-body-analyse.js",
+    "src/wc-body-classify.js",
+    "src/wc-body-getcode.js",
+    "src/wc-footer.js"
   ],
   "sources": [
-    "src/main-application.js",
-    "src/wc-title.js",
-    "src/wc-sub-title.js",
-    "src/wc-button.js",
-    "src/wc-list.js",
-    "src/main-styles.js",
+    "src/**/*",
     "package.json",
     "index.html",
     "src/main-application.js",
-    "src/wc-title.js",
-    "src/wc-sub-title.js",
-    "src/wc-button.js",
-    "src/wc-list.js"
+    "src/wc-header.js",
+    "src/wc-body.js",
+    "src/wc-body-analyse.js",
+    "src/wc-body-classify.js",
+    "src/wc-body-getcode.js",
+    "src/wc-footer.js"
   ],
   "extraDependencies": [
     "bower_components/webcomponentsjs/*.js",
@@ -38,6 +37,12 @@
       "addPushManifest": true
     }
   ],
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ],
+    "warningsToIgnore": []
+  },
   "npm": true,
   "componentDir": "node_modules/",
   "moduleResolution": "node"

@@ -79,6 +79,7 @@ export const style = html`
             font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
             font-weight: 100;
             font-size: 15px;
+            height: 20px;
             border: 1px solid lightgray;
             border-radius: 4px;
             color: red;
@@ -101,14 +102,6 @@ export const style = html`
         .submit-style:hover {
             background-color: blue; 
             color: white;
-        }
-
-        .list-style {
-            overflow-x:auto;
-            overflow-y:auto;
-            width: 100%;
-            height:100%;
-            border: 0px solid lightgray;
         }
 
         .title {
@@ -160,7 +153,7 @@ export const style = html`
             border-radius: 4px;
             padding:5px; 
             overflow-y: auto;
-            height: 100px;
+            height: 75px;
         }
 
         #tags span.tag{

@@ -1,6 +1,11 @@
-import { LitElement, html } from 'lit-element';
+import {
+    LitElement,
+    html
+} from 'lit-element';
 
-import { style } from './main-styles.js'
+import {
+    style
+} from './main-styles.js'
 
 export class MainApplication extends LitElement {
 
@@ -10,7 +15,7 @@ export class MainApplication extends LitElement {
 
     render() {
 
-        return html`
+        return html `
 
             ${style}
             <div id="container">

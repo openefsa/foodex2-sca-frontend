@@ -1,27 +1,34 @@
-import { LitElement, html } from 'lit-element';
+import {
+    LitElement,
+    html
+} from 'lit-element';
 
-import { style } from './main-styles.js'
+import {
+    style
+} from './main-styles.js'
 
 export class WcBody extends LitElement {
 
     static get properties() {
         return {
-            tokens: { type: Array }
+            tokens: {
+                type: Array
+            }
         }
     }
 
     constructor() {
         super()
-        this.tokens = [];
+        this.tokens = new Array();
     }
 
     /* method used for updating the global variable containing the words result */
-    updateTokens(newTokens){
+    updateTokens(newTokens) {
         this.tokens = newTokens;
     }
 
     render() {
-        return html`
+        return html `
             ${style}
             <div id="body">
                 <!-- component for analysing the food description inserted -->
@@ -29,7 +36,7 @@ export class WcBody extends LitElement {
                 <!-- component for tagging the words for baseterm -->
                 <wc-body-classify .tokens="${this.tokens}"></wc-body-classify>
                 <!-- component for getting the foodex2 code -->
-                <wc-body-getcode></wc-body-getcode>
+                <wc-body-getcode .tokens="${this.tokens}"></wc-body-getcode>
             </div>
         `
     }
