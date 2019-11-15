@@ -1,6 +1,8 @@
-import { html } from 'lit-element'
+import {
+    html
+} from 'lit-element'
 
-export const style = html`
+export const style = html `
 
     <style>
 
@@ -56,16 +58,6 @@ export const style = html`
             color: #526488;
         }
 
-        input {
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-            font-weight: 100;
-            font-size: 15px;
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 4px;
-        }
-
         button {
             margin: 0 auto;
             padding: 0;
@@ -73,6 +65,16 @@ export const style = html`
             text-align: center;
             width:20px;
             height: 20px;
+        }
+
+        .textinput {
+            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-weight: 100;
+            font-size: 15px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 4px;
         }
 
         .textarea {
@@ -156,29 +158,94 @@ export const style = html`
             height: 75px;
         }
 
-        #tags span.tag{
-            border: 1px solid #a5d24a;
+        #tags tag{
             border-radius: 2px;
             display: block; 
             float: left; 
+            cursor: pointer;
             padding: 5px; 
-            background: #cde69c; 
-            color: #638421; 
-            margin: 5px;
+            background: #FFFFFF;
+            color: #000000; 
+            margin: 3px;
             font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
             font-size:13px;
         }
 
-        #tags span.tag:hover{
-            opacity:0.7;
+        #tags sw-tag{
+            border-radius: 2px;
+            display: block; 
+            float: left;
+            padding: 5px; 
+            background: #787672;
+            color: #FFFFFF; 
+            margin: 3px;
+            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-size:13px;
         }
 
-        #tags span.tag a {
+        #tags tag.selected-bt {
+            border: 0;
+            border-radius: 2px;
+            display: block; 
+            float: left;
             cursor: pointer;
-            font-weight: bold; 
-            color: red;
-            font-size: 13px;
+            padding: 5px; 
+            background: #bad0e7;
+            color: #2f3774; 
+            margin: 3px 0 3px 3px;
+            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-size:13px;
         }
 
+        #tags tag.selected-fc {
+            border: 0;
+            border-radius: 2px;
+            display: block; 
+            float: left;
+            cursor: pointer;
+            padding: 5px; 
+            background: #cde69c;
+            color: #1f3f2b; 
+            margin: 3px 0 3px 3px;
+            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-size:13px;
+        }
+
+        #tags inner-bt{
+            cursor: pointer;
+            border-radius: 2px;
+            padding: 1px;
+            margin: 0 0 0 5px;
+            background: #2f3774;
+            color: #bad0e7;
+            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-size:12px;
+        }
+        
+        #tags inner-fc{
+            cursor: pointer;
+            border-radius: 2px;
+            padding: 1px;
+            margin: 0 0 0 5px;
+            background: #1f3f2b;
+            color: #cde69c;
+            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-size:12px;
+        }
+
+        #tags tag.bt:hover{
+            background: #bad0e7;
+            color: #2f3774; 
+            opacity:0.7;
+            cursor:pointer;
+        }
+
+        #tags tag.fc:hover{
+            background: #cde69c;
+            color: #1f3f2b; 
+            opacity:0.7;
+            cursor:pointer;
+        }
+        
     </style>
 `

@@ -34,7 +34,7 @@ export class WcBodyGetcode extends LitElement {
             ${style}
             <main>
                 <div>
-                    <button id="${this.btnId}" class="submit-style" @click="${this.retrieve}">Get Code</button>
+                    <button id="${this.btnId}" class="submit-style" @click=${this.getCode}>Get Code</button>
                 </div>
                 <label>FoodEx2 Code</label>
                 <div id="${this.txtId}" style="padding: 10px; text-align: center;" class="textarea"></div>
@@ -43,7 +43,7 @@ export class WcBodyGetcode extends LitElement {
     }
 
     /* method to be used for retrieving data from db */
-    retrieve() {
+    getCode() {
 
         // get the text element
         var text = this.shadowRoot.getElementById(this.txtId);
@@ -59,6 +59,7 @@ export class WcBodyGetcode extends LitElement {
         }
 
         // function below will run createConnection.php
+        /*
         $.ajax({
             url: "src/database/retrieveCode.php",
             type: "GET",
@@ -76,7 +77,7 @@ export class WcBodyGetcode extends LitElement {
                 // executed if something went wrong during call
                 if (xhr.status > 0) alert('got error: ' + status); // status 0 - when load is interrupted
             }
-        });
+        });*/
     }
 }
 

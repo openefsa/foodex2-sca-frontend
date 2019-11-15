@@ -5,9 +5,7 @@ import {
 import {
     style
 } from './main-styles.js'
-
-// tokenize and stemming
-import PorterStemmer from "./natural/stemmers/porter_stemmer";
+import stop_words from './util/stop_words';
 
 export class WcBodyAnalyse extends LitElement {
 
@@ -15,12 +13,6 @@ export class WcBodyAnalyse extends LitElement {
         return {
             textAreaId: {
                 type: String
-            },
-            textResultId: {
-                type: String
-            },
-            tokens: {
-                type: Array
             }
         }
     }
@@ -28,7 +20,6 @@ export class WcBodyAnalyse extends LitElement {
     constructor() {
         super()
         this.textAreaId = 'description';
-        this.tokens = new Array();
     }
 
     render() {
@@ -38,7 +29,7 @@ export class WcBodyAnalyse extends LitElement {
                 <label>Insert description</label>
                 <div class='input-button-grid'>
                     <div>
-                        <input type="text" id="${this.textAreaId}" placeholder="Add text here" @keypress=${this.handleKeyPress}"/>
+                        <input class="textinput" type="text" id="${this.textAreaId}" placeholder="Add text here" @keypress=${this.handleKeyPress}"/>
                     </div>
                     <div>
                         <button class="submit-style" @click=${this.remove_stopwords}> &#8594; </button>
@@ -52,28 +43,52 @@ export class WcBodyAnalyse extends LitElement {
     remove_stopwords() {
 
         // get the text inserted
-        //const textArea = this.shadowRoot.getElementById(this.textAreaId).value;
+        //this.userText = this.shadowRoot.getElementById(this.textAreaId).value;
         // uncomment debugging
-        const textArea = "White chocolate with processed sugar and added cinnamon as ingredient";
+        let userText = "White chocolate with processed sugar and added cinnamon as ingredient";
 
-        // aggressive tokenizer + stemming + dont keep stop words
-        this.tokens = PorterStemmer.tokenizeAndStem(textArea, false);
+        // map in which to store key value
+        let ppText = new Map();
 
-        // debugging print array
-        console.log(this.tokens);
+        // tokenize the inserted text
+        let tokens = this.tokenize(userText);
 
-        // update the array in the main component
-        this.updateTokens(this.tokens);
+        // for each token mark stop words
+        tokens.forEach(function (token) {
+            if (stop_words.indexOf(token) == -1)
+                ppText.set(token, 0); // if not stop word
+            else
+                ppText.set(token, 1); // if stop word
+        });
+
+        // fire event to parent component
+        this.fireEvent(ppText);
 
     }
 
-    /* check if the key pressed is "enter" */
+    // check if the key pressed is "enter"
     handleKeyPress(event) {
         if (event.value !== '') {
             if (event.key === 'Enter') {
                 this.remove_stopwords();
             }
         }
+    }
+
+    // tokenise sentence
+    tokenize(text) {
+        // break a string up into an array of tokens by anything non-word
+        return text.split(/\W+/).map(s => s.trim());
+    };
+
+    // propagate event to parent component
+    fireEvent(ppText) {
+        let event = new CustomEvent('analysed', {
+            detail: {
+                ppText: ppText
+            }
+        });
+        this.dispatchEvent(event);
     }
 }
 

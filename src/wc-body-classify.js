@@ -14,8 +14,11 @@ export class WcBodyClassify extends LitElement {
             tagId: {
                 type: String
             },
-            tokens: {
-                type: Array
+            classStyle: {
+                type: String
+            },
+            ppText: {
+                type: Map
             }
         }
     }
@@ -23,59 +26,139 @@ export class WcBodyClassify extends LitElement {
     constructor() {
         super();
         this.tagId = 'tags';
-        this.tokens = new Array();
+        this.classStyle = '';
+        this.ppText = new Map();
     }
 
     render() {
         return html `
             ${style}
             <main>
-                <label>Key Words</label>
-                <div id="${this.tagId}" onload="${this.populateTags()}"></div>
+                <label>Tag </label>
+                <form id="form">
+                    <input type="radio" name="radio" value="bt" @click="${this.updateType}">Baseterm(bt)</input>
+                    <input type="radio" name="radio" value="fc" @click="${this.updateType}">Facet/s(fc)</input>
+                </form>
+                <div id="${this.tagId}"/>
             </main>
         `
     }
 
-    /* method used for populating the tags area */
+    // update div ui in specific properties change
+    shouldUpdate(changedProperties) {
+
+        var ppTextUpdated = changedProperties.has('ppText');
+        var radioUpdated = changedProperties.has('classStyle');
+
+        // if map has been updated
+        if (ppTextUpdated) {
+            //console.log("requesting map update");
+            this.populateTags();
+        }
+
+        // if term type has been updated
+        if (radioUpdated) {
+            //console.log("requesting radios update ", this.classStyle);
+            this.updateClass(this.classStyle);
+        }
+
+        return ppTextUpdated && radioUpdated;
+    }
+
+    // method used for populating the tags area
     populateTags() {
+
+        var tagInput = this.shadowRoot.getElementById('tags');
+
+        // if div undefined
+        if (!tagInput)
+            return;
+
+        // clean the content of the element
+        while (tagInput.firstElementChild) {
+            tagInput.removeChild(tagInput.firstElementChild);
+        }
+
+        for (const entry of this.ppText.entries()) {
+
+            var tag;
+
+            switch (entry[1]) {
+                case 1:
+                    // if stop word
+                    tag = document.createElement('SW-TAG');
+                    break;
+                default:
+                    // if stop word
+                    tag = document.createElement('TAG');
+            }
+
+            tag.setAttribute("class", this.classStyle);
+            tag.innerHTML = entry[0];
+
+            tagInput.appendChild(tag);
+        };
+    }
+
+    // change css class when term type is changed
+    updateType() {
+
+        var radios = this.shadowRoot.getElementById("form");
+
+        // if undefined
+        if (!radios)
+            return;
+
+        // update the global var if there is an element checked
+        radios.childNodes.forEach(radio => {
+            if (radio.nodeType == 1 && radio.checked)
+                this.classStyle = radio.value;
+        });
+
+    }
+
+    // method used for changing the style of the already existing tags
+    updateClass(type) {
 
         var tagInput = this.shadowRoot.getElementById(this.tagId);
 
-        // clean the content of the element
-        this.cleanElement(tagInput);
-
-        for (var i = 0; i < this.tokens.length; i++) {
-
-            var newSpan = document.createElement('span');
-            newSpan.setAttribute("class", "tag");
-            var innerSpan = document.createElement('span');
-            innerSpan.innerHTML = this.tokens[i] + '&nbsp;&nbsp';
-            var innerRef = document.createElement('a');
-            innerRef.href = "#";
-            innerRef.title = "Remove tag";
-            innerRef.text = "x";
-            innerRef.onclick = function () {
-                console.log("remove item");
-                //return $('#' + id).removeTag(escape(value));
-            }
-
-            newSpan.appendChild(innerSpan);
-            newSpan.appendChild(innerRef);
-            tagInput.appendChild(newSpan);
-        }
-    }
-
-    /* method used for removing all the childs content */
-    cleanElement(element) {
-
         // if element undefined
-        if (!element)
+        if (!tagInput)
             return;
 
-        // clear the element content
-        while (element.firstElementChild) {
-            element.removeChild(element.firstElementChild);
-        }
+        // update the class style to all tags
+        Array.from(tagInput.getElementsByTagName("TAG")).forEach(item => {
+
+            // set class if empty update the already exsisting one otherwise
+            if (item.classList.length <= 0)
+                item.className = type;
+            else if ((item.classList.contains("bt") && type != "bt"))
+                item.classList.replace("bt", type);
+            else if (item.classList.contains("fc") && type != "fc")
+                item.classList.replace("fc", type);
+        });
+
+        // when clicking on tab
+        tagInput.onclick = function (item) {
+            var tag = item.target;
+            if (tag.tagName === "TAG") {
+                console.log("I have been clicked");
+                // if tag has already a child
+                if (tag.lastElementChild) {
+                    // remove it
+                    tag.removeChild(tag.lastElementChild);
+                    // clear style
+                    tag.setAttribute("class", type);
+                } else {
+                    // set the tag as selected
+                    tag.setAttribute("class", "selected-" + type);
+                    // append th new inner tag
+                    var innerTag = document.createElement('inner-' + type);
+                    innerTag.innerHTML = type;
+                    tag.appendChild(innerTag);
+                }
+            }
+        };
     }
 
 }

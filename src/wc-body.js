@@ -11,20 +11,15 @@ export class WcBody extends LitElement {
 
     static get properties() {
         return {
-            tokens: {
-                type: Array
+            ppText: {
+                type: Map
             }
         }
     }
 
     constructor() {
         super()
-        this.tokens = new Array();
-    }
-
-    /* method used for updating the global variable containing the words result */
-    updateTokens(newTokens) {
-        this.tokens = newTokens;
+        this.ppText = new Map();
     }
 
     render() {
@@ -32,9 +27,9 @@ export class WcBody extends LitElement {
             ${style}
             <div id="body">
                 <!-- component for analysing the food description inserted -->
-                <wc-body-analyse .updateTokens="${e=> this.updateTokens(e)}"></wc-body-analyse>
+                <wc-body-analyse @analysed="${(e)=>(this.ppText=e.detail.ppText)}"></wc-body-analyse>
                 <!-- component for tagging the words for baseterm -->
-                <wc-body-classify .tokens="${this.tokens}"></wc-body-classify>
+                <wc-body-classify .ppText="${this.ppText}"></wc-body-classify>
                 <!-- component for getting the foodex2 code -->
                 <wc-body-getcode .tokens="${this.tokens}"></wc-body-getcode>
             </div>

@@ -1,6 +1,11 @@
-import { LitElement, html } from 'lit-element';
+import {
+    LitElement,
+    html
+} from 'lit-element';
 
-import { style } from './main-styles.js'
+import {
+    style
+} from './main-styles.js'
 
 export class WcHeader extends LitElement {
 
@@ -9,7 +14,7 @@ export class WcHeader extends LitElement {
     }
 
     render() {
-        return html`
+        return html `
             ${style}
             <div id="header">
                 <div class="column">
