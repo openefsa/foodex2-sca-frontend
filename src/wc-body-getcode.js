@@ -75,7 +75,7 @@ export class WcBodyGetcode extends LitElement {
             return;
         }
 
-        // function below will run createConnection.php
+        // function below will run createConnection.php 
         $.ajax({
             url: "url",
             type: "GET",
