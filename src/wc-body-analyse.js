@@ -43,9 +43,9 @@ export class WcBodyAnalyse extends LitElement {
     remove_stopwords() {
 
         // get the text inserted
-        //this.userText = this.shadowRoot.getElementById(this.textAreaId).value;
-        // uncomment debugging
-        let userText = "White chocolate with processed sugar and added cinnamon as ingredient";
+        this.userText = this.shadowRoot.getElementById(this.textAreaId).value;
+        // uncomment below for debugging
+        // let userText = "White chocolate with processed sugar and added cinnamon as ingredient";
 
         // map in which to store key value
         let ppText = new Map();
