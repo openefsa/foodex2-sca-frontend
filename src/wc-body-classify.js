@@ -162,7 +162,7 @@ export class WcBodyClassify extends LitElement {
                             console.log("remove from baseterms");
                             this.baseterm.splice(this.baseterm.indexOf(tag.childNodes[0].nodeValue), 1);
                             break;
-                        default:
+                        case "fc":
                             console.log("remove from facets ", tag.childNodes[0].nodeValue);
                             this.facets.splice(this.facets.indexOf(tag.childNodes[0].nodeValue), 1);
                     }
@@ -182,7 +182,7 @@ export class WcBodyClassify extends LitElement {
                             console.log("add to baseterm");
                             this.baseterm.push(tag.childNodes[0].nodeValue);
                             break;
-                        default:
+                        case "fc":
                             console.log("add to facets ", tag.innerHTML);
                             this.facets.push(tag.childNodes[0].nodeValue);
                     }
