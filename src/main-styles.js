@@ -25,6 +25,20 @@ export const style = html `
             height:auto;
         }
 
+        #title {
+            font-family: Arial;
+            font-size: 22px;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        #sub-title {
+            font-family: Arial;
+            font-size: 15px;
+            color: white;
+            letter-spacing: 1px;
+        }
+
         #body {
             margin:10px;
             padding-bottom:40px;   /* Height of the footer */
@@ -33,7 +47,6 @@ export const style = html `
         #footer {
             position: absolute;
             bottom: 0;
-            font-weight: 300;
             font-size: 10px;
             background-color: darkgray;
             color: white;
@@ -43,8 +56,11 @@ export const style = html `
             height:30px;   /* Height of the footer */ 
         }
 
+        * {
+            box-sizing: border-box;
+        }
         main > * {
-            margin: 5px;
+            margin: 5px 0;
         }
 
         p {
@@ -52,10 +68,9 @@ export const style = html `
         }
 
         label {
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-            font-weight: 100;
+            font-family: Arial;
             font-size: 15px;
-            color: #526488;
+            color: black;
         }
 
         button {
@@ -67,10 +82,59 @@ export const style = html `
             height: 20px;
         }
 
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropbtn {
+            background-color: #757171;
+            color: white;
+            width: wrap;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            border: none;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #000000;
+            min-width: wrap;
+            box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        
+        .dropdown-content a {
+            color: black;
+            padding: 2px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color: lightgray}
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown:hover .dropbtn {
+            background-color: lightgray;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
         .textinput {
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-            font-weight: 100;
+            font-family: Arial;
             font-size: 15px;
+            height:40px;
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
@@ -78,23 +142,24 @@ export const style = html `
         }
 
         .textarea {
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-            font-weight: 100;
+            font-family: Arial;
             font-size: 15px;
-            height: 20px;
+            width:100%;
+            height:40px;
+            line-height: 40px;
             border: 1px solid lightgray;
             border-radius: 4px;
-            color: red;
+            color: red; 
+            text-align: center;
         }
 
         .submit-style {
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-            font-weight: 100;
+            font-family: Arial;
             font-size: 15px;
             background-color: lightgray;
-            color: #35495e;
+            color: black;
             width:100%;
-            height:100%;
+            height:40px;
             border: 1px solid lightgray;
             border-radius: 4px;
             padding: 10px;
@@ -104,14 +169,6 @@ export const style = html `
         .submit-style:hover {
             background-color: blue; 
             color: white;
-        }
-
-        .title {
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-            font-weight: 100;
-            font-size: 25px;
-            color: white;
-            letter-spacing: 1px;
         }
 
         .input-button-grid {
@@ -126,27 +183,19 @@ export const style = html `
 
         .grid-container {
             display: grid;
-            grid-template-columns: 265px 39px 265px;
-            grid-template-rows: 30px 80px;
-            justify-items: stretch;
-            align-items: stretch;
-            justify-content: stretch;
-            align-content: stretch;	
-            border: 0.5px solid lightgray;
-            background:lightgray;
-            vertical-align: middle;
+            grid-template-columns: auto auto auto;
+            grid-gap: 5px;
+            padding: 5px;
         }
 
         .grid-container > div {
-            margin: 0.5px;
-            padding: 5px;
-            text-align: center;
-            background:white;
+            height: wrap;
+            margin: 0 5px;
+            text-align: left;
         }
 
-        .item2 {
-            grid-column: 2;
-            grid-row: 2;
+        .grid-container > div.middle {
+            width: 100%;
         }
 
         #tags{
@@ -167,7 +216,7 @@ export const style = html `
             background: #FFFFFF;
             color: #000000; 
             margin: 3px;
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-family: Arial;
             font-size:13px;
         }
 
@@ -179,7 +228,7 @@ export const style = html `
             background: #787672;
             color: #FFFFFF; 
             margin: 3px;
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-family: Arial;
             font-size:13px;
         }
 
@@ -193,7 +242,7 @@ export const style = html `
             background: #bad0e7;
             color: #2f3774; 
             margin: 3px 0 3px 3px;
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-family: Arial;
             font-size:13px;
         }
 
@@ -207,7 +256,7 @@ export const style = html `
             background: #cde69c;
             color: #1f3f2b; 
             margin: 3px 0 3px 3px;
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-family: Arial;
             font-size:13px;
         }
 
@@ -218,7 +267,7 @@ export const style = html `
             margin: 0 0 0 5px;
             background: #2f3774;
             color: #bad0e7;
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-family: Arial;
             font-size:12px;
         }
         
@@ -229,7 +278,7 @@ export const style = html `
             margin: 0 0 0 5px;
             background: #1f3f2b;
             color: #cde69c;
-            font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-family: Arial;
             font-size:12px;
         }
 

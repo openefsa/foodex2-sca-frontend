@@ -10,34 +10,42 @@ export class WcBodyGetcode extends LitElement {
 
     static get properties() {
         return {
-            tokens: {
-                type: Array
-            },
             btnId: {
                 type: String
             },
             txtId: {
                 type: String
+            },
+            baseterm: {
+                type: Array
+            },
+            facets: {
+                type: Array
+            },
+            ppText: {
+                type: Map
             }
         }
     }
 
     constructor() {
         super();
-        this.tokens = new Array();
         this.btnId = "btnId";
         this.txtId = "txtId";
+        this.baseterm = new Array();
+        this.facets = new Array();
+        this.ppText = new Map();
     }
 
     render() {
         return html `
             ${style}
             <main>
-                <div>
-                    <button id="${this.btnId}" class="submit-style" @click=${this.getCode}>Get Code</button>
-                </div>
+                <button id="${this.btnId}" class="submit-style" @click=${this.getCode}>Get Code</button>
                 <label>FoodEx2 Code</label>
-                <div id="${this.txtId}" style="padding: 10px; text-align: center;" class="textarea"></div>
+                <div class="textarea">
+                    <div id="${this.txtId}"/>
+                </div>
             </main>
         `
     }
@@ -52,32 +60,40 @@ export class WcBodyGetcode extends LitElement {
         if (!text)
             return;
 
-        // print error if no tokens
-        if (this.tokens.length <= 0 || !this.tokens) {
-            text.innerHTML = "Nothing to find here, try again.";
+        // clean the text
+        text.innerHTML='';
+
+        // print error if no text
+        if (this.ppText.size <= 0 || !this.ppText) {
+            text.innerHTML = "Nothing to show! Please insert a food description and try again.";
+            return;
+        }
+
+        // print error if no baseterm
+        if (this.baseterm.length <= 0 || !this.baseterm) {
+            text.innerHTML = "Please classify at least the baseterm.";
             return;
         }
 
         // function below will run createConnection.php
-        /*
         $.ajax({
-            url: "src/database/retrieveCode.php",
+            url: "url",
             type: "GET",
             data: {
-                terms: this.tokens
+                baseterm: this.baseterm,
+                facets: this.facets
             }, // input variable to php
             cache: false,
             success: function (data) {
-
-                // here is the code that will run on client side after running createConnection.php on server
-                console.log(data);
-
+                // print the returned code
+                text.innerHTML = data;
             },
             error: function (xhr, status, error) {
                 // executed if something went wrong during call
-                if (xhr.status > 0) alert('got error: ' + status); // status 0 - when load is interrupted
+                // status 0 - when load is interrupted
+                if (xhr.status > 0) alert('got error: ' + status, error);
             }
-        });*/
+        });
     }
 }
 

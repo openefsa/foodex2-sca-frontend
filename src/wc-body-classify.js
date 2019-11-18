@@ -19,6 +19,12 @@ export class WcBodyClassify extends LitElement {
             },
             ppText: {
                 type: Map
+            },
+            baseterm: {
+                type: Array
+            },
+            facets: {
+                type: Array
             }
         }
     }
@@ -28,17 +34,21 @@ export class WcBodyClassify extends LitElement {
         this.tagId = 'tags';
         this.classStyle = '';
         this.ppText = new Map();
+        this.baseterm = new Array();
+        this.facets = new Array();
     }
 
     render() {
         return html `
             ${style}
-            <main>
+            <main>   
                 <label>Tag </label>
-                <form id="form">
-                    <input type="radio" name="radio" value="bt" @click="${this.updateType}">Baseterm(bt)</input>
-                    <input type="radio" name="radio" value="fc" @click="${this.updateType}">Facet/s(fc)</input>
-                </form>
+                <div style=" display: inline-block;">
+                    <form id="form">
+                        <input type="radio" name="radio" value="bt" @click="${this.updateType}">Baseterm(bt)</input>
+                        <input type="radio" name="radio" value="fc" @click="${this.updateType}">Facet/s(fc)</input>
+                    </form>
+                </div>
                 <div id="${this.tagId}"/>
             </main>
         `
@@ -138,18 +148,48 @@ export class WcBodyClassify extends LitElement {
                 item.classList.replace("fc", type);
         });
 
-        // when clicking on tab
-        tagInput.onclick = function (item) {
+        // when clicking on tag
+        tagInput.onclick = (item) => {
             var tag = item.target;
             if (tag.tagName === "TAG") {
-                console.log("I have been clicked");
                 // if tag has already a child
                 if (tag.lastElementChild) {
+
+                    var innerTag = tag.lastElementChild;
+
+                    switch (innerTag.innerHTML) {
+                        case "bt":
+                            console.log("remove from baseterms");
+                            this.baseterm.splice(this.baseterm.indexOf(tag.childNodes[0].nodeValue), 1);
+                            break;
+                        default:
+                            console.log("remove from facets ", tag.childNodes[0].nodeValue);
+                            this.facets.splice(this.facets.indexOf(tag.childNodes[0].nodeValue), 1);
+                    }
+
+                    console.log(this.baseterm);
+                    console.log(this.facets);
+
                     // remove it
-                    tag.removeChild(tag.lastElementChild);
+                    tag.removeChild(innerTag);
                     // clear style
                     tag.setAttribute("class", type);
+
                 } else {
+
+                    switch (type) {
+                        case "bt":
+                            console.log("add to baseterm");
+                            this.baseterm.push(tag.childNodes[0].nodeValue);
+                            break;
+                        default:
+                            console.log("add to facets ", tag.innerHTML);
+                            this.facets.push(tag.childNodes[0].nodeValue);
+                    }
+
+                    console.log(this.baseterm);
+                    console.log(this.facets);
+
                     // set the tag as selected
                     tag.setAttribute("class", "selected-" + type);
                     // append th new inner tag
@@ -157,10 +197,23 @@ export class WcBodyClassify extends LitElement {
                     innerTag.innerHTML = type;
                     tag.appendChild(innerTag);
                 }
+
+                // fire the event ot the parent
+                this.fireEvent(this.baseterm, this.facets);
             }
         };
     }
 
+    // propagate event to parent component
+    fireEvent(baseterm, facets) {
+        let event = new CustomEvent('classified', {
+            detail: {
+                baseterm: baseterm,
+                facets: facets
+            }
+        });
+        this.dispatchEvent(event);
+    }
 }
 
 customElements.define("wc-body-classify", WcBodyClassify)

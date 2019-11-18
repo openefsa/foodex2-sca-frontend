@@ -13,6 +13,12 @@ export class WcBody extends LitElement {
         return {
             ppText: {
                 type: Map
+            },
+            baseterm: {
+                type: Array()
+            },
+            facets: {
+                type: Array()
             }
         }
     }
@@ -20,6 +26,8 @@ export class WcBody extends LitElement {
     constructor() {
         super()
         this.ppText = new Map();
+        this.baseterm = new Array();
+        this.facets = new Array();
     }
 
     render() {
@@ -29,9 +37,9 @@ export class WcBody extends LitElement {
                 <!-- component for analysing the food description inserted -->
                 <wc-body-analyse @analysed="${(e)=>(this.ppText=e.detail.ppText)}"></wc-body-analyse>
                 <!-- component for tagging the words for baseterm -->
-                <wc-body-classify .ppText="${this.ppText}"></wc-body-classify>
+                <wc-body-classify .ppText="${this.ppText}" @classified="${(e)=>(this.baseterm=e.detail.baseterm, this.facets=e.detail.facets)}"></wc-body-classify>
                 <!-- component for getting the foodex2 code -->
-                <wc-body-getcode .tokens="${this.tokens}"></wc-body-getcode>
+                <wc-body-getcode .ppText="${this.ppText}" .baseterm="${this.baseterm}" .facets="${this.facets}"></wc-body-getcode>
             </div>
         `
     }

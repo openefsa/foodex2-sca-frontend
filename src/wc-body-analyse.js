@@ -5,7 +5,7 @@ import {
 import {
     style
 } from './main-styles.js'
-import stop_words from './util/stop_words';
+import stop_words from './util/stop_words_en';
 
 export class WcBodyAnalyse extends LitElement {
 
