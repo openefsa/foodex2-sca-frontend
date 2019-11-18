@@ -26,7 +26,7 @@ export class WcHeader extends LitElement {
             ${style}
             <div id="header" class="grid-container">
                 <div>
-                    <img src="src/icons/foodex.ico" />
+                    <img src="src/icons/FE2.jpg" />
                 </div>
                 <div class="middle">
                     <span id="title">FoodEX2 WC</span>

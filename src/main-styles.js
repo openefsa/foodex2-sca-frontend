@@ -13,13 +13,13 @@ export const style = html `
         #container {
             width: 600px;
             position:relative;
-            border:1px solid darkgray;
+            border:1px solid #18A592;
         }
 
         #header {
             display: flex;
             align-items: center;
-            background-color: darkgray;
+            background-color: #18A592;
             color: white;
             letter-spacing: 1px;
             height:auto;
@@ -48,7 +48,7 @@ export const style = html `
             position: absolute;
             bottom: 0;
             font-size: 10px;
-            background-color: darkgray;
+            background-color: #18A592;
             color: white;
             letter-spacing: 1px;
             text-align: right;
@@ -167,7 +167,7 @@ export const style = html `
         }
                
         .submit-style:hover {
-            background-color: blue; 
+            background-color: #18A592; 
             color: white;
         }
 

@@ -43,15 +43,16 @@ export class WcBodyAnalyse extends LitElement {
     remove_stopwords() {
 
         // get the text inserted
-        this.userText = this.shadowRoot.getElementById(this.textAreaId).value;
+        var userText = this.shadowRoot.getElementById(this.textAreaId).value;
+
         // uncomment below for debugging
         // let userText = "White chocolate with processed sugar and added cinnamon as ingredient";
 
         // map in which to store key value
-        let ppText = new Map();
+        var ppText = new Map();
 
         // tokenize the inserted text
-        let tokens = this.tokenize(userText);
+        var tokens = this.tokenize(userText);
 
         // for each token mark stop words
         tokens.forEach(function (token) {
