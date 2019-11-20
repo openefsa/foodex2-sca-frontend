@@ -38,7 +38,7 @@ export class WcBodyGetcode extends LitElement {
     }
 
     render() {
-        return html `
+        return html`
             ${style}
             <main>
                 <button id="${this.btnId}" class="submit-style" @click=${this.getCode}>Get Code</button>
@@ -61,7 +61,7 @@ export class WcBodyGetcode extends LitElement {
             return;
 
         // clean the text
-        text.innerHTML='';
+        text.innerHTML = '';
 
         // print error if no text
         if (this.ppText.size <= 0 || !this.ppText) {
@@ -77,14 +77,13 @@ export class WcBodyGetcode extends LitElement {
 
         // function below will run createConnection.php 
         $.ajax({
-            url: "http://127.0.0.1:5000/query",
-            type: "GET",
-            data: JSON.stringify({baseterm: this.baseterm, facets: this.facets}), // input variable to php
+            url: "http://127.0.0.1:5000",
+            type: "POST",
+            data: JSON.stringify({ baseterm: this.baseterm, facets: this.facets }), // input variable to php
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 // print the returned code
-                // text.innerHTML = data;
-                console.log("something has been returned");
+                text.innerHTML = data;
             },
             error: function (xhr, status, error) {
                 // executed if something went wrong during call
