@@ -1,2 +1,2 @@
-# FoodEx2_WC
-FoodEx2 Web Component
+# foodex-web-component-frontend
+FoodEx2 Web Component frontend implementation
