@@ -75,19 +75,16 @@ export class WcBodyGetcode extends LitElement {
             return;
         }
 
-        console.log( "http://127.0.0.1:5000/query?bt="+this.baseterm+"&fc="+this.facets);
         // function below will run createConnection.php 
         $.ajax({
-            url: "http://127.0.0.1:5000/query?bt="+this.baseterm+"&fc="+this.facets,
+            url: "http://127.0.0.1:5000/query",
             type: "GET",
-            data: {
-                baseterm: this.baseterm,
-                facets: this.facets
-            }, // input variable to php
-            cache: false,
+            data: JSON.stringify({baseterm: this.baseterm, facets: this.facets}), // input variable to php
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 // print the returned code
-                text.innerHTML = data;
+                // text.innerHTML = data;
+                console.log("something has been returned");
             },
             error: function (xhr, status, error) {
                 // executed if something went wrong during call
