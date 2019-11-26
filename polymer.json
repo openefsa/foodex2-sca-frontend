@@ -4,8 +4,9 @@
     "fragments": [
         "src/wc-header.js",
         "src/wc-body.js",
-        "src/wc-body-analyse.js",
-        "src/wc-body-classify.js",
+        "src/wc-body-analyser.js",
+        "src/wc-body-classifier.js",
+        "src/wc-body-advisor.js",
         "src/wc-body-getcode.js",
         "src/wc-footer.js"
     ],
