@@ -11,38 +11,46 @@ export class WcBodyAdvisor extends LitElement {
 
     static get properties() {
         return {
-
+            baseterms: {
+                type: String
+            },
+            facets: {
+                type: String
+            }
         }
     }
 
     constructor() {
         super();
+        this.baseterms = new Array();
     }
 
     render() {
         return html`
             ${style}
             <main>
-                <div>
-                    <label>Baseterm found: </label>
-                    <label>example1</label>
+                <div class="grid-container">
+                    <div>
+                        <label>Suggested baseterm: </label>
+                    </div>
+                    <div class="dropdown">
+                        <select>
+                            ${this.baseterms.map(i => html`<option>${i}</option>`)}
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label>Facets found: </label>
-                    <label>example1</label>
+                <div class="grid-container">
+                    <div>
+                        <label>Facets found: </label>
+                    </div>
+                    <div class="dropdown">
+                        <select>
+                            ${this.facets.map(i => html`<option>${i}</option>`)}
+                        </select>
+                    </div>
                 </div>
             </main>
         `
-    }
-
-    // method used for populating the tags area
-    populateTags() {
-
-    }
-
-    // call the flask interface for receiving suggestions
-    getSuggestions() {
-
     }
 }
 
