@@ -2,7 +2,7 @@ import {
     html
 } from 'lit-element'
 
-export const style = html `
+export const style = html`
 
     <style>
 
@@ -159,7 +159,7 @@ export const style = html `
             background-color: lightgray;
             color: black;
             width:100%;
-            height:40px;
+            height:100%;
             border: 1px solid lightgray;
             border-radius: 4px;
             padding: 10px;
@@ -196,6 +196,15 @@ export const style = html `
 
         .grid-container > div.middle {
             width: 100%;
+        }
+
+        #sugg{
+            border:1px solid lightgray; 
+            background: white;
+            border-radius: 4px;
+            padding:5px; 
+            overflow-y: auto;
+            height: 75px;
         }
 
         #tags{
