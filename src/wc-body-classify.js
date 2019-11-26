@@ -54,7 +54,7 @@ export class WcBodyClassify extends LitElement {
                 <div class='input-button-grid'>
                     <div id="${this.tagId}"></div>
                     <div>
-                        <button class="submit-style" @click=${this.getSuggestions}> &#8594; </button>
+                        <button class="submit-style" @click="${this.handleClick}"> &#8594; </button>
                     </div>
                 </div>
             </main>
@@ -216,6 +216,10 @@ export class WcBodyClassify extends LitElement {
         this.dispatchEvent(event);
     }
 
+    // propagate event to parent component
+    handleClick() {
+        this.dispatchEvent(new CustomEvent('sugg'));
+    }
 }
 
 customElements.define("wc-body-classify", WcBodyClassify)
