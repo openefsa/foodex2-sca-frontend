@@ -41,10 +41,16 @@ export class WcBodyGetcode extends LitElement {
         return html`
             ${style}
             <main>
-                <button id="${this.btnId}" class="submit-style" @click=${this.getCode}>Get Code</button>
-                <label>FoodEx2 Code</label>
-                <div class="textarea">
-                    <div id="${this.txtId}"/>
+                <div>
+                    <button id="${this.btnId}" class="submit-style" @click=${this.getCode}>Get Code</button>
+                </div>
+                <div>
+                    <div>
+                        <label>FoodEx2 Code</label>
+                    </div>
+                    <div class="textarea">
+                        <div id="${this.txtId}"/>
+                    </div>
                 </div>
             </main>
         `
@@ -83,6 +89,7 @@ export class WcBodyGetcode extends LitElement {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 // print the returned code
+                this.showBaseterm(data);
                 text.innerHTML = data;
             },
             error: function (xhr, status, error) {
@@ -91,6 +98,11 @@ export class WcBodyGetcode extends LitElement {
                 if (xhr.status > 0) alert('got error: ' + status, error);
             }
         });
+    }
+
+    showBaseterm(data) {
+        terms = data.split(',');
+        console.log(terms);
     }
 }
 
