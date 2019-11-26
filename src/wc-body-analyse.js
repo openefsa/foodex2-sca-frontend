@@ -26,7 +26,9 @@ export class WcBodyAnalyse extends LitElement {
         return html `
             ${style}
             <main>
-                <label>Insert description</label>
+                <div>
+                    <label>Insert description</label>
+                </div>
                 <div class='input-button-grid'>
                     <div>
                         <input class="textinput" type="text" id="${this.textAreaId}" placeholder="Add text here" @keypress=${this.handleKeyPress}"/>
