@@ -36,10 +36,12 @@ export class WcHeader extends LitElement {
                         <span id="sub-title">Language:</span>
                     </div>
                     <div class="dropdown">
-                        <button class="dropbtn">${this.language}</button>
-                        <div id="dd-content" class="dropdown-content">
-                            <a href="#">English</a>
-                        </div>
+                        <select>
+                            <option>English</option>
+                            <option>Italian</option>
+                            <option>Spanish</option>
+                            <option>French</option>
+                        </select>
                     </div>
                 </div>
             </div>
