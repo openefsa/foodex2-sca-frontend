@@ -39,17 +39,24 @@ export class WcBodyClassify extends LitElement {
     }
 
     render() {
-        return html `
+        return html`
             ${style}
-            <main>   
-                <label>Tag </label>
-                <div style=" display: inline-block;">
-                    <form id="form">
-                        <input type="radio" name="radio" value="bt" @click="${this.updateType}">Baseterm(bt)</input>
-                        <input type="radio" name="radio" value="fc" @click="${this.updateType}">Facet/s(fc)</input>
-                    </form>
+            <main>
+                <div>
+                    <label>Tag </label>
+                    <div style="display: inline-block;">
+                        <form id="form">
+                            <input type="radio" name="radio" value="bt" @click="${this.updateType}">Baseterm(bt)</input>
+                            <input type="radio" name="radio" value="fc" @click="${this.updateType}">Facet/s(fc)</input>
+                        </form>
+                    </div>
                 </div>
-                <div id="${this.tagId}"/>
+                <div class='input-button-grid'>
+                    <div id="${this.tagId}"></div>
+                    <div>
+                        <button class="submit-style" @click=${this.getSuggestions}> &#8594; </button>
+                    </div>
+                </div>
             </main>
         `
     }
@@ -99,7 +106,7 @@ export class WcBodyClassify extends LitElement {
                     tag = document.createElement('SW-TAG');
                     break;
                 default:
-                    // if stop word
+                    // if no stop word
                     tag = document.createElement('TAG');
             }
 
@@ -167,9 +174,6 @@ export class WcBodyClassify extends LitElement {
                             this.facets.splice(this.facets.indexOf(tag.childNodes[0].nodeValue), 1);
                     }
 
-                    console.log(this.baseterm);
-                    console.log(this.facets);
-
                     // remove it
                     tag.removeChild(innerTag);
                     // clear style
@@ -186,9 +190,6 @@ export class WcBodyClassify extends LitElement {
                             console.log("add to facets ", tag.innerHTML);
                             this.facets.push(tag.childNodes[0].nodeValue);
                     }
-
-                    console.log(this.baseterm);
-                    console.log(this.facets);
 
                     // set the tag as selected
                     tag.setAttribute("class", "selected-" + type);
@@ -214,6 +215,7 @@ export class WcBodyClassify extends LitElement {
         });
         this.dispatchEvent(event);
     }
+
 }
 
 customElements.define("wc-body-classify", WcBodyClassify)
