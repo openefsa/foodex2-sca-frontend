@@ -84,51 +84,7 @@ export const style = html`
 
         .dropdown {
             position: relative;
-            display: inline-block;
-        }
-        
-        .dropbtn {
-            background-color: #757171;
-            color: white;
-            width: wrap;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            border: none;
-            border-radius: 4px;
-            background-color: #ffffff;
-            color: #000000;
-            min-width: wrap;
-            box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        
-        .dropdown-content a {
-            color: black;
-            padding: 2px;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {background-color: lightgray}
-        
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        
-        .dropdown:hover .dropbtn {
-            background-color: lightgray;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
+            width: auto;
         }
 
         .textinput {
@@ -186,12 +142,6 @@ export const style = html`
             grid-template-columns: auto auto auto;
             grid-gap: 5px;
             padding: 5px;
-        }
-
-        .grid-container > div {
-            height: wrap;
-            margin: 0 5px;
-            text-align: left;
         }
 
         .grid-container > div.middle {
