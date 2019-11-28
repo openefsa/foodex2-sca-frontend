@@ -1,31 +1,15 @@
-import {
-    LitElement,
-    html
-} from 'lit-element';
-
-import {
-    style
-} from './main-styles.js';
+import { LitElement, html } from 'lit-element';
+import { style } from './main-styles.js';
 
 export class WcBodyClassify extends LitElement {
 
     static get properties() {
         return {
-            tagId: {
-                type: String
-            },
-            classStyle: {
-                type: String
-            },
-            ppText: {
-                type: Map
-            },
-            baseterm: {
-                type: Array
-            },
-            facets: {
-                type: Array
-            }
+            tagId: { type: String },
+            classStyle: { type: String },
+            ppText: { type: Map },
+            baseterm: { type: Array },
+            facets: { type: Array }
         }
     }
 
@@ -50,12 +34,7 @@ export class WcBodyClassify extends LitElement {
                             <input type="radio" name="radio" value="fc" @click="${this.updateType}">Facet/s(fc)</input>
                         </form>
                     </div>
-                </div>
-                <div class='input-button-grid'>
                     <div id="${this.tagId}"></div>
-                    <div>
-                        <button class="submit-style" @click="${this.handleClick}"> &#8594; </button>
-                    </div>
                 </div>
             </main>
         `
@@ -91,10 +70,9 @@ export class WcBodyClassify extends LitElement {
         if (!tagInput)
             return;
 
-        // clean the content of the element
-        while (tagInput.firstElementChild) {
-            tagInput.removeChild(tagInput.firstElementChild);
-        }
+        // clean the content of the element and baseterm
+        tagInput.innerHTML = "";
+        this.baseterm = [];
 
         for (const entry of this.ppText.entries()) {
 
@@ -216,10 +194,6 @@ export class WcBodyClassify extends LitElement {
         this.dispatchEvent(event);
     }
 
-    // propagate event to parent component
-    handleClick() {
-        this.dispatchEvent(new CustomEvent('sugg'));
-    }
 }
 
 customElements.define("wc-body-classifier", WcBodyClassify)
