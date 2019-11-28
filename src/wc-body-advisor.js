@@ -11,47 +11,69 @@ export class WcBodyAdvisor extends LitElement {
 
     static get properties() {
         return {
-            baseterms: {
-                type: String
-            },
-            facets: {
-                type: String
-            }
+            basetermSugg: { type: Array },
+            baseterm: { type: String},
+            facets: { type: Array }
         }
     }
 
     constructor() {
         super();
-        this.baseterms = new Array();
+        this.basetermSugg = [];
+        this.baseterm = "";
+        this.facets = [];
     }
 
     render() {
         return html`
             ${style}
             <main>
-                <div class="grid-container">
-                    <div>
-                        <label>Suggested baseterm: </label>
-                    </div>
-                    <div class="dropdown">
-                        <select>
-                            ${this.baseterms.map(i => html`<option>${i}</option>`)}
-                        </select>
-                    </div>
-                </div>
-                <div class="grid-container">
-                    <div>
-                        <label>Facets found: </label>
-                    </div>
-                    <div class="dropdown">
-                        <select>
-                            ${this.facets.map(i => html`<option>${i}</option>`)}
-                        </select>
+                <!-- The Modal dialog -->
+                <div id="dialog" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span id="close" class="close">&times;</span>
+                        <div>
+                            <label>Choose one of the baseterm found:<label>
+                            <select id="btSel"></select>
+                        </div>
                     </div>
                 </div>
             </main>
         `
     }
+
+    populate(){
+        
+
+        var selectList = this.shadowRoot.getElementById("btSel");
+        this.baseterm.forEach((i) => {
+            var option = document.createElement("option");
+            option.text = i;
+            selectList.appendChild(option);
+        });
+
+        // Get the modal
+        var modal = this.shadowRoot.getElementById("dialog");
+
+        // Get the <span> element that closes the modal
+        var span = this.shadowRoot.getElementById("close");
+
+        modal.style.display = "block";
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+
 }
 
 customElements.define("wc-body-advisor", WcBodyAdvisor)
