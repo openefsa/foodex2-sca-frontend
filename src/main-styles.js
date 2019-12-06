@@ -6,7 +6,12 @@ export const style = html`
 
     <style>
 
+        * {
+            box-sizing: border-box;
+        }
+
         html, body {
+            width: 100%;
             height:100%;
         }
 
@@ -41,19 +46,16 @@ export const style = html`
 
         #body {
             margin:10px;
-            padding-bottom:40px;   /* Height of the footer */
         }
 
         #footer {
-            position: absolute;
+            position: relative;
             bottom: 0;
-            font-size: 10px;
             background-color: #18A592;
             color: white;
-            letter-spacing: 1px;
             text-align: right;
-            width:100%;
-            height:30px;   /* Height of the footer */ 
+            height:15px;   /* Height of the footer */
+            line-height:15px;
         }
 
         /* The Modal (background) */
@@ -80,24 +82,6 @@ export const style = html`
             width: 80%;
         }
 
-        /* The Close Button */
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
         main > * {
             margin: 5px 0;
         }
@@ -115,6 +99,11 @@ export const style = html`
         button {
             display: inline-block;
             width: 40px;
+            margin: 0 auto;
+        }
+        
+        select {
+            width: 150px;
         }
 
         .dropdown {
@@ -174,7 +163,7 @@ export const style = html`
 
         .grid-container {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: auto auto;
             grid-gap: 5px;
             padding: 5px;
         }
@@ -198,7 +187,7 @@ export const style = html`
             border-radius: 4px;
             padding:5px; 
             overflow-y: auto;
-            height: 75px;
+            height: 100px;
         }
 
         #tags tag{
