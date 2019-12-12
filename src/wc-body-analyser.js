@@ -5,7 +5,6 @@ import {
 import {
     style
 } from './main-styles.js'
-import stop_words from './util/stop_words_en';
 
 export class WcBodyAnalyse extends LitElement {
 
@@ -23,7 +22,7 @@ export class WcBodyAnalyse extends LitElement {
     }
 
     render() {
-        return html `
+        return html`
             ${style}
             <main>
                 <div class='input-button-grid'>
@@ -31,38 +30,59 @@ export class WcBodyAnalyse extends LitElement {
                         <input class="textinput" type="text" id="${this.textAreaId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"/>
                     </div>
                     <div>
-                        <button class="submit-style" @click=${this.remove_stopwords}> &#8594; </button>
+                        <button class="submit-style" @click=${this.getBaseterm}> &#8594; </button>
+                    </div>
+                </div>
+                <!-- The Modal dialog -->
+                <div id="dialog" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <label>Please wait...</label>
+                        <progress/>
                     </div>
                 </div>
             </main>
         `
     }
 
-    /* the method is used for removing the stop words and updating the desc property */
-    remove_stopwords() {
+    // call the flask interface for receiving baseterm
+    getBaseterm() {
+
+        // Get the modal
+        var modal = this.shadowRoot.getElementById("dialog");
+        // change modal style in order to show it
+        modal.style.display = "block";
 
         // get the text inserted
         var userText = this.shadowRoot.getElementById(this.textAreaId).value;
 
-        // uncomment below for debugging
-        // let userText = "White chocolate with processed sugar and added cinnamon as ingredient";
+        // print error if nothing written
+        if (!userText) {
+            alert("Please describe your term first.");
+            return;
+        }
 
-        // map in which to store key value
-        var ppText = new Map();
+        const url = 'http://127.0.0.1:5000/getBaseterm';
 
-        // tokenize the inserted text
-        var tokens = this.tokenize(userText);
+        const headers = {
+            "Content-Type": "application/json"
+            //"Access-Control-Origin": "*"
+        }
 
-        // for each token mark stop words
-        tokens.forEach(function (token) {
-            if (stop_words.indexOf(token) == -1)
-                ppText.set(token, 0); // if not stop word
-            else
-                ppText.set(token, 1); // if stop word
-        });
+        // request options
+        const options = {
+            method: 'POST',
+            body: JSON.stringify({
+                baseterm: userText
+            }),
+            headers: headers
+        }
 
-        // fire event to parent component
-        this.fireEvent(ppText);
+        // send POST request
+        fetch(url, options)
+            .then(res => res.text()) // use res.json() if returned a json from request
+            .then(res => this.fireEvent(modal, JSON.parse(res)))
+            .catch(err => console.log(`Error with message: ${err}`));
 
     }
 
@@ -70,22 +90,19 @@ export class WcBodyAnalyse extends LitElement {
     handleKeyPress(event) {
         if (event.value !== '') {
             if (event.key === 'Enter') {
-                this.remove_stopwords();
+                this.getBaseterm();
             }
         }
     }
 
-    // tokenise sentence
-    tokenize(text) {
-        // break a string up into an array of tokens by anything non-word
-        return text.split(/\W+/).map(s => s.trim());
-    };
-
     // propagate event to parent component
-    fireEvent(ppText) {
+    fireEvent(modal, suggBt) {
+        // hide modal if ok pressed
+        modal.style.display = "none";
+        // fire event to parent
         let event = new CustomEvent('analysed', {
             detail: {
-                ppText: ppText
+                suggBt: suggBt
             }
         });
         this.dispatchEvent(event);
