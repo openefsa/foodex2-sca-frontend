@@ -163,7 +163,7 @@ export const style = html`
 
         .grid-container {
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: auto auto auto;
             grid-gap: 5px;
             padding: 5px;
         }
