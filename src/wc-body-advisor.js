@@ -28,10 +28,17 @@ export class WcBodyAdvisor extends LitElement {
             <main>
                 <div>
                     <div class="grid-container">
-                        <label>Select one of the found baseterms: <label>
-                        <select id="btSel">
-                            ${this.suggBt.map(i => html`<option>${i.name}</option>`)}
-                        </select>
+                        <div>
+                            <label>Select one of the found baseterms: <label>
+                        </div>
+                        <div>
+                            <select id="btSel">
+                                ${this.suggBt.map(i => html`<option>${i.name}</option>`)}
+                            </select>
+                        </div>
+                        <div>
+                            <button class="submit-style" @click="">Done</button>
+                        </div>
                     </div>
                 </div>
             </main>
