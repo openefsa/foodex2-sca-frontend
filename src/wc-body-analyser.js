@@ -38,7 +38,7 @@ export class WcBodyAnalyse extends LitElement {
                     <!-- Modal content -->
                     <div class="modal-content">
                         <label>Please wait...</label>
-                        <progress/>
+                        <progress></progress>
                     </div>
                 </div>
             </main>
