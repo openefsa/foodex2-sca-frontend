@@ -22,15 +22,15 @@ export class WcBodyAnalyse extends LitElement {
     }
 
     render() {
-        return html`
+        return html `
             ${style}
             <main>
-                <div class='input-button-grid'>
+                <div class="grid-container-2col">
                     <div>
                         <input class="textinput" type="text" id="${this.textAreaId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"/>
                     </div>
                     <div>
-                        <button class="submit-style" @click=${this.getBaseterm}> &#8594; </button>
+                        <button class="submit-style" @click="${this.getCode}">Get Code</button>
                     </div>
                 </div>
                 <!-- The Modal dialog -->
@@ -45,13 +45,8 @@ export class WcBodyAnalyse extends LitElement {
         `
     }
 
-    // call the flask interface for receiving baseterm
-    getBaseterm() {
-
-        // Get the modal
-        var modal = this.shadowRoot.getElementById("dialog");
-        // change modal style in order to show it
-        modal.style.display = "block";
+    // call the flask interface for receiving the FoodEx2 code
+    getCode() {
 
         // get the text inserted
         var userText = this.shadowRoot.getElementById(this.textAreaId).value;
@@ -62,7 +57,7 @@ export class WcBodyAnalyse extends LitElement {
             return;
         }
 
-        const url = 'http://127.0.0.1:5000/getBaseterm';
+        const url = 'http://127.0.0.1:5000/getCode';
 
         const headers = {
             "Content-Type": "application/json"
@@ -73,16 +68,21 @@ export class WcBodyAnalyse extends LitElement {
         const options = {
             method: 'POST',
             body: JSON.stringify({
-                baseterm: userText
+                user_text: userText
             }),
             headers: headers
         }
+
+        // Get the modal
+        var modal = this.shadowRoot.getElementById("dialog");
+        // change modal style in order to show it
+        modal.style.display = "block";
 
         // send POST request
         fetch(url, options)
             .then(res => res.text()) // use res.json() if returned a json from request
             .then(res => this.fireEvent(modal, JSON.parse(res)))
-            .catch(err => console.log(`Error with message: ${err}`));
+            .catch(err => this.showError(modal, err));
 
     }
 
@@ -90,22 +90,29 @@ export class WcBodyAnalyse extends LitElement {
     handleKeyPress(event) {
         if (event.value !== '') {
             if (event.key === 'Enter') {
-                this.getBaseterm();
+                this.getCode();
             }
         }
     }
 
     // propagate event to parent component
-    fireEvent(modal, suggBt) {
+    fireEvent(modal, fe2_codes) {
         // hide modal if ok pressed
         modal.style.display = "none";
         // fire event to parent
         let event = new CustomEvent('analysed', {
             detail: {
-                suggBt: suggBt
+                fe2_codes: fe2_codes
             }
         });
         this.dispatchEvent(event);
+    }
+
+    showError(modal, err){
+        // hide modal if ok pressed
+        modal.style.display = "none";
+        // show error to user
+        alert(`I could not retrieve the data, sorry for that :( ${err}`);
     }
 }
 
