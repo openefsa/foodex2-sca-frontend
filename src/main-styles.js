@@ -2,7 +2,7 @@ import {
     html
 } from 'lit-element'
 
-export const style = html`
+export const style = html `
 
     <style>
 
@@ -106,11 +106,6 @@ export const style = html`
             width: 150px;
         }
 
-        .dropdown {
-            position: relative;
-            width: auto;
-        }
-
         .textinput {
             font-family: Arial;
             font-size: 15px;
@@ -135,7 +130,7 @@ export const style = html`
 
         .submit-style {
             font-family: Arial;
-            font-size: 15px;
+            font-size: 13px;
             background-color: lightgray;
             color: black;
             width:100%;
@@ -161,15 +156,16 @@ export const style = html`
             align-content: stretch;
         }
 
-        .grid-container {
+        .grid-container-2col {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: auto 80px;
             grid-gap: 5px;
-            padding: 5px;
         }
 
-        .grid-container > div.middle {
-            width: 100%;
+        .grid-container {
+            display: grid;
+            grid-template-columns: 40px auto 40px;
+            grid-gap: 5px;
         }
 
         #sugg{
@@ -277,6 +273,39 @@ export const style = html`
             color: #1f3f2b; 
             opacity:0.7;
             cursor:pointer;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+          
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 180px;
+            background-color: gray;
+            color: #fff;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            top: -40px;
+            right: 100%;
+        }
+          
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent transparent gray;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
         }
         
     </style>
