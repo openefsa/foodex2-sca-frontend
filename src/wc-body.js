@@ -11,7 +11,7 @@ export class WcBody extends LitElement {
 
     static get properties() {
         return {
-            suggBt: {
+            fe2_codes: {
                 type: Array
             },
             baseterm: {
@@ -25,15 +25,16 @@ export class WcBody extends LitElement {
 
     constructor() {
         super()
-        this.suggBt = [];
+        this.fe2_codes = [];
         this.baseterm = [];
         this.facets = [];
     }
 
     // set the property
-    setSuggBt(suggBt) {
+    setFE2Codes(fe2_codes) {
         // set the property
-        this.suggBt = suggBt;
+        this.fe2_codes = fe2_codes;
+        console.log(this.fe2_codes);
         // initialise the baseterm and facets suggestions
         this.baseterm = this.facets = [];
     }
@@ -43,16 +44,17 @@ export class WcBody extends LitElement {
             ${style}
             <div id="body">
                 <!-- component for analysing the food description inserted -->
-                <wc-body-analyser @analysed="${(e) => (this.setSuggBt(e.detail.suggBt))}"></wc-body-analyser>
-                <!-- component for suggesting terms -->
-                <wc-body-advisor .suggBt="${this.suggBt}"></wc-body-advisor>
-                <!-- component for tagging the words for baseterm -->
-                <wc-body-classifier .ppText="${this.ppText}" @classified="${(e) => (this.baseterm = e.detail.baseterm, this.facets = e.detail.facets)}"></wc-body-classifier>
+                <wc-body-analyser @analysed="${(e) => (this.setFE2Codes(e.detail.fe2_codes))}"></wc-body-analyser>
                 <!-- component for getting the foodex2 code -->
-                <wc-body-getcode .baseterm="${this.baseterm}" .facets="${this.facets}"></wc-body-getcode>
+                <wc-body-showcode .codes="${this.fe2_codes}"></wc-body-showcode>
             </div>
         `
     }
+
+    /*
+    <!-- component for tagging the words for baseterm -->
+    <wc-body-classifier .ppText="${this.ppText}" @classified="${(e) => (this.baseterm = e.detail.baseterm, this.facets = e.detail.facets)}"></wc-body-classifier>
+    */
 
 }
 
