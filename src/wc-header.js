@@ -24,25 +24,12 @@ export class WcHeader extends LitElement {
     render() {
         return html `
             ${style}
-            <div id="header" class="grid-container">
+            <div id="header" class="grid-container-2col">
                 <div>
                     <img src="src/icons/FE2.jpg" />
                 </div>
                 <div class="middle">
                     <span id="title">FoodEX2 WC</span>
-                </div>
-                <div class="grid-container">
-                    <div>
-                        <span id="sub-title">Language:</span>
-                    </div>
-                    <div class="dropdown">
-                        <select>
-                            <option>English</option>
-                            <option>Italian</option>
-                            <option>Spanish</option>
-                            <option>French</option>
-                        </select>
-                    </div>
                 </div>
             </div>
         `
