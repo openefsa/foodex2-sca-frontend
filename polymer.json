@@ -6,8 +6,8 @@
         "src/wc-body.js",
         "src/wc-body-analyser.js",
         "src/wc-body-classifier.js",
-        "src/wc-body-advisor.js",
         "src/wc-body-showcode.js",
+        "src/wc-progress-bar.js",
         "src/wc-footer.js"
     ],
     "npm": true,
