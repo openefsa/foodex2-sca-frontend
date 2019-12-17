@@ -12,6 +12,9 @@ export class WcBodyAnalyse extends LitElement {
         return {
             textAreaId: {
                 type: String
+            },
+            activatePb: {
+                type: Boolean
             }
         }
     }
@@ -19,6 +22,7 @@ export class WcBodyAnalyse extends LitElement {
     constructor() {
         super()
         this.textAreaId = 'description';
+        this.activatePb = false;
     }
 
     render() {
@@ -33,14 +37,7 @@ export class WcBodyAnalyse extends LitElement {
                         <button class="submit-style" @click="${this.getCode}">Get Code</button>
                     </div>
                 </div>
-                <!-- The Modal dialog -->
-                <div id="dialog" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <label>Please wait...</label>
-                        <progress></progress>
-                    </div>
-                </div>
+                <wc-progress-bar .activate="${this.activatePb}"></wc-progress-bar>
             </main>
         `
     }
@@ -73,16 +70,14 @@ export class WcBodyAnalyse extends LitElement {
             headers: headers
         }
 
-        // Get the modal
-        var modal = this.shadowRoot.getElementById("dialog");
-        // change modal style in order to show it
-        modal.style.display = "block";
+        // show dialog
+        this.activatePb=true;
 
         // send POST request
         fetch(url, options)
             .then(res => res.text()) // use res.json() if returned a json from request
-            .then(res => this.fireEvent(modal, JSON.parse(res)))
-            .catch(err => this.showError(modal, err));
+            .then(res => this.fireEvent(JSON.parse(res)))
+            .catch(err => this.showError(err));
 
     }
 
@@ -96,21 +91,21 @@ export class WcBodyAnalyse extends LitElement {
     }
 
     // propagate event to parent component
-    fireEvent(modal, fe2_codes) {
-        // hide modal if ok pressed
-        modal.style.display = "none";
+    fireEvent(codes) {
+        // hide dialog
+        this.activatePb=false;
         // fire event to parent
         let event = new CustomEvent('analysed', {
             detail: {
-                fe2_codes: fe2_codes
+                codes: codes
             }
         });
         this.dispatchEvent(event);
     }
 
-    showError(modal, err){
-        // hide modal if ok pressed
-        modal.style.display = "none";
+    showError(err) {
+        // hide dialog
+        this.activatePb=false;
         // show error to user
         alert(`I could not retrieve the data, sorry for that :( ${err}`);
     }
