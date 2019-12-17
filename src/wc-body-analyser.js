@@ -42,6 +42,27 @@ export class WcBodyAnalyse extends LitElement {
         `
     }
 
+    // propagate event to parent component
+    fireEvent(text, codes) {
+        // hide dialog
+        this.activatePb = false;
+        // fire event to parent
+        let event = new CustomEvent('analysed', {
+            detail: {
+                codes: codes,
+                text: text
+            }
+        });
+        this.dispatchEvent(event);
+    }
+
+    showError(err) {
+        // hide dialog
+        this.activatePb = false;
+        // show error to user
+        alert(`I could not retrieve the data, sorry for that.\nError: ${err}`);
+    }
+
     // call the flask interface for receiving the FoodEx2 code
     getCode() {
 
@@ -54,29 +75,26 @@ export class WcBodyAnalyse extends LitElement {
             return;
         }
 
+        // url
         const url = 'http://127.0.0.1:5000/getCode';
-
-        const headers = {
-            "Content-Type": "application/json"
-            //"Access-Control-Origin": "*"
-        }
-
         // request options
         const options = {
             method: 'POST',
             body: JSON.stringify({
                 user_text: userText
             }),
-            headers: headers
+            headers: {
+                "Content-Type": "application/json"
+            }
         }
 
         // show dialog
-        this.activatePb=true;
+        this.activatePb = true;
 
         // send POST request
         fetch(url, options)
             .then(res => res.text()) // use res.json() if returned a json from request
-            .then(res => this.fireEvent(JSON.parse(res)))
+            .then(res => this.fireEvent(userText, JSON.parse(res)))
             .catch(err => this.showError(err));
 
     }
@@ -88,26 +106,6 @@ export class WcBodyAnalyse extends LitElement {
                 this.getCode();
             }
         }
-    }
-
-    // propagate event to parent component
-    fireEvent(codes) {
-        // hide dialog
-        this.activatePb=false;
-        // fire event to parent
-        let event = new CustomEvent('analysed', {
-            detail: {
-                codes: codes
-            }
-        });
-        this.dispatchEvent(event);
-    }
-
-    showError(err) {
-        // hide dialog
-        this.activatePb=false;
-        // show error to user
-        alert(`I could not retrieve the data, sorry for that :( ${err}`);
     }
 }
 
