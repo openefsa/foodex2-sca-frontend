@@ -19,6 +19,9 @@ export class WcBodyShowCode extends LitElement {
             selName: {
                 type: String
             },
+            dialogName: {
+                type: String
+            },
             index: {
                 type: Number
             },
@@ -35,6 +38,7 @@ export class WcBodyShowCode extends LitElement {
         this.selName = "";
         this.accuracy = -1;
         this.index = -1;
+        this.dialogName = "dialogId";
     }
 
     render() {
@@ -64,21 +68,11 @@ export class WcBodyShowCode extends LitElement {
                     <p>Accuracy: ${this.accuracy=Math.round(this.accuracy*100000)}%</p>
                     <p class="tooltip">
                         <img src="src/icons/help.png"></img>
-                        <span class="tooltiptext">For additional information check the following <a href="https://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">link</a>.\nInstead, if the returned results are not correct click <a href="#" @click="${this.updateInfo}">here</a>.</span>
+                        <span class="tooltiptext">For additional information check the following <a href="https://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">link</a>.\nInstead, if the returned results are not correct click <a href="#" @click="${this.classify}">here</a>.</span>
                     </p>
                 </div>
                 <!-- The Modal dialog -->
-                <div id="dialog" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <p>Select the baseterm</p>
-                        <select>
-                            <option>A</option>
-                            <option>B</option>
-                        </select>
-                        <button @click="${this.save}">Ok</button>
-                    </div>
-                </div>
+                <wc-body-classifier id="${this.dialogName}"></wc-body-classifier>
             </main>
         `
     }
@@ -164,7 +158,7 @@ export class WcBodyShowCode extends LitElement {
     }
 
     // updated the information area
-    updateInfo() {
+    classify() {
 
         if(!this.selName || !this.selCode){
             alert("Codify a term before!");
@@ -172,17 +166,10 @@ export class WcBodyShowCode extends LitElement {
         }
 
         // Get the modal
-        var modal = this.shadowRoot.getElementById("dialog");
-        // change modal style in order to show it
-        modal.style.display = "block";
+        var modal = this.shadowRoot.getElementById(this.dialogName);
+        // activate modal component
+        modal.showDialog();
 
-    }
-
-    save(){
-        // Get the modal
-        var modal = this.shadowRoot.getElementById("dialog");
-        // hide modal if ok pressed
-        modal.style.display = "none";
     }
 
 }
