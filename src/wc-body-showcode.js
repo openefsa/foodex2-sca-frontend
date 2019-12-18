@@ -36,8 +36,8 @@ export class WcBodyShowCode extends LitElement {
         this.codes = [];
         this.selCode = "";
         this.selName = "";
-        this.accuracy = -1;
-        this.index = -1;
+        this.accuracy;
+        this.index;
         this.dialogName = "dialogId";
     }
 
@@ -46,11 +46,19 @@ export class WcBodyShowCode extends LitElement {
             ${style}
             <main>
                 <div>
-                    <label>Description</label>
+                    <div class="grid-container-2col-auto">
+                        <div>Description</div>
+                        <div style="display: flex; justify-content: flex-end">Accuracy: ${this.accuracy=Math.round(this.accuracy)}%</div>
+                    </div>
                     <div id="tags"></div>
                 </div>
                 <div>
-                    <label>Code</label>
+                    <div class="grid-container-2col-auto">
+                        <div>Code</div>
+                        <div style="display: flex; justify-content: flex-end">
+                            Selected: ${this.index+1}/10
+                        </div>
+                    </div>
                     <div class="grid-container">
                         <div>
                             <button class="submit-style" @click="${this.prev}"><</button>
@@ -63,13 +71,14 @@ export class WcBodyShowCode extends LitElement {
                         </div>
                     </div>
                 </div>
-                <div class="grid-container">
-                    <p>${this.index+1}/10</p>
-                    <p>Accuracy: ${this.accuracy=Math.round(this.accuracy*100000)}%</p>
-                    <p class="tooltip">
-                        <img src="src/icons/help.png"></img>
-                        <span class="tooltiptext">For additional information check the following <a href="https://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">link</a>.\nInstead, if the returned results are not correct click <a href="#" @click="${this.classify}">here</a>.</span>
-                    </p>
+                <div class="grid-container-2col-auto">
+                    <div>You did not find your FoodEx2 code? Click <a href="#" @click="${this.classify}">here</a></div>
+                    <div style="display: flex; justify-content: flex-end">
+                        <div class="tooltip">
+                            <img src="src/icons/help.png"></img>
+                            <span class="tooltiptext">For additional information check the following <a href="https://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">link</a>.</span>
+                        </div>
+                    </div>
                 </div>
                 <!-- The Modal dialog -->
                 <wc-body-classifier id="${this.dialogName}"></wc-body-classifier>
