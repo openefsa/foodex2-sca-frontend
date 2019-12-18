@@ -13,6 +13,12 @@ export class WcBody extends LitElement {
         return {
             codes: {
                 type: Array
+            },
+            text: {
+                type: String
+            },
+            smc: {
+                type: String
             }
         }
     }
@@ -20,11 +26,8 @@ export class WcBody extends LitElement {
     constructor() {
         super()
         this.codes = [];
-    }
-
-    // updated the returned results
-    updateCode(codes) {
-        this.codes = codes;
+        this.text = "";
+        this.smc = "semi-manual-classifier";
     }
 
     render() {
@@ -32,11 +35,27 @@ export class WcBody extends LitElement {
             ${style}
             <div id="body">
                 <!-- component for analysing the food description inserted -->
-                <wc-body-analyser @analysed="${(e) => (this.updateCode(e.detail.codes))}"></wc-body-analyser>
+                <wc-body-analyser @analysed="${(e) => (this.updateCode(e))}"></wc-body-analyser>
                 <!-- component for getting the foodex2 code -->
-                <wc-body-showcode .codes="${this.codes}" .text="${this.text}"></wc-body-showcode>
+                <wc-body-showcode .codes="${this.codes}"></wc-body-showcode>
+                <!-- component for manual classification (if requested) -->
+                <wc-body-classifier id="${this.smc}"></wc-body-classifier>
             </div>
         `
+    }
+
+    // updated the returned results
+    updateCode(event) {
+        this.codes = event.detail.codes;
+        this.text = event.detail.text;
+    }
+
+    // requested semi-manual classification
+    semiManualClassification(){
+        // Get the modal
+        var modal = this.shadowRoot.getElementById(this.dialogName);
+        // activate modal component
+        modal.showDialog();
     }
 
     /*
