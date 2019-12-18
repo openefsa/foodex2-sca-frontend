@@ -162,6 +162,12 @@ export const style = html `
             grid-gap: 5px;
         }
 
+        .grid-container-2col-auto {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-gap: 5px;
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: 40px auto 40px;
@@ -289,8 +295,8 @@ export const style = html `
             padding: 5px;
             position: absolute;
             z-index: 1;
-            top: -40px;
-            right: 100%;
+            top: -15px;
+            right: 120%;
         }
           
         .tooltip .tooltiptext::after {
