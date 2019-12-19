@@ -36,7 +36,7 @@ export class WcBodyShowCode extends LitElement {
     constructor() {
         super();
         this.codes = [];
-        this.index = 0;
+        this.index;
         this.selected = new Term();
         this.dialogName = "dialogId";
     }
@@ -72,7 +72,7 @@ export class WcBodyShowCode extends LitElement {
                     </div>
                 </div>
                 <div class="grid-container-2col-auto">
-                    <div>You did not find your FoodEx2 code? Click <a href="#" @click="${this.classify}">here</a></div>
+                    <div>If you did not find your FoodEx2 code click <a href="#" @click="${this.classify}">here</a></div>
                     <div style="display: flex; justify-content: flex-end">
                         <div class="tooltip">
                             <img src="src/icons/help.png"></img>
@@ -101,9 +101,7 @@ export class WcBodyShowCode extends LitElement {
         }
 
         // if selection has been changed
-        if (selectChanged) {
-            this.populateTags();
-        }
+        this.populateTags();
 
         return codesChanged || selectChanged;
     }
@@ -132,11 +130,11 @@ export class WcBodyShowCode extends LitElement {
         // if div undefined
         if (!tagInput)
             return;
-
+        
         // clean the content of the element and baseterm
         tagInput.innerHTML = "";
 
-        var words = this.selName.split(';');
+        var words = this.selected.name.split(';');
 
         var type = "bt";
 
@@ -161,9 +159,9 @@ export class WcBodyShowCode extends LitElement {
     // updated the information area
     classify() {
 
-        if (!this.selName || !this.selCode) {
+        if (!this.selected) {
             alert("Codify a term before!");
-            //return;
+            return;
         }
 
         // Get the modal
