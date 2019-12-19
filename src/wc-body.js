@@ -26,7 +26,6 @@ export class WcBody extends LitElement {
     constructor() {
         super()
         this.codes = [];
-        this.text = "";
         this.smc = "semi-manual-classifier";
     }
 
@@ -53,9 +52,9 @@ export class WcBody extends LitElement {
     // requested semi-manual classification
     semiManualClassification(){
         // Get the modal
-        var modal = this.shadowRoot.getElementById(this.dialogName);
+        var comp = this.shadowRoot.getElementById(this.smc);
         // activate modal component
-        modal.showDialog();
+        comp.showDialog();
     }
 
     /*
