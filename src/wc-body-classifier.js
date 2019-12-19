@@ -33,21 +33,26 @@ export class WcBodyClassify extends LitElement {
                 <div id="${this.dialogName}" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
-                        <p>Select the baseterm</p>
-                        <select>
-                            <option>A</option>
-                            <option>B</option>
-                        </select>
-                        <p>Select group of facet<p>
-                        <select>
-                            <option>F01</option>
-                            <option>F02</option>
-                        </select>
-                        <p>Select group of facet<p>
-                        <select>
-                            <option>F01</option>
-                            <option>F02</option>
-                        </select>
+                        Select the baseterm
+                        <div>
+                            <select>
+                                <option>A</option>
+                                <option>B</option>
+                            </select>
+                            <button>+</button>
+                        </div>
+                        Select the facet
+                        <div>
+                            <select>
+                                <option>F01</option>
+                                <option>F02</option>
+                            </select>
+                            <select>
+                                <option>facet1</option>
+                                <option>facet2</option>
+                            <select>
+                            <button>-</button>
+                        </div>
                         <menu>
                             <button @click="${this.hideDialog}">Cancel</button>
                             <button @click="${this.hideDialog}">Confirm</button>
