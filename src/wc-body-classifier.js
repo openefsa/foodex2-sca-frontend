@@ -38,7 +38,20 @@ export class WcBodyClassify extends LitElement {
                             <option>A</option>
                             <option>B</option>
                         </select>
-                        <button @click="${this.hideDialog}">Ok</button>
+                        <p>Select group of facet<p>
+                        <select>
+                            <option>F01</option>
+                            <option>F02</option>
+                        </select>
+                        <p>Select group of facet<p>
+                        <select>
+                            <option>F01</option>
+                            <option>F02</option>
+                        </select>
+                        <menu>
+                            <button @click="${this.hideDialog}">Cancel</button>
+                            <button @click="${this.hideDialog}">Confirm</button>
+                        </menu>
                     </div>
                 </div>
             </main>
@@ -51,6 +64,14 @@ export class WcBodyClassify extends LitElement {
         var modal = this.shadowRoot.getElementById("dialog");
         // change modal style in order to show it
         modal.style.display = "block";
+    }
+
+    // return selection to parent
+    save(){
+        // get the selected values
+        // fire event to parent
+        // hide the dialog
+        this.hideDialog();
     }
 
     // method used for deactivating the dialog
