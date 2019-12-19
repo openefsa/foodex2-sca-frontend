@@ -37,7 +37,7 @@ export class WcBodyShowCode extends LitElement {
         super();
         this.codes = [];
         this.index;
-        this.selected = new Term();
+        this.selected = {};
         this.dialogName = "dialogId";
     }
 
@@ -159,7 +159,7 @@ export class WcBodyShowCode extends LitElement {
     // updated the information area
     classify() {
 
-        if (!this.selected) {
+        if (this.isEmpty(this.selected)) {
             alert("Codify a term before!");
             return;
         }
@@ -169,6 +169,15 @@ export class WcBodyShowCode extends LitElement {
         // activate modal component
         modal.showDialog();
 
+    }
+
+    // check if an object is empty
+    isEmpty(obj) {
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
     }
 
 }
