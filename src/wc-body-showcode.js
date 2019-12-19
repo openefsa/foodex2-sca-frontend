@@ -6,6 +6,14 @@ import {
     style
 } from './main-styles.js';
 
+class Term {
+    constructor(name, code, affinity) {
+        this.name = name;
+        this.code = code;
+        this.affinity = affinity;
+    }
+}
+
 export class WcBodyShowCode extends LitElement {
 
     static get properties() {
@@ -13,19 +21,13 @@ export class WcBodyShowCode extends LitElement {
             codes: {
                 type: Array
             },
-            selCode: {
-                type: String
-            },
-            selName: {
-                type: String
+            selected: {
+                type: Term
             },
             dialogName: {
                 type: String
             },
             index: {
-                type: Number
-            },
-            accuracy: {
                 type: Number
             }
         }
@@ -34,10 +36,8 @@ export class WcBodyShowCode extends LitElement {
     constructor() {
         super();
         this.codes = [];
-        this.selCode = "";
-        this.selName = "";
-        this.accuracy;
-        this.index;
+        this.index = 0;
+        this.selected = new Term();
         this.dialogName = "dialogId";
     }
 
@@ -48,7 +48,7 @@ export class WcBodyShowCode extends LitElement {
                 <div>
                     <div class="grid-container-2col-auto">
                         <div>Description</div>
-                        <div style="display: flex; justify-content: flex-end">Accuracy: ${this.accuracy=Math.round(this.accuracy)}%</div>
+                        <div style="display: flex; justify-content: flex-end">Accuracy: ${Math.round(this.selected.affinity)}%</div>
                     </div>
                     <div id="tags"></div>
                 </div>
@@ -64,7 +64,7 @@ export class WcBodyShowCode extends LitElement {
                             <button class="submit-style" @click="${this.prev}"><</button>
                         </div>
                         <div class="textarea">
-                            <div>${this.selCode}</div>
+                            <div>${this.selected.code}</div>
                         </div>
                         <div>
                             <button class="submit-style" @click="${this.next}">></button>
@@ -89,45 +89,38 @@ export class WcBodyShowCode extends LitElement {
     // update div ui in specific properties change
     shouldUpdate(changedProperties) {
 
-        var changed = changedProperties.has('codes');
-        var ui_interaction = changedProperties.has('selCode');
+        var codesChanged = changedProperties.has('codes');
+        var selectChanged = changedProperties.has('selected');
 
         // if codes has been updated
-        if (changed) {
-            if (this.codes[0]) {
-                this.index = 0;
-                var item = this.codes[this.index];
-                this.selCode = item.code;
-                this.selName = item.name;
-                this.accuracy = item.affinity;
+        if (codesChanged) {
+            var item = this.codes[this.index = 0];
+            if (item) {
+                this.selected = new Term(item.name, item.code, item.affinity);
             }
         }
 
-        // update tags area
-        this.populateTags();
+        // if selection has been changed
+        if (selectChanged) {
+            this.populateTags();
+        }
 
-        return changed || ui_interaction;
+        return codesChanged || selectChanged;
     }
 
     // select the previous
     prev() {
-        if (this.index > 0) {
-            this.index -= 1;
-            var item = this.codes[this.index];
-            this.selCode = item.code;
-            this.selName = item.name;
-            this.accuracy = item.affinity;
+        if (this.index > 0 && this.codes.length>0) {
+            var item = this.codes[this.index -= 1];
+            this.selected = new Term(item.name, item.code, item.affinity);
         }
     }
 
     // select the next
     next() {
-        if (this.index < 9 && this.index>-1) {
-            this.index += 1;
-            var item = this.codes[this.index];
-            this.selCode = item.code;
-            this.selName = item.name;
-            this.accuracy = item.affinity;
+        if (this.index < 9 && this.index > -1 && this.codes.length>0) {
+            var item = this.codes[this.index += 1];
+            this.selected = new Term(item.name, item.code, item.affinity);
         }
     }
 
@@ -148,8 +141,7 @@ export class WcBodyShowCode extends LitElement {
         var type = "bt";
 
         words.forEach(function (word, i) {
-
-            console.log("iter");
+            // change style of tag if more than a term is present
             if (i > 0) {
                 type = "fc";
             }
@@ -169,9 +161,9 @@ export class WcBodyShowCode extends LitElement {
     // updated the information area
     classify() {
 
-        if(!this.selName || !this.selCode){
+        if (!this.selName || !this.selCode) {
             alert("Codify a term before!");
-            return;
+            //return;
         }
 
         // Get the modal
