@@ -75,10 +75,10 @@ export const style = html `
 
         /* Modal Content */
         .modal-content {
-            background-color: #fefefe;
+            background-color: white;
             margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
+            padding: 10px;
+            border: 1px solid black;
             width: 80%;
         }
 
