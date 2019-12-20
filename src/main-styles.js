@@ -79,7 +79,7 @@ export const style = html `
             margin: auto;
             padding: 10px;
             border: 1px solid black;
-            width: 80%;
+            width: 90%;
         }
 
         main > * {

@@ -33,25 +33,30 @@ export class WcBodyClassify extends LitElement {
                 <div id="${this.dialogName}" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
-                        Select the baseterm
                         <div>
-                            <select>
+                            <select id="btDrop">
+                                <option>Select baseterm:</option>
                                 <option>A</option>
                                 <option>B</option>
                             </select>
                             <button>+</button>
-                        </div>
-                        Select the facet
-                        <div>
-                            <select>
-                                <option>F01</option>
-                                <option>F02</option>
-                            </select>
-                            <select>
-                                <option>facet1</option>
-                                <option>facet2</option>
-                            <select>
                             <button>-</button>
+                        </div>
+                        
+                        <div>
+                            Facets
+                            <div>
+                                <select>
+                                    <option>Select group:</option>
+                                    <option>F01</option>
+                                    <option>F02</option>
+                                </select>
+                                <select>
+                                    <option>Select facet:</option>
+                                    <option>facet1</option>
+                                    <option>facet2</option>
+                                </select>
+                            </div>
                         </div>
                         <menu>
                             <button @click="${this.hideDialog}">Cancel</button>
@@ -69,6 +74,7 @@ export class WcBodyClassify extends LitElement {
         var modal = this.shadowRoot.getElementById("dialog");
         // change modal style in order to show it
         modal.style.display = "block";
+        // getch the baseterms
     }
 
     // return selection to parent
