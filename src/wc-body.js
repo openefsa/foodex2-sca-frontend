@@ -11,7 +11,7 @@ export class WcBody extends LitElement {
 
     static get properties() {
         return {
-            codes: {
+            baseterms: {
                 type: Array
             },
             text: {
@@ -25,7 +25,7 @@ export class WcBody extends LitElement {
 
     constructor() {
         super()
-        this.codes = [];
+        this.baseterms = [];
         this.smc = "semi-manual-classifier";
     }
 
@@ -34,9 +34,9 @@ export class WcBody extends LitElement {
             ${style}
             <div id="body">
                 <!-- component for analysing the food description inserted -->
-                <wc-body-analyser @analysed="${(e) => (this.updateCode(e))}"></wc-body-analyser>
+                <wc-body-analyser @analysed="${(e) => (this.updateBaseterms(e))}"></wc-body-analyser>
                 <!-- component for getting the foodex2 code -->
-                <wc-body-showcode .codes="${this.codes}"></wc-body-showcode>
+                <wc-body-showcode .baseterms="${this.baseterms}"></wc-body-showcode>
                 <!-- component for manual classification (if requested) -->
                 <wc-body-classifier id="${this.smc}"></wc-body-classifier>
             </div>
@@ -44,8 +44,8 @@ export class WcBody extends LitElement {
     }
 
     // updated the returned results
-    updateCode(event) {
-        this.codes = event.detail.codes;
+    updateBaseterms(event) {
+        this.baseterms = event.detail.baseterms;
         this.text = event.detail.text;
     }
 
