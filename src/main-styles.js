@@ -21,6 +21,17 @@ export const style = html `
             border:1px solid #18A592;
         }
 
+        .scroll_container {
+            width: 100%;
+            height: 32px;
+            border:1px solid lightgray; 
+            background: white;
+            border-radius: 4px;
+            padding:2px; 
+            overflow: auto;
+            white-space: nowrap;
+        }
+
         #header {
             display: flex;
             align-items: center;
@@ -128,6 +139,36 @@ export const style = html `
             text-align: center;
         }
 
+        .inner-bt {
+            font-family: Arial;
+            font-size: auto;
+            color: black;
+            width:auto;
+            border: 1px solid lightgray;
+            border-radius: 4px;
+            text-align: center;
+        }
+               
+        .inner-bt:hover {
+            background: #d8e3f0;
+            color: #2f3774; 
+        }
+
+        .inner-fc {
+            font-family: Arial;
+            font-size: auto;
+            color: black;
+            width:auto;
+            border: 1px solid lightgray;
+            border-radius: 4px;
+            text-align: center;
+        }
+               
+        .inner-fc:hover {
+            background: #cde69c;
+            color: #1f3f2b;
+        }
+
         .submit-style {
             font-family: Arial;
             font-size: 13px;
@@ -189,7 +230,7 @@ export const style = html `
             border-radius: 4px;
             padding:5px; 
             overflow-y: auto;
-            height: 100px;
+            height: 60px;
         }
 
         #tags tag{
@@ -312,6 +353,31 @@ export const style = html `
 
         .tooltip:hover .tooltiptext {
             visibility: visible;
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* height */
+        ::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
         }
         
     </style>
