@@ -18,57 +18,59 @@ export class WcBodyShowCode extends LitElement {
 
     static get properties() {
         return {
-            codes: {
+            baseterms: {
                 type: Array
             },
-            selected: {
+            facets: {
+                type: Array
+            },
+            selBt: {
                 type: Term
+            },
+            selFacets: {
+                type: Array
+            },
+            code: {
+                type: String
             },
             dialogName: {
                 type: String
-            },
-            index: {
-                type: Number
             }
         }
     }
 
     constructor() {
         super();
-        this.codes = [];
-        this.index;
-        this.selected = {};
+        this.baseterms = [];
+        this.facets = [];
+        this.selBt = null;
+        this.selFacets = [];
+        this.code = "";
         this.dialogName = "dialogId";
     }
 
     render() {
-        return html `
+        return html`
             ${style}
             <main>
                 <div>
-                    <div class="grid-container-2col-auto">
-                        <div>Description</div>
-                        <div style="display: flex; justify-content: flex-end">Accuracy: ${Math.round(this.selected.affinity)}%</div>
+                    <div>Select a baseterm:</div>
+                    <div id="baseterms-suggested" class="scroll_container"></div>
+                </div>
+                <div>
+                    <div>Select facets:</div>
+                    <div id="facets-suggested" class="scroll_container">
+                        <button class="inner-fc" style="background-color:#cde69c" @click="">hazelnuts</button>
                     </div>
+                </div>
+                <div>
+                    <div>Description</div>
                     <div id="tags"></div>
                 </div>
                 <div>
-                    <div class="grid-container-2col-auto">
-                        <div>Code</div>
-                        <div style="display: flex; justify-content: flex-end">
-                            Selected: ${this.index+1}/10
-                        </div>
-                    </div>
-                    <div class="grid-container">
-                        <div>
-                            <button class="submit-style" @click="${this.prev}"><</button>
-                        </div>
-                        <div class="textarea">
-                            <div>${this.selected.code}</div>
-                        </div>
-                        <div>
-                            <button class="submit-style" @click="${this.next}">></button>
-                        </div>
+                    <div>Your FoodEx2 Generated Code</div>
+                    <div class="textarea">
+                        <div>${this.code}</div>
                     </div>
                 </div>
                 <div class="grid-container-2col-auto">
@@ -89,37 +91,88 @@ export class WcBodyShowCode extends LitElement {
     // update div ui in specific properties change
     shouldUpdate(changedProperties) {
 
-        var codesChanged = changedProperties.has('codes');
-        var selectChanged = changedProperties.has('selected');
+        var basetermsChanged = changedProperties.has('baseterms');
+        var selectedBt = changedProperties.has('selBt');
 
         // if codes has been updated
-        if (codesChanged) {
-            var item = this.codes[this.index = 0];
-            if (item) {
-                this.selected = new Term(item.name, item.code, item.affinity);
-            }
+        if (basetermsChanged) {
+            // populate the baseterms list
+            this.populateBaseterms();
         }
 
-        // if selection has been changed
-        this.populateTags();
+        // update the tags field if baseterm is changed
+        if (selectedBt) {
+            // if selection has been changed
+            this.populateTags();
+        }
 
-        return codesChanged || selectChanged;
+        // update the generated foodex2 code
+        this.updateCode();
+
+        return basetermsChanged || selectedBt;
     }
 
-    // select the previous
-    prev() {
-        if (this.index > 0 && this.codes.length>0) {
-            var item = this.codes[this.index -= 1];
-            this.selected = new Term(item.name, item.code, item.affinity);
-        }
+    // method used for populating list of baseterms
+    populateBaseterms() {
+        var tagInput = this.shadowRoot.getElementById('baseterms-suggested');
+
+        // if div undefined
+        if (!tagInput)
+            return;
+
+        // clean the content of the element and baseterm
+        tagInput.innerHTML = "";
+
+        this.baseterms.forEach(term => {
+
+            var tag = document.createElement('button');
+            tag.setAttribute('class', 'inner-bt');
+            tag.innerHTML = term.name;
+
+            // when clicking on tag
+            tag.onclick = () => {
+                if (tag.style.backgroundColor === "") {
+                    // clean all buttons styles
+                    Array.from(tagInput.getElementsByTagName("button")).forEach(item => {
+                        item.style.backgroundColor = "";
+                    });
+                    // apply the selection only to single term (since olny one baseterm can be selected)
+                    tag.style.backgroundColor = "#bad0e7";
+                    // update the selected baseterm
+                    this.selBt = new Term(term.name, term.code, term.affinity);
+                    // update the suggested facets lists
+                    this.populateFacets();
+                } else {
+                    // reset button style
+                    tag.style.backgroundColor = "";
+                    // update the selected baseterm
+                    this.selBt = null;
+                }
+            };
+
+            // append the new inner tag
+            tagInput.appendChild(tag);
+
+            // update the selected baseterm with null
+            this.selBt = null;
+
+        }, this);
     }
 
-    // select the next
-    next() {
-        if (this.index < 9 && this.index > -1 && this.codes.length>0) {
-            var item = this.codes[this.index += 1];
-            this.selected = new Term(item.name, item.code, item.affinity);
-        }
+    // method used for populating the facets list area
+    populateFacets(){
+
+        var tagInput = this.shadowRoot.getElementById('facets-suggested');
+
+        // if div undefined
+        if (!tagInput)
+            return;
+
+        console.log("to finalise the facets population");
+        // clean the content of the element and baseterm
+        // tagInput.innerHTML = "";
+
+
     }
 
     // method used for populating the tags area
@@ -130,36 +183,44 @@ export class WcBodyShowCode extends LitElement {
         // if div undefined
         if (!tagInput)
             return;
-        
+
         // clean the content of the element and baseterm
         tagInput.innerHTML = "";
 
-        var words = this.selected.name.split(';');
+        if (this.selBt) {
+            // add baseterm
+            this.addTag(tagInput, this.selBt, "bt");
+            // add an example facet
+            this.selFacets.push(new Term("hazelnuts", "A014L", "1"));
+            // add tag for each facet term
+            this.selFacets.forEach(term=>{
+                this.addTag(tagInput, term, "fc");
+            });
+            /* add facets
+            this.facets.forEach(function (term, i) {
+                this.addTag(tagInput, term, "fc");
+            });*/
+        }
+    }
 
-        var type = "bt";
+    // method used for adding tags
+    addTag(tagInput, term, type) {
+        var tag = document.createElement('TAG');
 
-        words.forEach(function (word, i) {
-            // change style of tag if more than a term is present
-            if (i > 0) {
-                type = "fc";
-            }
+        tag.setAttribute('class', 'selected-' + type);
+        tag.innerHTML = term.name;
+        // append the new inner tag
+        var innerTag = document.createElement('inner-' + type);
+        innerTag.innerHTML = (type==="fc")?"F04":type;//type;
+        tag.appendChild(innerTag);
 
-            var tag = document.createElement('TAG');
-            tag.setAttribute('class', 'selected-' + type);
-            tag.innerHTML = word;
-            // append the new inner tag
-            var innerTag = document.createElement('inner-' + type);
-            innerTag.innerHTML = type;
-            tag.appendChild(innerTag);
-
-            tagInput.appendChild(tag);
-        });
+        tagInput.appendChild(tag);
     }
 
     // updated the information area
     classify() {
 
-        if (this.isEmpty(this.selected)) {
+        if (this.isEmpty(this.code === null)) {
             alert("Codify a term before!");
             return;
         }
@@ -171,13 +232,18 @@ export class WcBodyShowCode extends LitElement {
 
     }
 
-    // check if an object is empty
-    isEmpty(obj) {
-        for(var key in obj) {
-            if(obj.hasOwnProperty(key))
-                return false;
+    // method ised for updateing the foodex2 code
+    updateCode() {
+
+        if (this.selBt) {
+            this.code = this.selBt.code;
+            if (this.selFacets.length > 0) {
+                this.code += "#";
+                this.selFacets.forEach(term => {
+                    this.code += term.code;// + "$";
+                });
+            }
         }
-        return true;
     }
 
 }
