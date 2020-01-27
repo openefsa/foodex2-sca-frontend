@@ -26,7 +26,7 @@ export class WcBodyAnalyse extends LitElement {
     }
 
     render() {
-        return html `
+        return html`
             ${style}
             <main>
                 <div class="grid-container-2col">
@@ -34,7 +34,7 @@ export class WcBodyAnalyse extends LitElement {
                         <input class="textinput" type="text" id="${this.textAreaId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"/>
                     </div>
                     <div>
-                        <button class="submit-style" @click="${this.getCode}">Get Code</button>
+                        <button class="submit-style" @click="${this.getBaseterms}">Get Code</button>
                     </div>
                 </div>
                 <wc-progress-bar .activate="${this.activatePb}"></wc-progress-bar>
@@ -43,13 +43,14 @@ export class WcBodyAnalyse extends LitElement {
     }
 
     // propagate event to parent component
-    fireEvent(text, codes) {
+    fireEvent(text, baseterms) {
+        console.log(baseterms);
         // hide dialog
         this.activatePb = false;
         // fire event to parent
         let event = new CustomEvent('analysed', {
             detail: {
-                codes: codes,
+                baseterms: baseterms,
                 text: text
             }
         });
@@ -64,7 +65,7 @@ export class WcBodyAnalyse extends LitElement {
     }
 
     // call the flask interface for receiving the FoodEx2 code
-    getCode() {
+    getBaseterms() {
 
         // get the text inserted
         var userText = this.shadowRoot.getElementById(this.textAreaId).value;
@@ -75,26 +76,42 @@ export class WcBodyAnalyse extends LitElement {
             return;
         }
 
-        // url
-        const url = 'http://127.0.0.1:5000/getCode';
-        // request options
-        const options = {
-            method: 'POST',
-            body: JSON.stringify({
-                user_text: userText
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
+        // create the header of the request
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+
+        // create the url to which make request
+        // const url = 'http://127.0.0.1:5000/predictBaseterm';
+        const url = new URL('http://ebd6f601-7113-4fd5-b6b5-0687190a2566.westeurope.azurecontainer.io/score');
+        // add parameters to url
+        var params = { 'input': userText }
+        url.search = new URLSearchParams(params).toString();
+
+        // create request obj
+        const req = new Request(url.href, {
+            method: 'GET', //POST
+            headers: header,
+            mode: 'no-cors',
+            cache: 'default'
+            /*body: JSON.stringify({
+                userText: userText
+            }),*/
+        });
 
         // show dialog
         this.activatePb = true;
 
-        // send POST request
+        /* send POST request
         fetch(url, options)
             .then(res => res.text()) // use res.json() if returned a json from request
             .then(res => this.fireEvent(userText, JSON.parse(res)))
+            .catch(err => this.showError(err));
+            */
+        
+        // send GET request
+        fetch(req)
+            .then(res => res.json()) // res.text(), use res.json() if returned a json from request
+            .then(res => this.fireEvent(userText, res))//JSON.parse(res)))
             .catch(err => this.showError(err));
 
     }
@@ -103,7 +120,7 @@ export class WcBodyAnalyse extends LitElement {
     handleKeyPress(event) {
         if (event.value !== '') {
             if (event.key === 'Enter') {
-                this.getCode();
+                this.getBaseterms();
             }
         }
     }
