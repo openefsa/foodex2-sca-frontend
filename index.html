@@ -12,6 +12,8 @@
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" defer></script>
     <!-- load jquery -->
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- load google material icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     <script type="module">
         window.WebComponents = window.WebComponents || {
@@ -20,13 +22,18 @@
         WebComponents.waitFor(async () => {
             import('./src/main-application.js')
             import('./src/wc-header.js')
+            import('./src/wc-header-settings.js')
+            import('./src/wc-header-login.js')
             import('./src/wc-body.js')
             import('./src/wc-body-analyser.js')
-            import('./src/wc-body-classifier.js')
+            import('./src/wc-body-baseterms-viewer.js')
+            import('./src/wc-body-facets-viewer.js')
+            import('./src/wc-body-overview.js')
             import('./src/wc-body-showcode.js')
+            import('./src/wc-body-feedback.js')
             import('./src/wc-progress-bar.js')
             import('./src/wc-footer.js')
-        });
+        })
     </script>
 </head>
 
