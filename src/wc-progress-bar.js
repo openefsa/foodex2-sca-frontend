@@ -6,12 +6,21 @@ import {
     style
 } from './main-styles.js'
 
+import "@material/mwc-dialog"
+import "@material/mwc-linear-progress"
+
 export class WcProgressBar extends LitElement {
 
     static get properties() {
         return {
             activate: {
                 type: Boolean
+            },
+            pbId: {
+                type: String
+            },
+            dialogId: {
+                type: String
             }
         }
     }
@@ -19,19 +28,18 @@ export class WcProgressBar extends LitElement {
     constructor() {
         super();
         this.activate = false;
+        this.pbId = "progressBar";
+        this.dialogId = "dialog";
     }
 
     render() {
         return html `
             ${style}
             <main>
-                <div id="${this.pbId}" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <label>Please wait...</label>
-                        <progress></progress>
-                    </div>
-                </div>
+                <mwc-dialog id="${this.dialogId}">
+                    <div>Fetching data</div>
+                    <mwc-linear-progress id="${this.pbId}" indeterminate></mwc-linear-progress>
+                </mwc-dialog>
             </main>
         `
     }
@@ -40,12 +48,17 @@ export class WcProgressBar extends LitElement {
     shouldUpdate(changedProperties) {
         // check if activate properties has been changed
         var activate = changedProperties.has('activate');
-        // get the progress bar dialog component
-        var comp = this.shadowRoot.getElementById(this.pbId);
+        
+        // get the dialog component
+        var dialog = this.shadowRoot.getElementById(this.dialogId);
+        // get the progress bar 
+        var pb = this.shadowRoot.getElementById(this.pbId);
+
         // change the dialog style if not null and activate has been changed
-        if (activate && comp) {
-            // activate the brogress bar
-            comp.style.display = this.activate ? "block" : "none";
+        if (activate && dialog && pb) {
+            // open dialog and active progress bar
+            dialog.open = this.activate;
+            pb.open = !this.activate;
         }
 
         return activate;
