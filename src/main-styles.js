@@ -6,6 +6,20 @@ export const style = html `
 
     <style>
 
+        mwc-top-app-bar-fixed {
+            --mdc-theme-primary: #18A592;
+            --mdc-theme-on-primary: white;
+        }
+
+        mwc-icon-button {
+            --mdc-icon-button-size: 30px;
+            --mdc-icon-size: 25px;
+        }
+
+        mwc-menu {
+            --mdc-menu-item-height: 30px;
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -16,8 +30,8 @@ export const style = html `
         }
 
         #container {
+            display: inline-block;
             width: 600px;
-            position:relative;
             border:1px solid #18A592;
         }
 
@@ -33,7 +47,7 @@ export const style = html `
         }
 
         #header {
-            display: flex;
+            display: grid;
             align-items: center;
             background-color: #18A592;
             color: white;
@@ -61,7 +75,7 @@ export const style = html `
 
         #footer {
             position: relative;
-            bottom: 0;
+            bottom: 0px;
             background-color: #18A592;
             color: white;
             text-align: right;
@@ -113,10 +127,6 @@ export const style = html `
             margin: 0 auto;
         }
         
-        select {
-            width: 150px;
-        }
-
         .textinput {
             font-family: Arial;
             font-size: 15px;
@@ -205,14 +215,22 @@ export const style = html `
 
         .grid-container-2col-auto {
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: auto 35px;
             grid-gap: 5px;
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: 40px auto 40px;
+            grid-template-columns: auto auto 35px;
             grid-gap: 5px;
+        }
+
+        .grid-container > * {
+            padding:2px; 
+        }
+
+        img.expand { 
+            width: 30px;
         }
 
         #sugg{
