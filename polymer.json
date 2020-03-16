@@ -3,10 +3,15 @@
     "entrypoint": "index.html",
     "fragments": [
         "src/wc-header.js",
+        "src/wc-header-settings.js",
+        "src/wc-header-login.js",
         "src/wc-body.js",
         "src/wc-body-analyser.js",
-        "src/wc-body-classifier.js",
+        "src/wc-body-baseterms-viewer.js",
+        "src/wc-body-facets-viewer.js",
+        "src/wc-body-overview.js",
         "src/wc-body-showcode.js",
+        "src/wc-body-feedback.js",
         "src/wc-progress-bar.js",
         "src/wc-footer.js"
     ],
