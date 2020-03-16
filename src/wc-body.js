@@ -11,56 +11,71 @@ export class WcBody extends LitElement {
 
     static get properties() {
         return {
+            selectedBt: {
+                type: Object
+            },
+            selectedFcs: {
+                type: Object
+            },
             baseterms: {
-                type: Array
+                type: Object
+            },
+            facets: {
+                type: Object
             },
             text: {
-                type: String
-            },
-            smc: {
                 type: String
             }
         }
     }
 
     constructor() {
-        super()
-        this.baseterms = [];
-        this.smc = "semi-manual-classifier";
+        super();
+        this.baseterms = null;
+        this.facets = null;
+        this.selectedBt = null;
+        this.selectedFcs = new Array();
+        this.text = "";
     }
 
     render() {
         return html `
             ${style}
             <div id="body">
-                <!-- component for analysing the food description inserted -->
-                <wc-body-analyser @analysed="${(e) => (this.updateBaseterms(e))}"></wc-body-analyser>
-                <!-- component for getting the foodex2 code -->
-                <wc-body-showcode .baseterms="${this.baseterms}"></wc-body-showcode>
+                <!-- component for inserting food description and fetching server -->
+                <wc-body-analyser @data="${(e) => (this.updateData(e))}"></wc-body-analyser>
+                <!-- component for showing baseterm -->
+                <wc-body-baseterms-viewer .baseterms="${this.baseterms}" @bt="${(e)=>(this.updateBaseterm(e))}"></wc-body-baseterms-viewer>
+                <!-- component for showing facets -->
+                <wc-body-facets-viewer .categories="${this.facets}" @fcs="${(e) =>(this.updateFacets(e))}"></wc-body-facets-viewer>
+                <!-- component for showing overview of user interaction -->
+                <wc-body-overview .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></wc-body-overview>
+                <!-- component for showing the foodex2 code -->
+                <wc-body-showcode .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></wc-body-showcode>
                 <!-- component for manual classification (if requested) -->
-                <wc-body-classifier id="${this.smc}"></wc-body-classifier>
+                <wc-body-feedback .text="${this.text}"></wc-body-feedback>
             </div>
         `
     }
 
     // updated the returned results
-    updateBaseterms(event) {
-        this.baseterms = event.detail.baseterms;
+    updateData(event) {
+        var res = event.detail.res;
+        this.baseterms = res[0].baseterm;
+        this.facets = res[1].facets;
         this.text = event.detail.text;
     }
 
-    // requested semi-manual classification
-    semiManualClassification(){
-        // Get the modal
-        var comp = this.shadowRoot.getElementById(this.smc);
-        // activate modal component
-        comp.showDialog();
+    // updated the selected baseterm
+    updateBaseterm(event) {
+        this.selectedBt = event.detail.selectedBt;
     }
 
-    /*
-    <!-- component for tagging the words for baseterm -->
-    <wc-body-classifier-deprecated .ppText="${this.ppText}" @classified="${(e) => (this.baseterm = e.detail.baseterm, this.facets = e.detail.facets)}"></wc-body-classifier-deprecated>
-    */
+    // updated the selected facets
+    updateFacets(event) {
+        // re-initilise the array in order to catch the event change
+        this.selectedFcs = event.detail.selectedFcs.slice(0);
+    }
 
 }
 
