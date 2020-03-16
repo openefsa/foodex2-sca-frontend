@@ -6,35 +6,46 @@ import {
     style
 } from './main-styles.js'
 
-export class WcBodyAnalyse extends LitElement {
+import "@material/mwc-button"
+
+export class WcBodyAnalyser extends LitElement {
 
     static get properties() {
         return {
-            textAreaId: {
+            fieldId: {
                 type: String
             },
             activatePb: {
                 type: Boolean
+            },
+            freeText: {
+                type: String
+            },
+            url: {
+                type: String
             }
         }
     }
 
     constructor() {
-        super()
-        this.textAreaId = 'description';
+        super();
+        this.fieldId = 'description';
         this.activatePb = false;
+        this.freeText = '';
+        // create the url to which make request
+        this.url = new URL('http://127.0.0.1:5000/predictAll');
     }
 
     render() {
-        return html`
+        return html `
             ${style}
             <main>
                 <div class="grid-container-2col">
                     <div>
-                        <input class="textinput" type="text" id="${this.textAreaId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"/>
+                        <input class="textinput" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"/>
                     </div>
                     <div>
-                        <button class="submit-style" @click="${this.getBaseterms}">Get Code</button>
+                        <button class="submit-style" @click="${this.getCode}">Get Code</button>
                     </div>
                 </div>
                 <wc-progress-bar .activate="${this.activatePb}"></wc-progress-bar>
@@ -43,15 +54,15 @@ export class WcBodyAnalyse extends LitElement {
     }
 
     // propagate event to parent component
-    fireEvent(text, baseterms) {
-        console.log(baseterms);
+    fireEvent(results) {
         // hide dialog
         this.activatePb = false;
+        
         // fire event to parent
-        let event = new CustomEvent('analysed', {
+        let event = new CustomEvent('data', {
             detail: {
-                baseterms: baseterms,
-                text: text
+                res: results,
+                text: this.freeText
             }
         });
         this.dispatchEvent(event);
@@ -64,66 +75,119 @@ export class WcBodyAnalyse extends LitElement {
         alert(`I could not retrieve the data, sorry for that.\nError: ${err}`);
     }
 
-    // call the flask interface for receiving the FoodEx2 code
-    getBaseterms() {
+    // method used for calling the APIs required
+    getCode() {
 
         // get the text inserted
-        var userText = this.shadowRoot.getElementById(this.textAreaId).value;
+        var textArea = this.shadowRoot.getElementById(this.fieldId);
 
         // print error if nothing written
-        if (!userText) {
+        if (!textArea || textArea.value=="") {
             alert("Please describe your term first.");
             return;
         }
 
-        // create the header of the request
-        const header = new Headers();
-        header.append('Content-Type', 'application/json');
+        this.freeText = textArea.value;
 
-        // create the url to which make request
-        // const url = 'http://127.0.0.1:5000/predictBaseterm';
-        const url = new URL('http://ebd6f601-7113-4fd5-b6b5-0687190a2566.westeurope.azurecontainer.io/score');
-        // add parameters to url
-        var params = { 'input': userText }
-        url.search = new URLSearchParams(params).toString();
+        /* more generalised way 
+        // call apis for getting user text related information
+        var p1 = Promise.resolve(this.predictBt('baseterm'));
+        var p2 = Promise.resolve(this.predictBt('ifFacet'));
 
-        // create request obj
-        const req = new Request(url.href, {
-            method: 'GET', //POST
-            headers: header,
-            mode: 'no-cors',
-            cache: 'default'
-            /*body: JSON.stringify({
-                userText: userText
-            }),*/
+        Promise.all([p1, p2]).then(values => {
+            console.log(values);
         });
+        */
+        this.predictCode();
 
-        // show dialog
+    }
+
+    // predict the foodex2 codes for the given free text
+    predictCode() {
+        // url params 
+        const params = {
+            'text': this.freeText
+        };
+
+        // set params in url
+        this.url.search = new URLSearchParams(params).toString();
+        
+        // show progress bar dialog
         this.activatePb = true;
 
-        /* send POST request
-        fetch(url, options)
-            .then(res => res.text()) // use res.json() if returned a json from request
-            .then(res => this.fireEvent(userText, JSON.parse(res)))
-            .catch(err => this.showError(err));
-            */
-        
         // send GET request
-        fetch(req)
-            .then(res => res.json()) // res.text(), use res.json() if returned a json from request
-            .then(res => this.fireEvent(userText, res))//JSON.parse(res)))
+        fetch(this.url).then(res => res.json())
+            .then(res => this.fireEvent(res)) 
             .catch(err => this.showError(err));
+    }
 
+    // call the flask interface for receiving baseterm suggestions
+    predictBt(model) {
+
+        // url params 
+        const params = {
+            'text': this.freeText,
+            'model': model
+        };
+
+        // set params in url
+        this.url.search = new URLSearchParams(params).toString();
+
+        // send GET request
+        fetch(this.url).then(res => res.json())
+            .then(res => {
+                console.log(res);
+                return res;
+            }) //this.fireEvent(userText, res))
+            .catch(err => this.showError(err));
+    }
+
+    // call the flask interface for receiving facets suggestions
+    predictFcs(model) {
+
+        // url params 
+        const params = {
+            'text': this.freeText,
+            'model': model
+        };
+
+        // set params in url
+        this.url.search = new URLSearchParams(params).toString();
+
+        // send GET request
+        fetch(this.url).then(res => {
+                // pass the returned data to next then block
+                return res.json();
+            }).then(data => {
+                console.log(data);
+                // loop through active facet categories
+                data['ifFacet'].forEach(item => {
+                    // item[0]=facet category name
+                    // item[1]=facet category accuracy
+                    // url params 
+                    const params = {
+                        'text': this.freeText,
+                        'model': item[0]
+                    };
+
+                    // set params in url
+                    url.search = new URLSearchParams(params).toString();
+                    console.log
+                    return fetch(url);
+                });
+            }) //this.fireEvent(userText, res))
+            .then(res => console.log(res.json()))
+            .catch(err => this.showError(err));
     }
 
     // check if the key pressed is "enter"
     handleKeyPress(event) {
         if (event.value !== '') {
             if (event.key === 'Enter') {
-                this.getBaseterms();
+                this.getCode();
             }
         }
     }
 }
 
-customElements.define("wc-body-analyser", WcBodyAnalyse)
+customElements.define("wc-body-analyser", WcBodyAnalyser)
