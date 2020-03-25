@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: openefsafoodexwebcomponentfrontend 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: openefsafoodexwebcomponentfrontend 
+    spec:
+      containers:
+        - name: openefsafoodexwebcomponentfrontend 
+          image: efsadsreg.azurecr.io/openefsafoodexwebcomponentfrontend
+          ports:
+          - containerPort: 8081
