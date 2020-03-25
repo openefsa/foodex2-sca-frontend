@@ -14,7 +14,8 @@
         "@material/mwc-top-app-bar-fixed": "^0.13.0",
         "@material/top-app-bar": "^5.1.0",
         "@webcomponents/webcomponentsjs": "^2.4.0",
-        "lit-element": "^2.2.1"
+        "lit-element": "^2.3.1",
+        "polymer-cli": "^1.9.11"
     },
     "repository": {
         "type": "git",
