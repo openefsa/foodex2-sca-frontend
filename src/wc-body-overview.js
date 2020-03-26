@@ -87,7 +87,7 @@ export class WcBodyOverview extends LitElement {
         tag.innerHTML = term.name;
         // append the inner label to the tag
         var innerTag = document.createElement('inner-' + type);
-        innerTag.innerHTML = (type === "bt") ? type : term.cat;
+        innerTag.innerHTML = (type === "bt") ? type.toUpperCase() : term.cat;
         tag.appendChild(innerTag);
         // append main tag to overview field
         tagInput.appendChild(tag);
