@@ -48,7 +48,8 @@ export class WcBodyFeedback extends LitElement {
                 <mwc-dialog id="${this.dialogId}">
                     <div>Feedback section</div>
                     <div>
-                        <mwc-textfield value="${this.text}" label="Term description" helper="Please provide a concise and precise description of the food/feed."></mwc-textfield>
+                        <mwc-textfield value="${this.text}" label="Term description 1" helper="Please provide a concise and precise description of the food/feed."></mwc-textfield>
+                        <mwc-textfield value="" label="Term description 2 (Optional)" helper="Please provide a concise and precise description of the food/feed."></mwc-textfield>
                     </div>
                     <div>
                         <mwc-textfield label="FoodEx2 Code" helper="Please provide the exact FoodEx2 code for the given description."></mwc-textfield>
