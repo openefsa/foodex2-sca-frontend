@@ -18,7 +18,7 @@ class Facet {
     constructor(name, code, acc, cat) {
         this.name = name;
         this.code = code;
-        this.acc = acc.toFixed(4);
+        this.acc = acc.toFixed(2);
         this.cat = cat;
     }
 }
@@ -27,7 +27,7 @@ class Facet {
 Facet.prototype.toString = function toString() {
     var ret = 'Name: ' + this.name +
         '\nCode: ' + this.code +
-        '\nAccuracy: ' + this.acc +
+        '\nAccuracy: ' + this.acc + '%' +
         '\nCategory: ' + this.cat;
     return ret;
 }
@@ -79,7 +79,7 @@ export class WcBoodyFacetsViewer extends LitElement {
                     <select id="${this.catFieldId}" @change="${this.onCategorySelection}">
                         ${(this.categories)
                             ?(Object.entries(this.categories).map(([k, v]) => 
-                                html`<option value=${k} @click="${(e) => this.onCategorySelection(e)}">${v.name}</option>`))
+                                html`<option value=${k} @click="${(e) => this.onCategorySelection(e)}">${v.name} (${k})</option>`))
                             :( html`<option>None</option>`)}
                     </select>
                     <div id="${this.fcsFieldId}" class="scroll_container"></div>
@@ -129,7 +129,7 @@ export class WcBoodyFacetsViewer extends LitElement {
         // get obj of selected category
         var cat = this.categories[key];
         // map each facet for the selected category
-        this.facets = Object.entries(cat.facets).map(([k, v]) => new Facet(v.name, k, v.acc, key));
+        this.facets = Object.entries(cat.facets).map(([k, v]) => new Facet(v.name, k, v.acc*100, key));
         // update the selected category
         this.selectedCat = cat;
 

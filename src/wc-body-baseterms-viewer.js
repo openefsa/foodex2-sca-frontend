@@ -18,7 +18,7 @@ class Term {
 Term.prototype.toString = function toString() {
     var ret = 'Name: ' + this.name + 
             '\nCode: ' + this.code + 
-            '\nAccuracy: ' + this.acc.toFixed(4);
+            '\nAccuracy: ' + this.acc.toFixed(2) + '%';
     return ret;
 }
 
@@ -56,7 +56,7 @@ export class WcBodyBasetermsViewer extends LitElement {
     shouldUpdate(changedProperties) {
 
         var newBaseterms = changedProperties.has('baseterms');
-
+        
         // if new baseterms list update field
         if (newBaseterms)
             this.populateBaseterms();
@@ -78,7 +78,8 @@ export class WcBodyBasetermsViewer extends LitElement {
         tagInput.innerHTML = null;
 
         // map each baseterm
-        var results = Object.entries(this.baseterms).map(([key, value]) => new Term(value.name, key, value.acc));
+        var results = Object.entries(this.baseterms).map(([key, value]) => new Term(value.name, key, value.acc*100));
+
         // flag for auto-selecting first term
         var flag = true;
 
