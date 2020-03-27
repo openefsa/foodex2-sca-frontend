@@ -23,6 +23,9 @@ export class WcHeaderSettings extends LitElement {
             },
             language: {
                 type: String
+            },
+            minAccuracy: {
+                type: Number
             }
         }
     }
@@ -31,6 +34,7 @@ export class WcHeaderSettings extends LitElement {
         super();
         this.dialogId = "dialog";
         this.language = "En";
+        this.minAccuracy = 0;
     }
 
     render() {
@@ -45,12 +49,11 @@ export class WcHeaderSettings extends LitElement {
                     <div>
                         <mwc-select>
                             <mwc-list-item selected value="EN">English</mwc-list-item>
-                            <mwc-list-item value="IT">Italian</mwc-list-item>
                         </mwc-select>
                     </div>
                     <div>Threshold results</div>
                     <div>
-                        <mwc-slider id="resFilter" pin markers max="10" step="1" @change="${(e)=>this.updateTreashold(e)}"></mwc-slider>
+                        <mwc-slider id="resFilter" pin markers min="0" max="100" step="1" @change="${(e)=>this.updateTreashold(e)}"></mwc-slider>
                     </div>
                     <div>Auto selection mode</div>
                     <div>
@@ -66,8 +69,13 @@ export class WcHeaderSettings extends LitElement {
     updateTreashold(e) {
         // get the dialog
         var slider = this.shadowRoot.getElementById("resFilter");
-        
-        slider.value;
+        // update the minimum accuracy
+        this.minAccuracy = slider.value;
+    }
+
+    // return the minimum accuracy set by the user
+    getMinAccuracy(){
+        return this.minAccuracy;
     }
 
     show() {
