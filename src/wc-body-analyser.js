@@ -33,8 +33,11 @@ export class WcBodyAnalyser extends LitElement {
         this.activatePb = false;
         this.freeText = '';
         // create the url to which make request
+<<<<<<< HEAD
         // this.url = new URL('http://127.0.0.1:5000/predictAll');
         // only debugging purpose
+=======
+>>>>>>> 9689fa4c89939bad67cacf88c0e584f605f54636
         this.url = new URL('http://51.124.148.195:5000/predictAll');
     }
 
