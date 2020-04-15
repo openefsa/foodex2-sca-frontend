@@ -8,7 +8,7 @@ class Category {
     constructor(name, code, acc) {
         this.name = name;
         this.code = code;
-        this.acc = acc.toFixed(4);
+        this.acc = acc;
     }
 }
 
@@ -16,7 +16,7 @@ class Facet {
     constructor(name, code, acc, cat) {
         this.name = name;
         this.code = code;
-        this.acc = acc.toFixed(2);
+        this.acc = acc;
         this.cat = cat;
     }
 }
@@ -25,7 +25,7 @@ class Facet {
     Facet.prototype.toString = function toString() {
     var ret = 'Name: ' + this.name +
     '\nCode: ' + this.code +
-    '\nAccuracy: ' + this.acc + '%' +
+    '\nAccuracy: ' + this.acc.toFixed(2) + '%' +
     '\nCategory: ' + this.cat;
     return ret;
 }
@@ -156,8 +156,8 @@ class WcFacetsViewer extends LitElement {
             // clean already selected facets
             this.selectedFcs = new Array();
             this.onCategorySelection();
-            this.updateThreshold();
-            //this.autoSelectFacets();
+            // this.updateThreshold();
+            // this.autoSelectFacets();
             this.populateFacets();
         }
 
