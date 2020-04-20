@@ -87,7 +87,7 @@ class SettingsPage extends LitElement {
                 </paper-dropdown-menu-light>
 
                 <div>Threshold results</div>
-                <paper-slider pin min="0" max="1" step="0.1" value="${this.acc}" @change="${(e) => this.updateValue(1, e.target.value)}"></paper-slider>
+                <paper-slider pin min="0" max="1" step="0.01" value="${this.acc}" @change="${(e) => this.updateValue(1, e.target.value)}"></paper-slider>
 
                 <div>Auto selection mode</div>
                 <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(2, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.autoSel === "true") ? true : false}>
@@ -112,11 +112,6 @@ class SettingsPage extends LitElement {
         }
     }
 
-    // return the minimum accuracy set by the user
-    getMinAccuracy() {
-        return this.minAccuracy;
-    }
-
     /* Save the new selected setting */
     updateValue(i, val) {
 
@@ -132,6 +127,11 @@ class SettingsPage extends LitElement {
         } else {
             console.log("Sorry, your browser does not support Web Storage...");
         }
+    }
+
+    /* get the minimum accuracy to satisfy */
+    getMinAccuracy() {
+        return this.acc;
     }
 }
 
