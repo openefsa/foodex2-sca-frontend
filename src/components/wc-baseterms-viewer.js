@@ -16,7 +16,7 @@ class Term {
 Term.prototype.toString = function toString() {
     var ret = 'Name: ' + this.name + 
             '\nCode: ' + this.code + 
-            '\nAccuracy: ' + this.acc.toFixed(2) + '%';
+            '\nAccuracy: ' + this.acc.toFixed(2);
     return ret;
 }
 
@@ -133,7 +133,7 @@ class WcBasetermsViewer extends LitElement {
         tagInput.innerHTML = null;
 
         // map each baseterm
-        var results = Object.entries(this.baseterms).map(([key, value]) => new Term(value.name, key, value.acc*100));
+        var results = Object.entries(this.baseterms).map(([key, value]) => new Term(value.name, key, value.acc));
 
         // flag for auto-selecting first term
         var flag = true;

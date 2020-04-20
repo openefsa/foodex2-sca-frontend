@@ -25,7 +25,7 @@ class Facet {
     Facet.prototype.toString = function toString() {
     var ret = 'Name: ' + this.name +
     '\nCode: ' + this.code +
-    '\nAccuracy: ' + this.acc.toFixed(2) + '%' +
+    '\nAccuracy: ' + this.acc.toFixed(2)+
     '\nCategory: ' + this.cat;
     return ret;
 }
@@ -185,7 +185,7 @@ class WcFacetsViewer extends LitElement {
         // get obj of selected category
         var cat = this.categories[key];
         // map each facet for the selected category
-        this.facets = Object.entries(cat.facets).map(([k, v]) => new Facet(v.name, k, v.acc * 100, key));
+        this.facets = Object.entries(cat.facets).map(([k, v]) => new Facet(v.name, k, v.acc, key));
         // update the selected category
         this.selectedCat = cat;
 
