@@ -9,7 +9,11 @@ import '@polymer/paper-input/paper-input.js';
 class LoginPage extends LitElement {
 
     static get properties() {
-        return {}
+        return {
+            logedin: {
+                type: Boolean
+            }
+        }
     }
 
     static get styles() {
@@ -21,15 +25,13 @@ class LoginPage extends LitElement {
             align-items: center;
             justify-content: stretch; 
             height: 100%;
-        }
-
-        .flex-container > * {
-            margin: 5px;
-            padding: 5px;
+            margin: 10px;
+            padding: 10px;
         }
 
         paper-input {
-            width: 500px;
+            width:100%;
+            max-width: 600px;
         }
 
         paper-button {
@@ -46,20 +48,30 @@ class LoginPage extends LitElement {
 
     constructor() {
         super();
+        this.logedin = false;
     }
 
     render() {
-
         return html`
-        <div class="flex-container">
-            <paper-input label="Email"></paper-input>
-            <paper-input label="OpenAPI Token" type="password"></paper-input>
-            <a href="https://openapi-portal.efsa.europa.eu/" target="_blank">Sign Up</a>
-            <paper-button raised>Login</paper-button>
-        </div>
+        <form id="form" is="iron-form" class="flex-container">
+            <paper-input type="text" label="Username" required auto-validate error-message="Username missing"></paper-input>
+            <paper-input type="email" label="Email" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required auto-validate error-message="Email not valid"></paper-input>
+            <paper-input type="password" label="Password" required auto-validate error-message="Please provide a password"></paper-input>
+            <paper-button raised @click="${this.login}">Login</paper-button>
+        </form>
+        
         `
     }
 
+    /* method used for performing login (limited users) */
+    login() {
+
+    }
+
+    /* method used for performing logout */
+    logout() {
+
+    }
 }
 
 customElements.define('login-page', LoginPage)
