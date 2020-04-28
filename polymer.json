@@ -1,6 +1,6 @@
 {
-    "shell": "src/main-application.js",
-    "entrypoint": "index.html",
+    "shell": "src/main.js",
+    "entrypoint": "src/index.html",
     "fragments": [
         "src/views/home-page.js",
         "src/views/settings-page.js",
