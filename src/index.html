@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>FoodEx2 SCA</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/png" href="./icons/FE2.jpg" />
+    <meta name="theme-color" content="#18A592" />
+    <meta name="description" content="FoodEx2 Smart Coding Application." />
+
+    <!-- Load polyfills -->
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" defer></script>
+    <!-- load jquery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- load google material icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <script type="module">
+        window.WebComponents = window.WebComponents || {
+            waitFor(cb) { addEventListener('WebComponentsReady', cb) }
+        }
+        WebComponents.waitFor(async () => {
+            import('./src/main.js')
+            import('./src/views/home-page.js')
+            import('./src/views/settings-page.js')
+            import('./src/views/about-page.js')
+            import('./src/views/login-page.js')
+            import('./src/components/wc-input-field.js')
+            import('./src/components/wc-baseterms-viewer.js')
+            import('./src/components/wc-facets-viewer.js')
+            import('./src/components/wc-overview.js')
+            import('./src/components/wc-code-viewer.js')
+            import('./src/components/wc-feedback-dialog.js')
+            import('./src/components/wc-progress-bar.js')
+        })
+    </script>
+    <script src="node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+</head>
+
+<body>
+    <main-app>
+        Loading...
+    </main-app>
+</body>
+
+</html>
