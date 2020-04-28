@@ -101,7 +101,7 @@ export class WcFeedbackDialog extends LitElement {
                 </paper-dialog-scrollable>
                 <div class="buttons">
                     <paper-button dialog-dismiss>Cancel</paper-button>
-                    <paper-button raised dialog-confirm autofocus>Accept</paper-button>
+                    <paper-button raised dialog-confirm>Accept</paper-button>
                 </div>
             </paper-dialog>
             
