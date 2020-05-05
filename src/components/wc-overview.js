@@ -1,3 +1,22 @@
+/*
+ * *********************************************************************
+ * |                                                                    
+ * | File: \src\components\wc-overview.js
+ * | Project: foodex2-smart-coding-app-frontend
+ * | Created Date: Thursday, April 2nd 2020, 5:34:06 pm
+ * | Author: Alban Shahaj (shahaal)
+ * | Email: data.collection@efsa.europa.eu
+ * | -----------------------------------------------------------------  
+ * | Last Modified: 2nd April 2020
+ * | Modified By: Alban Shahaj (shahaal)
+ * | -----------------------------------------------------------------  
+ * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * |                                                                    
+ * *********************************************************************
+ */
+
+
+
 import {
     LitElement,
     html,
