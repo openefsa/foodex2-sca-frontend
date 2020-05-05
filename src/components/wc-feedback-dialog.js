@@ -1,3 +1,22 @@
+/*
+ * *********************************************************************
+ * |                                                                    
+ * | File: \src\components\wc-feedback-dialog.js
+ * | Project: foodex2-smart-coding-app-frontend
+ * | Created Date: Tuesday, April 7th 2020, 9:49:30 am
+ * | Author: Alban Shahaj (shahaal)
+ * | Email: data.collection@efsa.europa.eu
+ * | -----------------------------------------------------------------  
+ * | Last Modified: 7th April 2020
+ * | Modified By: Alban Shahaj (shahaal)
+ * | -----------------------------------------------------------------  
+ * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * |                                                                    
+ * *********************************************************************
+ */
+
+
+
 import {
     LitElement,
     html,
@@ -5,10 +24,10 @@ import {
 } from 'lit-element';
 
 import '@polymer/iron-icons/iron-icons.js';
-import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-fab/paper-fab.js';
 import '@polymer/paper-dialog/paper-dialog.js';
-import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '@polymer/paper-input/paper-input.js';
+import '@polymer/iron-form/iron-form.js';
 
 export class WcFeedbackDialog extends LitElement {
 
@@ -20,11 +39,12 @@ export class WcFeedbackDialog extends LitElement {
             dialog: {
                 type: String
             },
-            text: {
+            dftDesc: {
+
                 type: String
             },
-            phText: {
-                type: String
+            url: {
+                type: URL
             }
         }
     }
@@ -41,22 +61,10 @@ export class WcFeedbackDialog extends LitElement {
 
         .flex-container > .flex-item {
             flex: 1;
-            text-align: right;
         }
 
         .flex-container > .col-item {
             width: auto;
-        }
-
-        .container {
-            margin: 10px;
-            padding: 10px;
-            border: 2px gray;
-            border-radius: 5px;
-        }
-
-        paper-input {
-            min-width: 500px;
         }
 
         .buttons > paper-button {
@@ -71,7 +79,32 @@ export class WcFeedbackDialog extends LitElement {
 
         paper-fab {    
             --paper-fab-background: #2196F3;
-         }
+        }
+
+        paper-dialog {
+            max-height: 400px;
+            min-width: 500px;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        table {
+            border: 1px solid black;
+            width: 100%;
+            height: 100%;
+        }
+
+        th,
+        td {
+            border: solid 1px;
+            text-align: center;
+        }
+
+        td > input {
+            width: 100%;
+            border:none;
+        }
 
         `;
     }
@@ -80,11 +113,15 @@ export class WcFeedbackDialog extends LitElement {
         super();
         this.feedback = "feedback";
         this.dialog = "dialog";
-        this.text = "";
-        this.phText = "Enter a description appropriate to the foodex2 code to suggest";
+        this.dftDesc = "";
+        // create the url to which post feedbacks
+        this.url = new URL('http://51.124.148.195:5000/sendFeedback');
+        // regex pattern used for validating foodex2 code
+        this.pattern = "\\w{5}|\\w{5}((?=\#?)(\#\\w{3}\.\\w{5})|(\#\\w{3}\.\\w{5}((?=\\$?)(\\$\\w{3}\\.\\w{5})+)))";
     }
 
     render() {
+
         return html`
 
             <div id="${this.feedback}" class="flex-container">
@@ -92,17 +129,24 @@ export class WcFeedbackDialog extends LitElement {
                 <paper-fab mini class="col-item" icon="feedback" title="Send feedback" @click="${this.open}"></paper-fab>
             </div>
             
-            <paper-dialog id="${this.dialog}" class="container" no-cancel-on-outside-click>
-                <h2>Feedback section</h2>
-                <paper-dialog-scrollable>
-                    <paper-input label="Food Description 1" always-float-label placeholder="${this.phText}" value="${this.text}"></paper-input>
-                    <paper-input label="Food Description 2 (optional)" always-float-label placeholder="${this.phText}"></paper-input>
-                    <paper-input label="FoodEx2 Code"></paper-input>
-                </paper-dialog-scrollable>
-                <div class="buttons">
-                    <paper-button dialog-dismiss>Cancel</paper-button>
-                    <paper-button raised dialog-confirm>Accept</paper-button>
-                </div>
+            <paper-dialog id="${this.dialog}" no-cancel-on-outside-click>
+                
+                    <h2>Feedback section</h2>
+                    
+                    
+                    <iron-form id="form">
+                        <form>
+                            <paper-input type="text" label="Food Description" value="${this.dftDesc}" required auto-validate error-message="Username missing"></paper-input>
+                            <paper-input type="text" label="FoodEx2 Code" pattern="^${this.pattern}" required auto-validate error-message="FoodEx2 code not valid"></paper-input>        
+                        </form>
+                    </iron-form>
+                    
+                    <div class="buttons">
+                        <paper-button @click="${this.resetForm}">Reset</paper-button>
+                        <paper-button dialog-dismiss>Cancel</paper-button>
+                        <paper-button raised dialog-confirm @click="${this.sendFeedback}">Accept</paper-button>
+                    </div>
+                    
             </paper-dialog>
             
         `
@@ -116,11 +160,49 @@ export class WcFeedbackDialog extends LitElement {
         dialog.open();
     }
 
+    /* Reset form containing paper-input elements */
+    resetForm() {
+        console.log("ciao");
+        this.shadowRoot.getElementById("form").reset();
+    }
+
     /* enable feedback modal dialog only if the user is enabled to */
     enableFeedback(flag) {
         let displayStyle = flag ? "block" : "none";
         this.shadowRoot.getElementById(this.feedback).style.display = displayStyle;
     }
+
+    /* send feedback to backend */
+    sendFeedback() {
+        // get values from cells in feedback table
+        var val = this.getCellValues();
+        // if no object returned alert user
+        if (!val || !val.length) {
+            alert("The fields cannot be empty.");
+            return;
+        }
+        // stringify the data
+        var data = JSON.stringify(val);
+        // ask reconfirmation to user
+        var choice = confirm(data);
+        // if accept than post data
+        if (choice) {
+            fetch(this.url, {
+                method: 'POST', // or 'PUT'
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: data,
+            }).then(res => res.json()
+            ).then(data => {
+                alert('Success:', data);
+            }).catch((err) => {
+                alert('Error:', err);
+            });
+        }
+    }
+
 }
 
 customElements.define("wc-feedback-dialog", WcFeedbackDialog)
