@@ -1,3 +1,22 @@
+/*
+ * *********************************************************************
+ * |                                                                    
+ * | File: \src\components\wc-code-viewer.js
+ * | Project: foodex2-smart-coding-app-frontend
+ * | Created Date: Friday, April 3rd 2020, 12:44:30 pm
+ * | Author: Alban Shahaj (shahaal)
+ * | Email: data.collection@efsa.europa.eu
+ * | -----------------------------------------------------------------  
+ * | Last Modified: 3rd April 2020
+ * | Modified By: Alban Shahaj (shahaal)
+ * | -----------------------------------------------------------------  
+ * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * |                                                                    
+ * *********************************************************************
+ */
+
+
+
 import {
     LitElement,
     html,
@@ -76,8 +95,7 @@ class WcCodeViewer extends LitElement {
         return html`
             <div>FoodEx2 Code</div>
             <div id="codeViewer">${this.code}</div>
-            
-            `
+        `
     }
 
     // update div ui in specific properties change
