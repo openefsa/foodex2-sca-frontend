@@ -1,3 +1,22 @@
+/*
+ * *********************************************************************
+ * |                                                                    
+ * | File: \src\views\home-page.js
+ * | Project: foodex2-smart-coding-app-frontend
+ * | Created Date: Thursday, April 2nd 2020, 4:46:19 pm
+ * | Author: Alban Shahaj (shahaal)
+ * | Email: data.collection@efsa.europa.eu
+ * | -----------------------------------------------------------------  
+ * | Last Modified: 2nd April 2020
+ * | Modified By: Alban Shahaj (shahaal)
+ * | -----------------------------------------------------------------  
+ * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * |                                                                    
+ * *********************************************************************
+ */
+
+
+
 import {
   LitElement,
   html,
@@ -83,7 +102,7 @@ export class HomePage extends LitElement {
         <wc-code-viewer class="raw-item" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></wc-code-viewer>
       
         <!-- component for manual classification (if requested) -->
-        <wc-feedback-dialog class="raw-item" .text="${this.text}"></wc-feedback-dialog>
+        <wc-feedback-dialog class="raw-item" .dftDesc="${this.text}"></wc-feedback-dialog>
       
       </div>
       `
