@@ -25,6 +25,7 @@ import {
 
 import '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 
+import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-header-layout/app-header-layout.js';
@@ -42,7 +43,8 @@ class MainApp extends LitElement {
     static get properties() {
         return {
             router: { type: Object },
-            route: { type: Object }
+            route: { type: Object },
+            loggedIn: { type: Boolean}
         }
     }
 
@@ -101,7 +103,7 @@ class MainApp extends LitElement {
 
     constructor() {
         super();
-
+        this.loggedIn = false;
         this.router = new Navigo("/", true, "#")
 
         this.router.on("home", () => {
@@ -169,7 +171,7 @@ class MainApp extends LitElement {
                         <app-toolbar>
                             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                                 <div main-title>FoodEx2 Smart Coding App</div>
-                            <paper-icon-button icon="home" @click="${() => this.router.navigate("/home")}"></paper-icon-button>
+                            <paper-icon-button icon="home" @click="${() => this.router.navigate("#/home")}"></paper-icon-button>
                         </app-toolbar>
 
                         <!-- bottom toolbar -->
@@ -178,10 +180,10 @@ class MainApp extends LitElement {
                     <!-- body -->
                     <!-- list/detail pages -->
                     <iron-pages selected="${this.route}" attr-for-selected="name">
-                        <home-page name="home"></home-page>
+                        <home-page name="home" .loggedIn="${this.loggedIn}"></home-page>
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
-                        <login-page name="login"></login-page>
+                        <login-page name="login" @userStatus="${(e) => this.loggedIn=e.detail.loggedIn}"></login-page>
                     </iron-pages>
 
                     <!-- footer -->
