@@ -41,6 +41,9 @@ export class HomePage extends LitElement {
       },
       text: {
         type: String
+      },
+      loggedIn: {
+        type: Boolean
       }
     }
   }
@@ -74,11 +77,13 @@ export class HomePage extends LitElement {
 
   constructor() {
     super();
+    this.loggedIn = false;
     this.baseterms = null;
     this.facets = null;
     this.selectedBt = null;
     this.selectedFcs = new Array();
     this.text = "";
+    
   }
 
   render() {
@@ -101,9 +106,12 @@ export class HomePage extends LitElement {
         <!-- component for showing the foodex2 code -->
         <wc-code-viewer class="raw-item" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></wc-code-viewer>
       
-        <!-- component for manual classification (if requested) -->
-        <wc-feedback-dialog class="raw-item" .dftDesc="${this.text}"></wc-feedback-dialog>
-      
+        ${this.loggedIn
+        ? html`
+            <!-- component for activating feedback section -->
+            <wc-feedback-dialog class="raw-item" .dftDesc="${this.text}"></wc-feedback-dialog>
+          `
+        : ``}
       </div>
       `
   }
