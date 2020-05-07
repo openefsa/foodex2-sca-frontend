@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\components\wc-feedback-dialog.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Tuesday, April 7th 2020, 9:49:30 am
+ * | Created Date: 7th April 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 7th April 2020
+ * | Last Modified: Tuesday, April 7th 2020, 9:49:30 am
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -114,7 +114,7 @@ export class WcFeedbackDialog extends LitElement {
         this.feedback = "feedback";
         this.dialog = "dialog";
         this.dftDesc = "";
-        // create the url to which post feedbacks
+        // url to which post feedbacks
         this.url = new URL('http://51.124.148.195:5000/sendFeedback');
         // regex pattern used for validating foodex2 code
         this.pattern = "\\w{5}|\\w{5}((?=\#?)(\#\\w{3}\.\\w{5})|(\#\\w{3}\.\\w{5}((?=\\$?)(\\$\\w{3}\\.\\w{5})+)))";
@@ -133,11 +133,10 @@ export class WcFeedbackDialog extends LitElement {
                 
                     <h2>Feedback section</h2>
                     
-                    
-                    <iron-form id="form">
+                    <iron-form id="iron-form">
                         <form>
-                            <paper-input type="text" label="Food Description" value="${this.dftDesc}" required auto-validate error-message="Username missing"></paper-input>
-                            <paper-input type="text" label="FoodEx2 Code" pattern="^${this.pattern}" required auto-validate error-message="FoodEx2 code not valid"></paper-input>        
+                            <paper-input type="text" name="desc" label="Food Description" value="${this.dftDesc}" required auto-validate error-message="Username missing"></paper-input>
+                            <paper-input type="text" name="code" label="FoodEx2 Code" pattern="^${this.pattern}" required auto-validate error-message="FoodEx2 code not valid"></paper-input>          
                         </form>
                     </iron-form>
                     
@@ -162,8 +161,7 @@ export class WcFeedbackDialog extends LitElement {
 
     /* Reset form containing paper-input elements */
     resetForm() {
-        console.log("ciao");
-        this.shadowRoot.getElementById("form").reset();
+        this.shadowRoot.getElementById("iron-form").reset();
     }
 
     /* enable feedback modal dialog only if the user is enabled to */
@@ -174,17 +172,27 @@ export class WcFeedbackDialog extends LitElement {
 
     /* send feedback to backend */
     sendFeedback() {
-        // get values from cells in feedback table
-        var val = this.getCellValues();
-        // if no object returned alert user
-        if (!val || !val.length) {
+        // get user from local storage
+        const username = JSON.parse(localStorage.getItem("user")).usr;
+
+        // get form item
+        const form = this.shadowRoot.getElementById("iron-form");
+
+        // if the form contains not valid values
+        if (!form.validate()) {
             alert("The fields cannot be empty.");
             return;
         }
-        // stringify the data
-        var data = JSON.stringify(val);
+
+        // add username to data to post
+        var data = {}
+        data[username] = form.serializeForm();
+        // jsonify the object
+        var data = JSON.stringify(data);
+
         // ask reconfirmation to user
         var choice = confirm(data);
+
         // if accept than post data
         if (choice) {
             fetch(this.url, {
@@ -195,11 +203,8 @@ export class WcFeedbackDialog extends LitElement {
                 },
                 body: data,
             }).then(res => res.json()
-            ).then(data => {
-                alert('Success:', data);
-            }).catch((err) => {
-                alert('Error:', err);
-            });
+            ).then(data => alert('Success:', data)
+            ).catch((err) => alert('Error:', err));
         }
     }
 
