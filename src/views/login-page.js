@@ -184,11 +184,6 @@ export class LoginPage extends LitElement {
         // fire event to parent
         this.updateUser();
     }
-
-    /* get the current user */
-    getCurrentUser() {
-        return this.user;
-    }
 }
 
 customElements.define('login-page', LoginPage)
