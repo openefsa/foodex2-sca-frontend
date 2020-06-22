@@ -72,6 +72,7 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/manifests/foodex-frontend-ingress.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
