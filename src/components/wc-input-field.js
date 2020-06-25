@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\components\wc-input-field.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Thursday, April 2nd 2020, 11:51:07 am
+ * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 2nd April 2020
+ * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -87,16 +87,19 @@ class WcInputField extends LitElement {
         this.activatePb = false;
         this.freeText = '';
         // create the url to which make request
-        this.url = new URL('http://51.124.148.195:5000/predictAll');
+        //this.url = new URL('http://51.124.148.195:5000/predictAll');
+        this.url = new URL(' http://127.0.0.1:5000/predictAll');
     }
 
     render() {
         return html`
-            <div>Food Description</div>
-            <div class="flex-container">
-                <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"></input>
-                <paper-button class="col-item" @click="${this.getSuggestions}">Get Code</paper-button>
-            </div>
+            <label>
+                Food Description
+                <div class="flex-container">
+                    <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"></input>
+                    <paper-button class="col-item" @click="${this.getSuggestions}">Get Code</paper-button>
+                </div>
+            </label>
             <wc-progress-bar .activate="${this.activatePb}"></wc-progress-bar>
         `
     }
@@ -139,7 +142,8 @@ class WcInputField extends LitElement {
 
         // url params 
         const params = {
-            'text': this.freeText
+            'text': this.freeText,
+            'threshold': localStorage.getItem('acc') / 100
         };
 
         // set params in url
