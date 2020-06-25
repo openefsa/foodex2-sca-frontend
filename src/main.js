@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\main.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Friday, April 3rd 2020, 2:34:01 pm
+ * | Created Date: 3rd April 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 3rd April 2020
+ * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -25,7 +25,7 @@ import {
 
 import '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 
-import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-header-layout/app-header-layout.js';
