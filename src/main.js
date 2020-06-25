@@ -103,7 +103,7 @@ class MainApp extends LitElement {
 
     constructor() {
         super();
-        this.loggedIn = false;
+        this.loggedIn = true;
         this.router = new Navigo("/", true, "#")
 
         this.router.on("home", () => {
@@ -113,7 +113,8 @@ class MainApp extends LitElement {
         }).on("about", () => {
             this.route = 'about'
         }).on("login", () => {
-            this.route = 'login'
+            //this.route = 'login'
+            this.router.navigate('/home');
         }).on('*', () => {
             this.router.navigate('/home');
         }).resolve();
@@ -153,7 +154,7 @@ class MainApp extends LitElement {
                                 <iron-icon icon="info"></iron-icon>
                                 <a href="#/about" drawer-toggle>About</a>
                             </paper-item>
-                            <paper-item name="login">
+                            <paper-item name="login" disabled>
                                 <iron-icon icon="input"></iron-icon>
                                 <a href="#/login" drawer-toggle>Login</a>
                             </paper-item>
