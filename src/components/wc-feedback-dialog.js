@@ -7,7 +7,7 @@
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: Tuesday, April 7th 2020, 9:49:30 am
+ * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -23,10 +23,12 @@ import {
     css
 } from 'lit-element';
 
-import '@polymer/iron-icons/iron-icons.js';
+import config from "../../config.js"
+
 import '@polymer/paper-fab/paper-fab.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/paper-input/paper-input.js';
+import '@polymer/paper-button/paper-button.js';
 import '@polymer/iron-form/iron-form.js';
 
 export class WcFeedbackDialog extends LitElement {
@@ -115,7 +117,8 @@ export class WcFeedbackDialog extends LitElement {
         this.dialog = "dialog";
         this.dftDesc = "";
         // url to which post feedbacks
-        this.url = new URL('http://51.124.148.195:5000/sendFeedback');
+        // this.url = new URL('http://51.124.148.195:5000/feedback');
+        this.url = new URL('http://127.0.0.1:5000/postFeedback');
         // regex pattern used for validating foodex2 code
         this.pattern = "\\w{5}|\\w{5}((?=\#?)(\#\\w{3}\.\\w{5})|(\#\\w{3}\.\\w{5}((?=\\$?)(\\$\\w{3}\\.\\w{5})+)))";
     }
@@ -125,7 +128,7 @@ export class WcFeedbackDialog extends LitElement {
         return html`
 
             <div id="${this.feedback}" class="flex-container">
-                <div class="flex-item">If you have not find the correct FoodEx2 Code than please codify it manually and help us to improve &rarr; </div>
+                <div class="flex-item">Help us to improve &rarr; </div>
                 <paper-fab mini class="col-item" icon="feedback" title="Send feedback" @click="${this.open}"></paper-fab>
             </div>
             
@@ -172,9 +175,6 @@ export class WcFeedbackDialog extends LitElement {
 
     /* send feedback to backend */
     sendFeedback() {
-        // get user from local storage
-        const username = JSON.parse(localStorage.getItem("user")).usr;
-
         // get form item
         const form = this.shadowRoot.getElementById("iron-form");
 
@@ -184,26 +184,24 @@ export class WcFeedbackDialog extends LitElement {
             return;
         }
 
-        // add username to data to post
-        var data = {}
-        data[username] = form.serializeForm();
-        // jsonify the object
-        var data = JSON.stringify(data);
+        // add form and username to data to post
+        var data = JSON.stringify(form.serializeForm());
 
         // ask reconfirmation to user
-        var choice = confirm(data);
-
+        var choice = confirm("Please confirm the data before submitting: \n" + data);
+        
         // if accept than post data
         if (choice) {
             fetch(this.url, {
                 method: 'POST', // or 'PUT'
-                mode: 'no-cors',
                 headers: {
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'x-access-token': config["SECRET_KEY"]
                 },
                 body: data,
             }).then(res => res.json()
-            ).then(data => alert('Success:', data)
+            ).then(res => alert(res.message)
             ).catch((err) => alert('Error:', err));
         }
     }
