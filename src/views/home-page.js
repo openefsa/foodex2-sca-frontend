@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\views\home-page.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Thursday, April 2nd 2020, 4:46:19 pm
+ * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 2nd April 2020
+ * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -36,7 +36,7 @@ export class HomePage extends LitElement {
       baseterms: {
         type: Object
       },
-      facets: {
+      facetData: {
         type: Object
       },
       text: {
@@ -79,11 +79,11 @@ export class HomePage extends LitElement {
     super();
     this.loggedIn = false;
     this.baseterms = null;
-    this.facets = null;
+    this.facetData = null;
     this.selectedBt = null;
     this.selectedFcs = new Array();
     this.text = "";
-    
+
   }
 
   render() {
@@ -97,7 +97,7 @@ export class HomePage extends LitElement {
         <wc-baseterms-viewer class="raw-item" .baseterms="${this.baseterms}" @bt="${(e) => (this.updateBaseterm(e))}"></wc-baseterms-viewer>
       
         <!-- component for showing facets -->
-        <wc-facets-viewer class="raw-item" .categories="${this.facets}" @fcs="${(e) => (this.updateFacets(e))}"></wc-facets-viewer>
+        <wc-facets-viewer class="raw-item" .data="${this.facetData}" @fcs="${(e) => (this.updateFacets(e))}"></wc-facets-viewer>
       
         <!-- component for showing overview of user interaction -->
         <wc-overview class="flex-item" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></wc-overview>
@@ -116,22 +116,53 @@ export class HomePage extends LitElement {
       `
   }
 
-  // updated the returned results
+  /**
+     * Listen for property changes
+     * @param {*} changedProperties 
+     */
+  updated(changedProperties) {
+
+    var newSelBt = changedProperties.has('selectedBt');
+    var newSelFcs = changedProperties.has('selectedFcs');
+
+    // if new data update categories and selected facets
+    if (newSelBt || newSelFcs) {
+      const index = this.selectedFcs.findIndex(f => f.code === this.selectedBt.code);
+      if (index > -1) {
+        alert("It is not possible to have the selected baseterm as facet! Please unselect the facet or change baseterm.")
+        this.selectedFcs.splice(index, 1);
+      }
+    }
+
+    return newSelBt || newSelFcs;
+  }
+
+  /**
+   * Update the properties based on the new response
+   * @param {*} event 
+   */
   updateData(event) {
     var res = event.detail.res;
     this.baseterms = res[0].baseterm;
-    this.facets = res[1].facets;
+    this.facetData = res[1].facets;
     this.text = event.detail.text;
+    this.selectedBt = null;
+    this.selectedFcs = [];
   }
 
-  // updated the selected baseterm
+  /**
+   * Update the selected baseterm
+   * @param {*} event 
+   */
   updateBaseterm(event) {
     this.selectedBt = event.detail.selectedBt;
   }
 
-  // updated the selected facets
+  /**
+   * Update the list of selected facets
+   * @param {*} event 
+   */
   updateFacets(event) {
-    // re-initilise the array in order to catch the event change
     this.selectedFcs = event.detail.selectedFcs.slice(0);
   }
 }
