@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\components\wc-facets-viewer.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Monday, April 20th 2020, 3:10:19 pm
+ * | Created Date: 20th April 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 20th April 2020
+ * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -23,30 +23,34 @@ import {
     css
 } from 'lit-element'
 
-class Category {
-    constructor(name, code, acc) {
-        this.name = name;
-        this.code = code;
-        this.acc = acc;
-    }
-}
-
 class Facet {
     constructor(name, code, acc, cat) {
         this.name = name;
         this.code = code;
-        this.acc = acc;
+        this.acc = parseFloat((acc * 100).toFixed(2));
         this.cat = cat;
     }
 }
 
-    // overrides the toString default method
-    Facet.prototype.toString = function toString() {
-    var ret = 'Name: ' + this.name +
-    '\nCode: ' + this.code +
-    '\nAccuracy: ' + this.acc.toFixed(2)+
-    '\nCategory: ' + this.cat;
-    return ret;
+class Category {
+    constructor(name, code, acc, facets) {
+        this.name = name;
+        this.code = code;
+        this.acc = parseFloat((acc * 100).toFixed(2));
+        this.facets = Object.entries(facets).map(([k, v]) =>
+            new Facet(v.name, k, v.acc, code)
+        );
+    }
+}
+
+
+// overrides the toString default method
+Facet.prototype.toString = function toString() {
+    var res = 'Name: ' + this.name +
+        '\nCode: ' + this.code +
+        '\nAccuracy: ' + this.acc + "%" +
+        '\nCategory: ' + this.cat;
+    return res;
 }
 
 class WcFacetsViewer extends LitElement {
@@ -58,22 +62,21 @@ class WcFacetsViewer extends LitElement {
             catFieldId: {
                 type: String
             },
-            categories: {
-                type: Array
-            },
-            facets: {
+            data: {
                 type: Object
             },
-            selectedCat: {
-                type: Category
-            },
-            selectedFcs: {
+            cats: {
                 type: Object
             },
-            threshold: {
+            selCat: {
+                type: Object
+            },
+            selFcs: {
+                type: Object
+            },
+            minCatAcc: {
                 type: Number
             }
-
         }
     }
 
@@ -92,7 +95,7 @@ class WcFacetsViewer extends LitElement {
             margin: 2px;
         }
 
-        .inner-fc {
+        .fc {
             font-family: Arial;
             font-size: 13px;
             width:auto;
@@ -104,9 +107,22 @@ class WcFacetsViewer extends LitElement {
             cursor: pointer;
         }
                
-        .inner-fc:hover {
+        .fc:hover {
             background: #cde69c;
             color: #1f3f2b;
+        }
+
+        .inner-tag {
+            font-family: Arial;
+            font-size: 9px;
+            width:auto;
+            background: gray;
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+            margin-left: 5px;
+            padding: 2px; 
+            cursor: pointer;
         }
 
         /* width */
@@ -141,138 +157,156 @@ class WcFacetsViewer extends LitElement {
         super();
         this.fcsFieldId = "fcsViewer";
         this.catFieldId = "catViewer";
-        this.categories = [];
-        this.facets = [];
-        this.selectedCat = null;
-        this.selectedFcs = new Array();
+        this.cats = {};
+        this.minCatAcc = 50;
     }
 
     render() {
         return html`
             <div>
-                Select facets in
-                <select id="${this.catFieldId}" @change="${this.onCategorySelection}">
-                    ${(this.categories)
-                ? (Object.entries(this.categories).map(([k, v]) =>
-                    html`<option value=${k} @click="${(e) => this.onCategorySelection(e)}">${v.name} (${k})</option>`))
-                : (html`<option>None</option>`)}
-                </select>
+                <label>Select facets in
+                    <select required id="${this.catFieldId}" @change="${this.onCategorySelection}">
+                        ${(Object.values(this.cats).length <= 0)
+                            ? html` <option>none</option>`
+                            : Object.values(this.cats).map(i => html`<option value=${i.code}>${i.code} - ${i.name} (${i.acc}%)</option>`)
+                        }
+                    </select>
+                </label>
             </div>
             <div id="${this.fcsFieldId}"></div>
             
             `
     }
 
-    // listen to properties changes
+    /**
+     * Listen for property changes
+     * @param {*} changedProperties 
+     */
     updated(changedProperties) {
 
-        var newCategories = changedProperties.has('categories');
-        var catChanged = changedProperties.has('selectedCat');
-        var fcsChanged = changedProperties.has('selectedFcs');
+        var newData = changedProperties.has('data');
+        var newCats = changedProperties.has('cats');
+        var catChanged = changedProperties.has('selCat');
+        var fcsChanged = changedProperties.has('selFcs');
 
-        // if new facets list update fields
-        if (newCategories) {
-            // clean already selected facets
-            this.selectedFcs = new Array();
+        // if new data update categories and selected facets
+        if (newData) {
+            this.populateCategories();
+            this.autoSelectFacets();
+        }
+
+        // if new list of categories than auto select first option
+        if (newCats) {
             this.onCategorySelection();
-            // this.updateThreshold();
-            // this.autoSelectFacets();
-            this.populateFacets();
         }
 
         // if facets cat changed update facets input field
-        if (catChanged)
+        if (catChanged) {
             this.populateFacets();
+        }
 
         // if selected facets changed
-        if (fcsChanged)
+        if (fcsChanged) {
             this.updatedFcs();
+        }
 
-        return newCategories || catChanged;
+        return newData || catChanged || fcsChanged;
     }
 
-    // event called when category is changed
-    onCategorySelection() {
-
-        // get the select fiedl component
-        var key = this.shadowRoot.getElementById(this.catFieldId).value;
-
-        // return if no exsisting categories or key not found
-        if (!this.categories || this.categories[key] == undefined)
+    /**
+     * method used for populating the categories and calculate an average threshold 
+     * for enabling auto selection (for each category)
+     */
+    populateCategories() {
+        // return if no categories are available
+        if (!this.data)
             return;
-
-        // get obj of selected category
-        var cat = this.categories[key];
+        // initialise the categories and facets
+        this.cats = new Object();
+        this.selFcs = new Array();
         // map each facet for the selected category
-        this.facets = Object.entries(cat.facets).map(([k, v]) => new Facet(v.name, k, v.acc, key));
-        // update the selected category
-        this.selectedCat = cat;
-
-    }
-
-    // calculate automatically the threshold for auto selecting facets (based on avg facets accuracy in relation with category accuracy)
-    updateThreshold() {
-        if (!this.facets || this.facets.length == 0)
-            return;
-
-        // get each facets accuracy as float number
-        var data = this.facets.map(f => f.acc).map(Number);
-        var avg = data.reduce((a, b) => a + b) / data.length;
-        // calculate the threshold in relation with category accuracy
-        this.threshold = avg * this.selectedCat.acc;
-        console.log(`new threshold: ${this.threshold}`);
-    }
-
-    // auto select facets with higher accuracy
-    autoSelectFacets() {
-
-        Object.entries(this.categories).forEach(([k, v]) => {
-            console.log("cat ", k);
-
-            Object.entries(v.facets).forEach(([j, y]) => {
-                var corr = v.acc * y.acc;
-                console.log("fc ", corr > this.threshold);
-
-                if (corr > this.threshold)
-                    this.selectedFcs.push(new Facet(y.name, j, y.acc, k));
-            });
-
+        Object.entries(this.data).map(([k, v]) => {
+            this.cats[k] = new Category(v.name, k, v.acc, v.facets);
         });
+    }
+
+    /**
+     * hanfle event when facet category is changed
+     */
+    onCategorySelection() {
+        // get the select field component
+        var sel = this.shadowRoot.getElementById(this.catFieldId);
+        // return if no exsisting categories or key not found
+        if (!sel || !this.cats || !sel.value) {
+            return;
+        }
+        var cat = this.cats[sel.value];
+        // get selected category
+        this.selCat = cat ? cat : null;
+    }
+
+    /**
+     * auto select facets with accuracy higher than the min one for the specific category
+     */
+    autoSelectFacets() {
+        // return if auto facet selection is disabled
+        if (localStorage.getItem('fcAutoSel') === 'true') {
+            var temp = [];
+            // iterate over facet categories
+            Object.values(this.cats).forEach(c => {
+                if (c.acc > this.minCatAcc) {
+                    // iterate facets in category
+                    Object.values(c.facets).forEach(f => {
+                        // add the facet object if accuracy higher than threshold in category
+                        if (f.acc > this.minCatAcc) {
+                            temp.push(f);
+                        }
+                    });
+                }
+            });
+            // update the selected facets
+            this.selFcs = temp;
+        }
     }
 
     // method used for populating the facets list area
     populateFacets() {
 
-        // get the select fiedl component
+        // get the select field component
         var tagInput = this.shadowRoot.getElementById(this.fcsFieldId);
-
         // if undefined return
-        if (!tagInput)
+        if (!tagInput) {
             return;
-
+        }
         // clean the content
         tagInput.innerHTML = null;
-
+        // if undefined selected food category
+        if (!this.selCat) {
+            return;
+        }
         // iterate each facet
-        this.facets.forEach(fc => {
+        this.selCat.facets.forEach(fc => {
 
             var tag = document.createElement('button');
-            tag.setAttribute('class', 'inner-fc');
+            tag.setAttribute('class', 'fc');
             tag.innerHTML = fc.name;
             tag.value = fc.code;
             // use the toString and shows the tooltip with facet information
             tag.title = fc;
 
-            //check if facet in selected facets
-            const index = this.selectedFcs.findIndex(facet => (facet.code === fc.code && facet.cat == fc.cat));
+            // append the inner label to the tag
+            var innerTag = document.createElement('tag');
+            innerTag.setAttribute('class', 'inner-tag');
+            innerTag.innerHTML = fc.acc + "%";
+            tag.appendChild(innerTag);
 
-            if (index > -1)
-                // if term already selected change background color
+            //check if facet in selected facets
+            const index = this.selFcs.findIndex(f => (f.code === fc.code && f.cat == fc.cat));
+
+            // if term already selected change background color
+            if (index > -1) {
                 tag.style.backgroundColor = "#cde69c";
-            /*else if ((fc.acc * this.selectedCat.acc) >= this.threshold) {
-                // if facet not selected but accuracy higher than threshold auto select it
-                this.selectTag(tag, fc);
-            }*/
+            }
 
             // when clicking on tag
             tag.onclick = () => {
@@ -306,22 +340,25 @@ class WcFacetsViewer extends LitElement {
 
     // method used for adding the selected facet to the list of facets to show
     addToFacets(fc) {
-        this.selectedFcs.push(fc);
+        this.selFcs.push(fc);
     }
 
     // method used for removing the selected facet from the list of facets to show
     removeFromFacets(fc) {
-        const index = this.selectedFcs.findIndex(facet => facet.code === fc.code);
-        if (index > -1)
-            this.selectedFcs.splice(index, 1);
+        const index = this.selFcs.findIndex(facet => facet.code === fc.code);
+        if (index > -1) {
+            this.selFcs.splice(index, 1);
+        }
     }
 
     // method used for updating the facets selection
     updatedFcs() {
+        if (!this.selFcs)
+            return;
         // fire event to parent
         let event = new CustomEvent('fcs', {
             detail: {
-                selectedFcs: this.selectedFcs
+                selectedFcs: this.selFcs
             }
         });
         this.dispatchEvent(event);
