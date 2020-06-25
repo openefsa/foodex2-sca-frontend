@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\views\settings-page.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Thursday, April 2nd 2020, 2:38:26 pm
+ * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 2nd April 2020
+ * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -23,14 +23,12 @@ import {
     css
 } from 'lit-element';
 
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu-light.js';
-import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-slider/paper-slider.js';
+import '@polymer/paper-item/paper-item-body.js';
+import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
-import '@polymer/paper-button/paper-button.js';
-import '@polymer/paper-icon-button/paper-icon-button-light';
-import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/paper-dropdown-menu/paper-dropdown-menu-light.js';
 
 class SettingsPage extends LitElement {
 
@@ -42,7 +40,10 @@ class SettingsPage extends LitElement {
             acc: {
                 type: Number
             },
-            autoSel: {
+            btAutoSel: {
+                type: String
+            },
+            fcAutoSel: {
                 type: String
             },
             settingsProp: {
@@ -53,67 +54,71 @@ class SettingsPage extends LitElement {
 
     static get styles() {
         return css`
-
-        .container {
-            display: grid;
-            height: 100%;
-            grid-template-columns: 50% 50%;
-            column-gap: 10px;
-            row-gap: 1em;
-            justify-items: center;
-            align-items: center;
-            margin: 10px;
+        div[role="listbox"] {
+            border: 1px solid #e5e5e5;
         }
-
-        .buttons {
-            grid-column: 2 / 2;   
-        }
-
-        .buttons > paper-button {
-            background-color: lightgray;
-            color: black;
-        }
-
-        .buttons > paper-button:hover {
-            background-color: var(--primary-color); 
-            color: white;
-        }
-
         `;
     }
 
     constructor() {
         super();
         // settings properties
-        this.settingsProp = ["lang", "acc", "autoSel"];
-        // language
-        this.lang = "en";
-        // min accuracy
-        this.acc = 0.0;
-        // auto selection
-        this.autoSel = "false";
+        this.settingsProp = ["lang", "acc", "btAutoSel", "fcAutoSel"];
+        
+        if (localStorage.getItem("lang") === null)
+            localStorage.setItem("lang", "en");
+        this.lang = localStorage.getItem('lang');
+        if (localStorage.getItem("acc") === null)
+            localStorage.setItem("acc", 5);
+        this.acc = localStorage.getItem('acc');
+        if (localStorage.getItem("btAutoSel") === null)
+            localStorage.setItem("btAutoSel", "true");
+        this.btAutoSel = localStorage.getItem('btAutoSel');
+        if (localStorage.getItem("fcAutoSel") === null)
+            localStorage.setItem("fcAutoSel", "false");
+        this.fcAutoSel = localStorage.getItem('fcAutoSel');
     }
 
     render() {
         return html`
-            <div class="container">
-                
-                <div>Main language</div>
+        <div role="listbox">
+            <paper-item>
+                <paper-item-body two-line>
+                    <div>Language</div>
+                    <div secondary>Select the language in which you want to get your FoodEx2 suggestions.</div>
+                </paper-item-body>
                 <paper-dropdown-menu-light noink no-animations>
                     <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="${this.lang}">
                         <paper-item value="en" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">English</paper-item>
                     </paper-listbox>
                 </paper-dropdown-menu-light>
-
-                <div>Threshold results</div>
-                <paper-slider pin min="0" max="1" step="0.01" value="${this.acc}" @change="${(e) => this.updateValue(1, e.target.value)}"></paper-slider>
-
-                <div>Auto selection mode</div>
-                <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(2, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.autoSel === "true") ? true : false}>
-                    ${(this.autoSel === "true") ? "Enabled" : "Disabled"}
+            </paper-item>
+            <paper-item>
+                <paper-item-body two-line>
+                    <div>Threshold results (in %)</div>
+                    <div secondary>Select the threshold percentage for the suggestions shown (only those with a higher percentage will be displayed).</div>
+                </paper-item-body>
+                <paper-slider pin min="1" max="99" step="1" value="${this.acc}" @change="${(e) => this.updateValue(1, e.target.value)}" editable></paper-slider>
+            </paper-item>
+            <paper-item>
+                <paper-item-body two-line>
+                    <div>Auto select baseterm</div>
+                    <div secondary>Enable the auto selection for the baseterm with the highest percentage of accuracy (the first one shown in the list).</div>
+                </paper-item-body>
+                <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(2, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.btAutoSel === "true") ? true : false}>
+                    ${(this.btAutoSel === "true") ? "Enabled" : "Disabled"}
                 </paper-toggle-button>
-                
-            </div>
+            </paper-item>
+            <paper-item>
+                <paper-item-body two-line>
+                    <div>Auto select facets [BETA]</div>
+                    <div secondary>Enable the auto selection for the facets having a high percentage of accuracy (only in categories having an accuracy > 50%).</div>
+                </paper-item-body>
+                <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(3, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.fcAutoSel === "true") ? true : false}>
+                    ${(this.fcAutoSel === "true") ? "Enabled" : "Disabled"}
+                </paper-toggle-button>
+            </paper-item>
+        </div>
 
         `
     }
@@ -144,13 +149,8 @@ class SettingsPage extends LitElement {
             // Store on browser
             localStorage.setItem(property, val);
         } else {
-            console.log("Sorry, your browser does not support Web Storage...");
+            alert("Sorry, your browser does not support Web Storage...");
         }
-    }
-
-    /* get the minimum accuracy to satisfy */
-    getMinAccuracy() {
-        return this.acc;
     }
 }
 
