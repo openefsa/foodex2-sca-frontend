@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\components\wc-progress-bar.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Tuesday, March 31st 2020, 12:24:38 pm
+ * | Created Date: 31st March 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 31st March 2020
+ * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
