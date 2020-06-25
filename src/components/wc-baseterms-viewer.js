@@ -3,11 +3,11 @@
  * |                                                                    
  * | File: \src\components\wc-baseterms-viewer.js
  * | Project: foodex2-smart-coding-app-frontend
- * | Created Date: Thursday, April 2nd 2020, 5:03:56 pm
+ * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: 2nd April 2020
+ * | Last Modified: Thursday, 4th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -27,7 +27,7 @@ class Term {
     constructor(name, code, acc) {
         this.name = name;
         this.code = code;
-        this.acc = acc;
+        this.acc = parseFloat((acc*100).toFixed(2));
     }
 }
 
@@ -35,7 +35,7 @@ class Term {
 Term.prototype.toString = function toString() {
     var ret = 'Name: ' + this.name + 
             '\nCode: ' + this.code + 
-            '\nAccuracy: ' + this.acc.toFixed(2);
+            '\nAccuracy: ' + this.acc + "%";
     return ret;
 }
 
@@ -67,7 +67,7 @@ class WcBasetermsViewer extends LitElement {
                 margin: 2px;
             }
 
-            .inner-bt {
+            .bt {
                 font-family: Arial;
                 font-size: 13px;
                 width:auto;
@@ -79,9 +79,22 @@ class WcBasetermsViewer extends LitElement {
                 cursor: pointer;
             }
                    
-            .inner-bt:hover {
+            .bt:hover {
                 background: #d8e3f0;
                 color: #2f3774; 
+            }
+
+            .inner-tag {
+                font-family: Arial;
+                font-size: 9px;
+                width:auto;
+                background: gray;
+                color: #fff;
+                border-radius: 4px;
+                text-align: center;
+                margin-left: 5px;
+                padding: 2px; 
+                cursor: pointer;
             }
 
             /* width */
@@ -132,9 +145,10 @@ class WcBasetermsViewer extends LitElement {
         var newBaseterms = changedProperties.has('baseterms');
         
         // if new baseterms list update field
-        if (newBaseterms)
+        if (newBaseterms) {
             this.populateBaseterms();
-
+        }
+        
         return newBaseterms;
     }
 
@@ -162,11 +176,17 @@ class WcBasetermsViewer extends LitElement {
 
             // create inner tag with baseterm properties
             var tag = document.createElement('button');
-            tag.setAttribute('class', 'inner-bt');
+            tag.setAttribute('class', 'bt');
             tag.innerHTML = term.name;
             // use the toString and shows the tooltip with term information
             tag.title = term; 
             
+            // append the inner label to the tag
+            var innerTag = document.createElement('tag');
+            innerTag.setAttribute('class', 'inner-tag');
+            innerTag.innerHTML = term.acc+"%";
+            tag.appendChild(innerTag);
+
             // when clicking on tag
             tag.onclick = () => {
                 
@@ -192,9 +212,9 @@ class WcBasetermsViewer extends LitElement {
             tagInput.appendChild(tag);
 
             // auto select first term
-            if(flag){
+            if(localStorage.getItem('btAutoSel')==='true' && flag){
                 tag.onclick.apply(tag);
-                flag = false;
+                flag=!flag;
             }
 
         }, this);
