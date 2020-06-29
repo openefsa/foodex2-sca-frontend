@@ -1,4 +1,5 @@
-# ignore folder named 'node_modules'
+# ignore folder
+doc/
 node_modules/
 
 # ignore files
