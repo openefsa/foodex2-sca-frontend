@@ -117,7 +117,6 @@ export class WcFeedbackDialog extends LitElement {
         this.dialog = "dialog";
         this.dftDesc = "";
         // url to which post feedbacks
-        // this.url = new URL('http://51.124.148.195:5000/feedback');
         this.url = new URL('http://127.0.0.1:5000/postFeedback');
         // regex pattern used for validating foodex2 code
         this.pattern = "\\w{5}|\\w{5}((?=\#?)(\#\\w{3}\.\\w{5})|(\#\\w{3}\.\\w{5}((?=\\$?)(\\$\\w{3}\\.\\w{5})+)))";
