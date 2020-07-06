@@ -1,14 +1,17 @@
-FROM node:13.10.1
+# FROM node:alpine
+FROM node:slim
+# FROM node:12.18.2-slim
 
-RUN mkdir /app
-WORKDIR /app
-COPY package.json /app
+ENV NODE_ENV production
 
-RUN npm install .
+WORKDIR /usr/src/app
 
-# (only debug) Inform Docker that the container is listening on the specified port at runtime.
-# EXPOSE 8081
+COPY ["package.json", "package-lock.json*", "./"]
 
-COPY . /app
+RUN npm i --production --silent .
 
-CMD ["/app/node_modules/.bin/polymer", "serve", "-H", "0.0.0.0"]
+COPY . .
+
+EXPOSE 8081
+
+CMD ["./node_modules/.bin/polymer", "serve", "-H", "0.0.0.0"]
