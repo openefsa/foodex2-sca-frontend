@@ -87,7 +87,7 @@ class WcInputField extends LitElement {
         this.activatePb = false;
         this.freeText = '';
         // create the url to which make request
-        this.url = new URL(' http://127.0.0.1:5000/predictAll');
+        this.url = new URL('http://127.0.0.1:5000/predictAll');
     }
 
     render() {
