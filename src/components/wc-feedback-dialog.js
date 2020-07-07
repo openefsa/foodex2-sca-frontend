@@ -47,6 +47,9 @@ export class WcFeedbackDialog extends LitElement {
             },
             url: {
                 type: URL
+            },
+            feedback_shared_key: {
+                type: String
             }
         }
     }
@@ -120,6 +123,8 @@ export class WcFeedbackDialog extends LitElement {
         this.url = new URL('http://127.0.0.1:5000/postFeedback');
         // regex pattern used for validating foodex2 code
         this.pattern = "\\w{5}|\\w{5}((?=\#?)(\#\\w{3}\.\\w{5})|(\#\\w{3}\.\\w{5}((?=\\$?)(\\$\\w{3}\\.\\w{5})+)))";
+        // key used to submit feedbacks
+        this.feedback_shared_key = config["SECRET_KEY"];
     }
 
     render() {
@@ -188,7 +193,7 @@ export class WcFeedbackDialog extends LitElement {
 
         // ask reconfirmation to user
         var choice = confirm("Please confirm the data before submitting: \n" + data);
-        
+
         // if accept than post data
         if (choice) {
             fetch(this.url, {
@@ -196,7 +201,7 @@ export class WcFeedbackDialog extends LitElement {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'x-access-token': config["SECRET_KEY"]
+                    'x-access-token': this.feedback_shared_key
                 },
                 body: data,
             }).then(res => res.json()
