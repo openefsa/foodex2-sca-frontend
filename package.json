@@ -31,5 +31,6 @@
         "type": "git",
         "url": "git://github.com/openefsa/foodex2-sca-frontend"
     },
-    "license": "EUPL-1.2"
+    "license": "EUPL-1.2",
+    "devDependencies": {}
 }
