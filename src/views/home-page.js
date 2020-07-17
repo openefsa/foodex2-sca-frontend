@@ -77,13 +77,12 @@ export class HomePage extends LitElement {
 
   constructor() {
     super();
-    this.loggedIn = false;
+    this.loggedIn = true;
     this.baseterms = null;
     this.facetData = null;
     this.selectedBt = null;
     this.selectedFcs = new Array();
     this.text = "";
-
   }
 
   render() {
