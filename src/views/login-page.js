@@ -97,9 +97,11 @@ export class LoginPage extends LitElement {
         this.user = new User();
         this.activatePb = false;
         this.remember = JSON.parse(localStorage.getItem('remember'));
-        // url to which post user info
-        //this.url = new URL('http://51.124.148.195:5000/login');
-        this.url = new URL('http://127.0.0.1:5000/getToken');
+        
+        // local deployment: localhost:5000/api_name
+        this.url = new URL('http://127.0.0.1:5000/login');
+        // production deployment: kbs_hostname:port/api_name
+        //this.url = new URL('http://openefsafoodexwebcomponentbackend:5000/login');
     }
 
     render() {
