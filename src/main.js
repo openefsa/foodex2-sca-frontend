@@ -171,7 +171,7 @@ class MainApp extends LitElement {
                         <!-- top toolbar -->
                         <app-toolbar>
                             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                                <div main-title>FoodEx2 Smart Coding App</div>
+                                <div main-title>FoodEx2 Smart Coding App - Test v.1.2</div>
                             <paper-icon-button icon="home" @click="${() => this.router.navigate("#/home")}"></paper-icon-button>
                         </app-toolbar>
 
@@ -184,7 +184,7 @@ class MainApp extends LitElement {
                         <home-page name="home" .loggedIn="${this.loggedIn}"></home-page>
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
-                        <login-page name="login" @userStatus="${(e) => this.loggedIn=e.detail.loggedIn}"></login-page>
+                        <login-page name="login" @userStatus="${(e) => this.loggedIn=true/*e.detail.loggedIn*/}"></login-page>
                     </iron-pages>
 
                     <!-- footer -->
