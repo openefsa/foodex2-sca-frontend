@@ -1,16 +1,66 @@
-apiVersion : apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: openefsafoodexwebcomponentfrontend 
+  name: openefsafoodex2scafrontend
 spec:
-  replicas: 1
+  selector:
+    matchLabels:
+      app: openefsafoodex2scafrontend
   template:
     metadata:
       labels:
-        app: openefsafoodexwebcomponentfrontend 
+        app: openefsafoodex2scafrontend
     spec:
       containers:
-        - name: openefsafoodexwebcomponentfrontend 
-          image: efsadsreg.azurecr.io/openefsafoodexwebcomponentfrontend
-          ports:
-          - containerPort: 8081
+      - name: openefsafoodex2scafrontend
+        image: foodex2sca:frontend
+        # image: efsadsreg.azurecr.io/openefsafoodex2scafrontend
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: foodex2scafrontendservice
+spec:
+  selector:
+    app: foodex2scafrontend
+  ports:
+  - port: 80
+    targetPort: 8081
+  type: LoadBalancer
+---
+apiVersion: v1
+data:
+  auth: <from htpasswd>
+kind: Secret
+metadata:
+  name: basic-auth
+  namespace: default
+type: Opaque
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: openefsafoodexwebcomponentfrontend-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication required - Foodex Prediction'
+
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: openefsafoodexwebcomponentfrontend
+          servicePort: 8081
+        path: /
