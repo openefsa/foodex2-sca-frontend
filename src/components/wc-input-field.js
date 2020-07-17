@@ -86,8 +86,11 @@ class WcInputField extends LitElement {
         this.fieldId = 'description';
         this.activatePb = false;
         this.freeText = '';
-        // create the url to which make request
+        
+        // local deployment: localhost:5000/api_name
         this.url = new URL('http://127.0.0.1:5000/predictAll');
+        // production deployment: kbs_hostname:port/api_name
+        //this.url = new URL('http://openefsafoodexwebcomponentbackend:5000/predictAll');
     }
 
     render() {
