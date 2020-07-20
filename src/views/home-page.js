@@ -77,7 +77,6 @@ export class HomePage extends LitElement {
 
   constructor() {
     super();
-    this.loggedIn = true;
     this.baseterms = null;
     this.facetData = null;
     this.selectedBt = null;
