@@ -1,6 +1,3 @@
 # ignore folder
 doc/
 node_modules/
-
-# ignore files
-config.js
