@@ -28,17 +28,17 @@ import '@polymer/iron-form/iron-form.js';
 
 
 class User {
-    constructor(email, token) {
-        this.email = email;
+    constructor(username, token) {
+        this.username = username;
         this.token = token;
     }
 
-    getEmail() {
-        return this.email;
+    getUsername() {
+        return this.username;
     }
 
     isLoggedIn() {
-        return (this.email != null && this.token != null);
+        return (this.username != null && this.token != null);
     }
 }
 
@@ -97,11 +97,6 @@ export class LoginPage extends LitElement {
         this.user = new User();
         this.activatePb = false;
         this.remember = JSON.parse(localStorage.getItem('remember'));
-        
-        // local deployment: localhost:5000/api_name
-        this.url = new URL('http://127.0.0.1:5000/login');
-        // production deployment: kbs_hostname:port/api_name
-        //this.url = new URL('http://openefsafoodexwebcomponentbackend:5000/login');
     }
 
     render() {
@@ -109,14 +104,14 @@ export class LoginPage extends LitElement {
         <div class="flex-container">
             ${this.user.isLoggedIn()
                 ? html`
-                    <label>Email: ${this.user.getEmail()}</label>
+                    <label>Email: ${this.user.getUsername()}</label>
                     <paper-button raised @click="${this.logout}">Logout</paper-button>
                 `
                 : html`
                     <iron-form id="iron-form">
                         <form>
-                            <paper-input type="email" name="email" label="Email" required auto-validate error-message="Username missing"></paper-input>
-                            <paper-input type="password" name="pswd" label="Password" required auto-validate error-message="Please provide a password"></paper-input>
+                            <paper-input type="username" name="username" label="Username" required auto-validate error-message="Please provide a username"></paper-input>
+                            <paper-input type="password" name="token" label="Token" required auto-validate error-message="Please provide a token"></paper-input>
                         </form>
                     </iron-form>
                     <div>
@@ -139,7 +134,7 @@ export class LoginPage extends LitElement {
         // if a custom value exsists update default one
         if (u != null) {
             // update user
-            this.user = new User(u.email, u.token);
+            this.user = new User(u.username, u.token);
             // fire event to parent
             this.updateUser();
         }
@@ -189,26 +184,11 @@ export class LoginPage extends LitElement {
         // jsonify the object
         var data = form.serializeForm();
 
-        // post data
-        fetch(this.url, {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic ' + btoa(data.email + ':' + data.pswd)
-            }
-        }).then(res => res.json()
-        ).then(res => {
-            // allert user
-            alert('Login successful.');
-            // update user
-            this.user = new User(data.email, res.token);
-            // fire event to parent
-            this.updateUser();
-        }).catch((err) => {
-            alert('Error during login. Please contact administartor.', err);
-            this.logout();
-        });
+        // create a new user 
+        this.user = new User(data.username, data.token);
+        
+        // fire event to parent
+        this.updateUser();
 
     }
 
