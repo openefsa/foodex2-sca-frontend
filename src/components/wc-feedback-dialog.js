@@ -23,7 +23,7 @@ import {
     css
 } from 'lit-element';
 
-//import config from "../../config.js";
+import config from "../../config.js";
 
 import '@polymer/paper-fab/paper-fab.js';
 import '@polymer/paper-dialog/paper-dialog.js';
@@ -47,6 +47,9 @@ export class WcFeedbackDialog extends LitElement {
             },
             url: {
                 type: URL
+            },
+            token: {
+                type: String
             }
         }
     }
@@ -118,11 +121,10 @@ export class WcFeedbackDialog extends LitElement {
         this.dftDesc = "";
         // regex pattern used for validating foodex2 code
         this.pattern = "\\w{5}|\\w{5}((?=\#?)(\#\\w{3}\.\\w{5})|(\#\\w{3}\.\\w{5}((?=\\$?)(\\$\\w{3}\\.\\w{5})+)))";
-
-        // local deployment: localhost:5000/api_name
-        this.url = new URL('http://127.0.0.1:5000/postFeedback');
-        // production deployment: kbs_hostname:port/api_name
-        //this.url = new URL('http://openefsafoodexwebcomponentbackend:5000/predictAll');
+        // get token from local storage
+        this.token = JSON.parse(localStorage.getItem('user')).token;
+        // k8s_hostname:port/api_name
+        this.url = new URL(config.BASE_URL + 'postFeedback');
     }
 
     render() {
@@ -199,7 +201,7 @@ export class WcFeedbackDialog extends LitElement {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    // 'x-access-token': this.feedback_shared_key
+                    'x-access-token': this.token
                 },
                 body: data,
             }).then(res => res.json()
