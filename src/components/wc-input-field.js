@@ -23,6 +23,8 @@ import {
     css
 } from 'lit-element';
 
+import config from "../../config.js";
+
 class WcInputField extends LitElement {
 
     static get properties() {
@@ -86,11 +88,8 @@ class WcInputField extends LitElement {
         this.fieldId = 'description';
         this.activatePb = false;
         this.freeText = '';
-        
-        // local deployment: localhost:5000/api_name
-        this.url = new URL('http://127.0.0.1:5000/predictAll');
-        // production deployment: kbs_hostname:port/api_name
-        //this.url = new URL('http://openefsafoodexwebcomponentbackend:5000/predictAll');
+        // k8s_hostname:port/api_name
+        this.url = new URL(config.BASE_URL + 'predictAll');
     }
 
     render() {
