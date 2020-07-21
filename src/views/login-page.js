@@ -24,7 +24,7 @@ import {
 } from 'lit-element';
 
 import '@polymer/paper-input/paper-input.js';
-import '@polymer/iron-form/iron-form.js';
+import '@cwmr/paper-password-input/paper-password-input.js';
 
 
 class User {
@@ -111,7 +111,7 @@ export class LoginPage extends LitElement {
                     <iron-form id="iron-form">
                         <form>
                             <paper-input type="username" name="username" label="Username" required auto-validate error-message="Please provide a username"></paper-input>
-                            <paper-input type="password" name="token" label="Token" required auto-validate error-message="Please provide a token"></paper-input>
+                            <paper-password-input name="token" label="Token" required auto-validate error-message="Please provide a token"></paper-password-input>
                         </form>
                     </iron-form>
                     <div>

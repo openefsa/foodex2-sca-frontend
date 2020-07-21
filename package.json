@@ -2,6 +2,7 @@
     "name": "foodex2-smart-coding-app-frontend",
     "version": "1.2.0",
     "dependencies": {
+        "@cwmr/paper-password-input": "^3.0.1",
         "@polymer/app-layout": "^3.1.0",
         "@polymer/app-route": "^3.0.2",
         "@polymer/iron-form": "^3.0.1",
