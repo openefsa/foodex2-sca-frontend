@@ -169,7 +169,7 @@ class MainApp extends LitElement {
                         <!-- top toolbar -->
                         <app-toolbar>
                             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                                <div main-title>FoodEx2 Smart Coding App - Test v.1.2</div>
+                                <div main-title>FoodEx2 Smart Coding App</div>
                             <paper-icon-button icon="home" @click="${() => this.router.navigate("#/home")}"></paper-icon-button>
                         </app-toolbar>
 

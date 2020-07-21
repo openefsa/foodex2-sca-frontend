@@ -50,7 +50,7 @@ class AboutPage extends LitElement {
 
         return html `
         <div class="content">
-            <h2>FoodEx2 Smart Coding App v.1.1<h2>
+            <h2>FoodEx2 Smart Coding App - Test v.1.2<h2>
             <h4>Github frontend: <a href="https://github.com/openefsa/foodex2-sca-frontend" target="_blank">link</a>.</h4>
             <h4>Github backend: <a href="https://github.com/openefsa/foodex2-sca-backend" target="_blank">link</a>.</h4>
             <h4>Frequently asked questions: <a href="url" target="_blank">link</a>.</h4>
