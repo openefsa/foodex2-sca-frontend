@@ -133,7 +133,7 @@ class WcBasetermsViewer extends LitElement {
 
     render() {
         return html `
-            <div>Select a baseterm</div>
+            <div>Select a base term</div>
             <div id="${this.fieldId}"></div>
             
             `

@@ -102,8 +102,8 @@ class SettingsPage extends LitElement {
             </paper-item>
             <paper-item>
                 <paper-item-body two-line>
-                    <div>Auto select baseterm</div>
-                    <div secondary>Enable the auto selection for the baseterm with the highest percentage of accuracy (the first one shown in the list).</div>
+                    <div>Auto select base term</div>
+                    <div secondary>Enable the auto selection for the base term with the highest percentage of accuracy (the first one shown in the list).</div>
                 </paper-item-body>
                 <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(2, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.btAutoSel === "true") ? true : false}>
                     ${(this.btAutoSel === "true") ? "Enabled" : "Disabled"}

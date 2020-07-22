@@ -104,7 +104,7 @@ export class LoginPage extends LitElement {
         <div class="flex-container">
             ${this.user.isLoggedIn()
                 ? html`
-                    <label>Email: ${this.user.getUsername()}</label>
+                    <label>Username: ${this.user.getUsername()}</label>
                     <paper-button raised @click="${this.logout}">Logout</paper-button>
                 `
                 : html`
