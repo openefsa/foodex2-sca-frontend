@@ -98,7 +98,7 @@ class WcInputField extends LitElement {
                 Food Description
                 <div class="flex-container">
                     <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"></input>
-                    <paper-button class="col-item" @click="${this.getSuggestions}">Get Code</paper-button>
+                    <paper-button class="col-item" @click="${this.getSuggestions}">SEND</paper-button>
                 </div>
             </label>
             <wc-progress-bar .activate="${this.activatePb}"></wc-progress-bar>
