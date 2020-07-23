@@ -13,10 +13,10 @@ The FoodEx2 Smart Coding Application is designed and developed internally in the
 
 ## For Developers
 ### Requirements
-* NodeJS
+* (Node.js)[https://nodejs.org/en/]
 
 ### Install
-Once the projected has been cloned locally, it is possible to install all the requirements and dependencies needed through NodeJS.
+Once the projected has been cloned locally, it is possible to install all the requirements and dependencies needed through Node.js.
 Launch the following command from your terminal starting from the main folder of the project:
 ```
 npm install
