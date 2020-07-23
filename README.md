@@ -18,7 +18,7 @@ The FoodEx2 Smart Coding Application is designed and developed internally in the
 * [npm](https://www.npmjs.com/)
 
 ### Install Polymer CLI
-After installing the prerequisities listed aboce, run the following command in order to install the Polymer CLI globally:
+After installing the prerequisities listed above, run the following command in order to install the Polymer CLI globally:
 ```
 npm install -g polymer-cli
 ```
@@ -41,9 +41,31 @@ polymer serve
 ```
 
 Click on the link which will appear on the terminal; this will automatically open a new page in the browser and hence render all user interface components.
+
 *Please note that FoodEx2 Smart Coding Application fully support the latest version of Chrome and Firefox.*
 
 ## Web components
+The fronted for the FoodEx2 Smart Coding Application has been developed starting from the base class provided by [Lit-Element](https://lit-element.polymer-project.org/) (from Polymer project). Each component has been built starting from the base Lit-Element class and hence connected to each other following the Polymer 3 framework requirements.
+
+In this section we describe the various web components that make up the home page of FoodEx2 SCA. These, in fact, have been designed exclusively to follow the web component directives and therefore allow reusability outside of this project itself.
+
+*Please note that the web components are using pre-built paper-elements available from Polymer at the following [link](https://www.webcomponents.org/collection/PolymerElements/paper-elements). In particular circumstances, custom elements have been developed in order to meet the system requirements.*
+
+### Food/Feed Free Text Input Component
+This web component consists of an input field and a button. The input field allows the insertion of a free text that, in the case of the FoodEx2 SCA project, should describe a particular, simple or compound, food or feed (e.g. *"white chocolate"* or *"white chocolate with hazelnuts"*). The *"SEND"* button, situated just next to the input field, allows to get the content of the input field and hence create and make a GET request to the backend API. More specifically the GET request is built using the free text description and a threshold value (which filter those terms not having the same or greather percentage of accuracy). Here is the structure of the GET request called when the *"SEND"* button is pressed:
+```
+GET http://127.0.0.1:5000/predictAll HTTP/1.1
+content-type: application/json
+
+{
+    "text":"white chocolate",
+    "threshold": "0.1"
+}
+```
+If the request is handled correctly from the backend API, it will return a JSON object containing:
+* list of base terms,
+* list of facet categories,
+* for each category the list of facets that can be applied on it.
 
 ## Deployment
 
