@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\wc-code-viewer.js
+ * | File: \src\components\code-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 3rd April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -23,7 +23,7 @@ import {
     css
 } from 'lit-element'
 
-class WcCodeViewer extends LitElement {
+class CodeComponent extends LitElement {
 
     static get properties() {
         return {
@@ -133,4 +133,4 @@ class WcCodeViewer extends LitElement {
 
 }
 
-customElements.define("wc-code-viewer", WcCodeViewer)
+customElements.define("code-component", CodeComponent)

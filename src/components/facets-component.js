@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\wc-facets-viewer.js
+ * | File: \src\components\facets-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 20th April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -53,7 +53,7 @@ Facet.prototype.toString = function toString() {
     return res;
 }
 
-class WcFacetsViewer extends LitElement {
+class FacetsComponent extends LitElement {
     static get properties() {
         return {
             fcsFieldId: {
@@ -365,4 +365,4 @@ class WcFacetsViewer extends LitElement {
     }
 }
 
-customElements.define("wc-facets-viewer", WcFacetsViewer)
+customElements.define("facets-component", FacetsComponent)

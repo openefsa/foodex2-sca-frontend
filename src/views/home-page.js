@@ -89,25 +89,25 @@ export class HomePage extends LitElement {
       <div class="flex-container">
         
         <!-- component for inserting food description and fetching server -->
-        <wc-input-field class="raw-item" @data="${(e) => (this.updateData(e))}"></wc-input-field>
+        <input-component class="raw-item" @data="${(e) => (this.updateData(e))}"></input-component>
   
         <!-- component for showing baseterm -->
-        <wc-baseterms-viewer class="raw-item" .baseterms="${this.baseterms}" @bt="${(e) => (this.updateBaseterm(e))}"></wc-baseterms-viewer>
+        <baseterms-component class="raw-item" .baseterms="${this.baseterms}" @bt="${(e) => (this.updateBaseterm(e))}"></baseterms-component>
       
         <!-- component for showing facets -->
-        <wc-facets-viewer class="raw-item" .data="${this.facetData}" @fcs="${(e) => (this.updateFacets(e))}"></wc-facets-viewer>
+        <facets-component class="raw-item" .data="${this.facetData}" @fcs="${(e) => (this.updateFacets(e))}"></facets-component>
       
         <!-- component for showing overview of user interaction -->
-        <wc-overview class="flex-item" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></wc-overview>
+        <overview-component class="flex-item" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></overview-component>
       
 
         <!-- component for showing the foodex2 code -->
-        <wc-code-viewer class="raw-item" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></wc-code-viewer>
+        <code-component class="raw-item" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></code-component>
       
         ${this.loggedIn
         ? html`
             <!-- component for activating feedback section -->
-            <wc-feedback-dialog class="raw-item" .dftDesc="${this.text}"></wc-feedback-dialog>
+            <feedback-component class="raw-item" .dftDesc="${this.text}"></feedback-component>
           `
         : ``}
       </div>

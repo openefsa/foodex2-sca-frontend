@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\wc-overview.js
+ * | File: \src\components\overview-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -23,7 +23,7 @@ import {
     css
 } from 'lit-element';
 
-class WcOverview extends LitElement {
+class OverviewComponent extends LitElement {
 
     static get properties() {
         return {
@@ -169,4 +169,4 @@ class WcOverview extends LitElement {
 
 }
 
-customElements.define("wc-overview", WcOverview)
+customElements.define("overview-component", OverviewComponent)

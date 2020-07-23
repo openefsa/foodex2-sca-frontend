@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\wc-input-field.js
+ * | File: \src\components\input-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -25,7 +25,7 @@ import {
 
 import config from "../../config.js";
 
-class WcInputField extends LitElement {
+class InputComponent extends LitElement {
 
     static get properties() {
         return {
@@ -101,7 +101,7 @@ class WcInputField extends LitElement {
                     <paper-button class="col-item" @click="${this.getSuggestions}">SEND</paper-button>
                 </div>
             </label>
-            <wc-progress-bar .activate="${this.activatePb}"></wc-progress-bar>
+            <progress-bar .activate="${this.activatePb}"></progress-bar>
         `
     }
 
@@ -170,4 +170,4 @@ class WcInputField extends LitElement {
     }
 }
 
-customElements.define("wc-input-field", WcInputField)
+customElements.define("input-component", InputComponent)

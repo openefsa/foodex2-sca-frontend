@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\wc-progress-bar.js
+ * | File: \src\components\progress-bar-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 31st March 2020
  * | Author: Alban Shahaj (shahaal)
@@ -26,7 +26,7 @@ import {
 import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/paper-progress/paper-progress.js';
 
-export class WcProgressBar extends LitElement {
+export class ProgressBarComponent extends LitElement {
 
     static get properties() {
         return {
@@ -84,4 +84,4 @@ export class WcProgressBar extends LitElement {
     }
 }
 
-customElements.define("wc-progress-bar", WcProgressBar)
+customElements.define("progress-bar-component", ProgressBarComponent)

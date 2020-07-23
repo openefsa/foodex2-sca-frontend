@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\wc-baseterms-viewer.js
+ * | File: \src\components\baseterms-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -39,7 +39,7 @@ Term.prototype.toString = function toString() {
     return ret;
 }
 
-class WcBasetermsViewer extends LitElement {
+class BasetermsComponent extends LitElement {
     
     static get properties() {
         return {
@@ -233,4 +233,4 @@ class WcBasetermsViewer extends LitElement {
 
 }
 
-customElements.define("wc-baseterms-viewer", WcBasetermsViewer)
+customElements.define("baseterms-component", BasetermsComponent)

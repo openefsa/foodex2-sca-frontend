@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\wc-feedback-dialog.js
+ * | File: \src\components\feedback-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 7th April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -31,7 +31,7 @@ import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/iron-form/iron-form.js';
 
-export class WcFeedbackDialog extends LitElement {
+export class FeedbackComponent extends LitElement {
 
     static get properties() {
         return {
@@ -212,4 +212,4 @@ export class WcFeedbackDialog extends LitElement {
 
 }
 
-customElements.define("wc-feedback-dialog", WcFeedbackDialog)
+customElements.define("feedback-component", FeedbackComponent)

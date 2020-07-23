@@ -123,7 +123,7 @@ export class LoginPage extends LitElement {
 
             <label>You ${this.user.isLoggedIn() ? html`are` : html`are not`} logged in<label>
         </div>
-        <wc-progress-bar .activate="${this.activatePb}"></wc-progress-bar>
+        <progress-bar .activate="${this.activatePb}"></progress-bar>
         `
     }
 

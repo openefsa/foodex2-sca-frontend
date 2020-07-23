@@ -51,7 +51,7 @@ In this section we describe the various web components that make up the home pag
 
 *Please note that the web components are using pre-built paper-elements available from Polymer at the following [link](https://www.webcomponents.org/collection/PolymerElements/paper-elements). In particular circumstances, custom elements have been developed in order to meet the system requirements.*
 
-### Food/Feed Free Text Input Component
+### input-component
 This web component consists of an input field and a button. The input field allows the insertion of a free text that, in the case of the FoodEx2 SCA project, should describe a particular, simple or compound, food or feed (e.g. *"chocolate"* or *"white chocolate with hazelnuts"*). The *"SEND"* button, situated just next to the input field, allows to get the content of the input field and hence create and make a GET request to the backend API. More specifically the GET request is built using the free text description and a threshold value (which filter those terms not having the same or greather percentage of accuracy). Here is the structure of the GET request called when the *"SEND"* button is pressed:
 ```
 GET http://hostname:port/predictAll HTTP/1.1
@@ -67,25 +67,91 @@ If the request is handled correctly from the backend API, this will return a JSO
 * list of facet categories,
 * for each category the list of facets that can be applied to it.
 
-#### Web Component Input Properties
-* None
-#### Web Component Output Data
+#### Input Data
+* None.
+#### Output Data
 * Data {Object}: JSON data file containing list of base terms, facet categories and list of facets for each category (check the [backend](https://github.com/openefsa/foodex2-sca-backend) for additional information.)
 
-### Base terms viewer
+### baseterms-component
 This web component contains a section that is populated by a series of so-called tags. The tags are arranged horizontally with respect to the section and can be scrolled through the navbar, located at the bottom, or through the shortcut ctrl+mouse wheel (or multi-touch gestures).
 
-Each tag has the characteristic of having a grey background color by default. Instead, if the term is selected a blue background color will be applied. Inside each tag is shown the name of the term returned from the backend API as well as an inner-tag that allows to know the percentage with which the models are sure about the suggestion made. In addition, you can learn more information about each tag by hovering the cursor on the tag. By doing so, a mini window will appear showing the name, the code and the percentage of accuracy for the specific term. In this section all the tags are sorted in descending order by percentage of accuracy. Please use the specific web component propety if the auto selection of the first lef-term is requested.
+Each tag has the characteristic of having a grey background color by default. Instead, if the term is selected a **blue** background color will be applied. Inside each tag is shown the name of the term returned from the backend API as well as an inner-tag that allows to know the percentage with which the models are sure about the suggestion made. In addition, you can learn more information about each tag by hovering the cursor on the tag. By doing so, a mini window will appear showing the name, the code and the percentage of accuracy for the specific term. In this section all the tags are sorted in descending order by percentage of accuracy. Please use the specific web component propety if the auto selection of the first lef-term is requested.
 
-#### Web Component Input Properties
+#### Input Data
 * Baseterms {Object}: list of base terms suggested
-#### Web Component Output Data
+#### Output Data
 * Selected baseterm {Term}: object containing the term selectd.
 
-### Facets viewer
+### facets-component
+This web component contains a section that is populated by a series of so-called tags. The tags are arranged horizontally with respect to the section and can be scrolled through the navbar, located at the bottom, or through the shortcut ctrl+mouse wheel (or multi-touch gestures).
+
+Differently from the *baseterms-component*, the *facets-component* has a drop-down list which allows the selection of the facet category of interest. At each facet category selection an event is raised which refresh the section below with the list of tags that can be applied to it. Each tag has the characteristic of having a grey background color by default. Instead, if one or more terms are selected a **green** background color will be applied. Inside each tag is shown the name of the term returned from the backend API as well as an inner-tag that allows to know the percentage with which the models are sure about the suggestion made. In addition, you can learn more information about each tag by hovering the cursor on the tag. By doing so, a mini window will appear showing the name, the code, the category to which it belongs to and the percentage of accuracy for the specific term. In this section all the tags are sorted in descending order by percentage of accuracy. Please use the specific web component propety if the auto selection of the terms is requested.
+
+#### Input Data
+* FacetData {Object}: list of categories and facets.
+#### Output Data
+* Selected facets {List<Facet>}: object containing the facets selectd.
+
+
+### overview-component
+The *"overview-component"* is a section that collects the whole list of tags selected in the *"baseterms-component"* and *"facets-component"*. This, is particularly useful especially in the selection of facets as it allows to have an overview of all the selected facets for each category.
+
+#### Input Data
+* Selected Baseterm {Term}: term object populated with the properties of the chosen base term.
+* Selected Facets {List<Facet>}: list of facet objects populated with the properties of the chosen facets.
+#### Output Data
+* None.
+
+### code-component
+This component is updated every time the user interacts with the *"baseterms-component"* and *"facets-component* and allows to obtain the FoodEx2 code generated.
+
+#### Input Data
+* Selected Baseterm {Term}: term object populated with the properties of the chosen base term.
+* Selected Facets {List<Facet>}: list of facet objects populated with the properties of the chosen facets.
+#### Output Data
+* None.
+
+### feedback-component
+The feedback component allows, through a specific button, to access a dialog box which exposes a series of features that allow the submission of feedback. Please note that this functionality is restricted to a limited number of users. The user, after logging in, will notice a new control button at the bottom of the homepage which, if pressed, will allow the feedback window to open. In this window we find two input fields, one dedicated to the description of the food or feed and one dedicated for the coding in FoodEx2 system. In addition, on the lower right side, there are 3 command buttons that allow us to reset the input fields, cancel the feedback operation or accept the feedback (POST request in backend).
+
+An example of the POST request submitted to the backend looks like the following:
+```
+OST http://127.0.0.1:5000/postFeedback HTTP/1.1
+Content-Type: "application/json"
+x-access-token: mysecretkey
+
+{
+    "desc": "hazelnuts",
+    "code": "A034L"
+}
+```
+
+#### Input Data
+* Description {String}: food/feed description typed in the *"input-component"*.
+#### Output Data
+* None.
 
 ## Deployment
+The following section describes how to deploy the FoodEx2 Smart Coding application locally.
 
 ### Docker build
+Install [Docker](https://docs.docker.com/get-docker/) and configure it on your local computer. From the main folder of the foodex2-sca-frontend project run the following command:
+```
+docker build -t name:tag
+```
+
+This command will use the **DOCKERFILE**, present in the main folder, for creating the docker image. Check if the docker image is present by launching the following command:
+```
+docker images
+```
+
+After making sure that the docker image has been correcly created, run it with the following command:
+```
+docker run name:tag
+```
 
 ### Kubernetes deployment
+Deploy the docker image created on kubernates by using the files present under the *"/manifest"* folder by running the following command:
+```
+kubectl deploy -f create ./manifest/deployment.yml
+```
