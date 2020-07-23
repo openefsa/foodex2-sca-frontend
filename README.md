@@ -5,21 +5,20 @@
 </p>
 
 ## FoodEx2 Smart Coding Application - Frontend
-The FoodEx2 Smart Coding Application is designed and developed internally in the European Food Safety Authority (DATA unit). The frontend of the FoodEx2 Smart Coding Application is fully open source and aims to simplify coding in FoodEx2 by making use of free text food and feed description. More specifically, the application is composed of several web components (lit-element framework) which allow interfacing with the APIs available on the backend part. Please note that the components can also be extracted and used outside the scope of the application itself (e.g. in another web platform) in order to expose all or some of the functionalities through different sites.
+The FoodEx2 Smart Coding Application is designed and developed internally in the European Food Safety Authority (DATA and AMU units). The frontend of the FoodEx2 Smart Coding Application is fully open source and aims to simplify coding in FoodEx2 by making use of free text food and feed description. More specifically, the application is composed of several web components which allow interfacing with the APIs available on the backend. Please note that the components can also be extracted and hence used outside the scope of the application itself (e.g. in another web platform).
 
 <p align="center">
     <img src="src/icons/FE2_POSI.jpg" alt="FoodEx2_SCA"/>
 </p>
 
-## Usage Instructions
+## For Developers
+### Requirements
+* NodeJS
 
-
-## Clone Requirements (for developers)
-The application, in order to be launched locally, requires the installation of some libraries and frameworks which can be found in the file "requirements.txt". In order to install these requirements, it is recommended to run the following command in python after cloning it to your destination folder:
-
+### Install
+Once the projected has been cloned locally, it is possible to install all the requirements and dependencies needed through NodeJS.
+Launch the following command from your terminal starting from the main folder of the project:
 ```
-python install -r requirements.txt
+npm install
 ```
-
-## Technologies used
-TO BE UPDATED
+This comand will resolve the required dependencies from the package.json file.
