@@ -90,7 +90,7 @@ Differently from the *baseterms-component*, the *facets-component* has a drop-do
 #### Input Data
 * FacetData {Object}: list of categories and facets.
 #### Output Data
-* Selected facets {List<Facet>}: object containing the facets selectd.
+* Selected facets {List`<Facet>`}: object containing the facets selectd.
 
 
 ### overview-component
@@ -98,7 +98,7 @@ The *"overview-component"* is a section that collects the whole list of tags sel
 
 #### Input Data
 * Selected Baseterm {Term}: term object populated with the properties of the chosen base term.
-* Selected Facets {List<Facet>}: list of facet objects populated with the properties of the chosen facets.
+* Selected Facets {List`<Facet>`}: list of facet objects populated with the properties of the chosen facets.
 #### Output Data
 * None.
 
@@ -107,7 +107,7 @@ This component is updated every time the user interacts with the *"baseterms-com
 
 #### Input Data
 * Selected Baseterm {Term}: term object populated with the properties of the chosen base term.
-* Selected Facets {List<Facet>}: list of facet objects populated with the properties of the chosen facets.
+* Selected Facets {List`<Facet>`}: list of facet objects populated with the properties of the chosen facets.
 #### Output Data
 * None.
 
