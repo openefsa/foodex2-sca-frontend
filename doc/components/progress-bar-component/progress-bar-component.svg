@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="331px" preserveAspectRatio="none" style="width:294px;height:331px;" version="1.1" viewBox="0 0 294 331" width="294px" zoomAndPan="magnify"><defs><filter height="300%" id="f1v8hcit8j35f1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><ellipse cx="143.5" cy="18" fill="#000000" filter="url(#f1v8hcit8j35f1)" rx="10" ry="10" style="stroke: none; stroke-width: 1.0;"/><rect fill="#FEFECE" filter="url(#f1v8hcit8j35f1)" height="35.0938" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="73" x="107" y="69"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="117" y="91.457">rendering</text><polygon fill="#FEFECE" filter="url(#f1v8hcit8j35f1)" points="143.5,145,155.5,157,143.5,169,131.5,157,143.5,145" style="stroke: #A80036; stroke-width: 1.5;"/><rect fill="#FEFECE" filter="url(#f1v8hcit8j35f1)" height="35.0938" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="127" x="6" y="224"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="107" x="16" y="246.457">Open progress bar.</text><ellipse cx="158.5" cy="310" fill="none" filter="url(#f1v8hcit8j35f1)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"/><ellipse cx="159" cy="310.5" fill="#000000" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"/><rect fill="#FEFECE" filter="url(#f1v8hcit8j35f1)" height="35.0938" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="130" x="153.5" y="224"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="110" x="163.5" y="246.457">Close progress bar.</text><!--MD5=[5e68b09e51f16ed7e04472deaafa4394]
+link start to rendering--><path d="M143.5,28.247 C143.5,37.427 143.5,51.836 143.5,63.901 " fill="none" id="start-&gt;rendering" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="143.5,68.907,147.5,59.907,143.5,63.907,139.5,59.907,143.5,68.907" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1cf762ef971607ca8f2f9466ff011d71]
+link rendering to #5--><path d="M143.5,104.082 C143.5,114.872 143.5,128.883 143.5,139.63 " fill="none" id="rendering-&gt;#5" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="143.5,144.918,147.5,135.918,143.5,139.918,139.5,135.918,143.5,144.918" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="64" x="63.9" y="134.482">Progress Bar</text><!--MD5=[e21d5df18bfa10e2b360fc387a691f52]
+link #5 to Open progress bar.--><path d="M138.178,163.933 C127.826,175.474 104.5416,201.433 87.9584,219.921 " fill="none" id="#5-&gt;Open progress bar." style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="84.3193,223.9784,93.3063,219.9492,87.6578,220.2562,87.3508,214.6077,84.3193,223.9784" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="24" x="116.5" y="201.4189">open</text><!--MD5=[37287b330d872c4917e9fd1bdf3ca236]
+link Open progress bar. to end--><path d="M91.9585,259.2808 C109.169,272.1404 132.265,289.3971 146.228,299.8307 " fill="none" id="Open progress bar.-&gt;end" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="150.592,303.0913,145.7766,294.4999,146.5866,300.0985,140.9881,300.9085,150.592,303.0913" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[09a15b9acac7e8aab8f0a0bc9e9f336e]
+link #5 to Close progress bar.--><path d="M148.894,163.933 C159.386,175.474 182.985,201.433 199.792,219.921 " fill="none" id="#5-&gt;Close progress bar." style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="203.48,223.9784,200.387,214.6278,200.1171,220.2782,194.4667,220.0084,203.48,223.9784" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="26" x="184.5" y="201.4189">close</text><!--MD5=[a5c3e343fb1aa6fb0435cacec798ec81]
+link Close progress bar. to end--><path d="M203.359,259.2808 C192.326,271.5091 177.706,287.7135 168.203,298.2462 " fill="none" id="Close progress bar.-&gt;end" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="164.709,302.1183,173.7075,298.115,168.0582,298.4057,167.7674,292.7564,164.709,302.1183" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[c9a5d5b44e005b6eb842dec5f13d848d]
+@startuml "progress-bar-component"
+(*) - -> "rendering"
+if "Progress Bar" then
+    - -> [open] "Open progress bar."
+    - -> (*)
+else 
+    - -> [close] "Close progress bar."
+    - -> (*)
+endif
+@enduml
+
+PlantUML version 1.2020.10(Sun May 17 11:35:57 CEST 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) Client VM
+Java Version: 1.8.0_261-b12
+Operating System: Windows 10
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>
