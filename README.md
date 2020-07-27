@@ -71,6 +71,8 @@ If the request is handled correctly from the backend API, this will return a JSO
 * None.
 #### Output Data
 * Data {Object}: JSON data file containing list of base terms, facet categories and list of facets for each category (check the [backend](https://github.com/openefsa/foodex2-sca-backend) for additional information.)
+#### Activity Diagram
+Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/baseterms-component/baseterms-component.svg).
 
 ### baseterms-component
 This web component contains a section that is populated by a series of so-called tags. The tags are arranged horizontally with respect to the section and can be scrolled through the navbar, located at the bottom, or through the shortcut ctrl+mouse wheel (or multi-touch gestures).
