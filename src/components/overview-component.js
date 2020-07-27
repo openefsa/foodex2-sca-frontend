@@ -114,7 +114,11 @@ class OverviewComponent extends LitElement {
         `
     }
 
-    // update div ui in specific properties change
+    /**
+     * Update div UI when specific property value is changed.
+     * 
+     * @param  {*} changedProperties
+     */
     shouldUpdate(changedProperties) {
 
         var changedBt = changedProperties.has('bt');
@@ -127,7 +131,9 @@ class OverviewComponent extends LitElement {
         return changedBt || changedFcs;
     }
 
-    // populate overview area with list of selected terms
+    /**
+     * Populate overview section with list of selected terms.
+     */
     populateTags() {
 
         // get the fiels component
@@ -152,7 +158,13 @@ class OverviewComponent extends LitElement {
         }
     }
 
-    // method used for adding tags
+    /**
+     * Add tag to overview.
+     * 
+     * @param  {Object} tagInput
+     * @param  {Object} term
+     * @param  {String} type
+     */
     addTag(tagInput, term, type) {
         // create main tag
         var tag = document.createElement('tag');

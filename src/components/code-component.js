@@ -98,7 +98,11 @@ class CodeComponent extends LitElement {
         `
     }
 
-    // update div ui in specific properties change
+    /**
+     * Update div UI when specific property value is changed.
+     * 
+     * @param  {*} changedProperties
+     */
     shouldUpdate(changedProperties) {
 
         var changedBt = changedProperties.has('bt');
@@ -111,7 +115,9 @@ class CodeComponent extends LitElement {
         return changedBt || changedFcs;
     }
 
-    // method ised for updateing the foodex2 code
+    /**
+     * Method used for updating the FoodEx2 code.
+     */
     updateCode() {
 
         if (!this.bt || this.bt == "")

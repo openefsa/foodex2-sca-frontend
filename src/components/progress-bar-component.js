@@ -63,7 +63,11 @@ export class ProgressBarComponent extends LitElement {
         `
     }
 
-    // update div ui in specific properties change
+    /**
+     * Update div UI when specific property value is changed.
+     * 
+     * @param  {*} changedProperties
+     */
     shouldUpdate(changedProperties) {
         // check if activate properties has been changed
         var activate = changedProperties.has('activate');

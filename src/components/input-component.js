@@ -105,7 +105,11 @@ class InputComponent extends LitElement {
         `
     }
 
-    // propagate event to parent component
+    /**
+     * Raise event to parent when data are returned from backend API.
+     * 
+     * @param  {Object} results
+     */
     fireEvent(results) {
         // hide dialog
         this.activatePb = false;
@@ -118,13 +122,6 @@ class InputComponent extends LitElement {
             }
         });
         this.dispatchEvent(event);
-    }
-
-    showError(err) {
-        // hide dialog
-        this.activatePb = false;
-        // show error to user
-        alert(`I could not retrieve the data, sorry for that.\nError: ${err}`);
     }
 
     // method used for calling the APIs required
@@ -156,11 +153,19 @@ class InputComponent extends LitElement {
         // send GET request
         fetch(this.url).then(res => res.json())
             .then(res => this.fireEvent(res))
-            .catch(err => this.showError(err));
+            .catch(err => {
+                // hide dialog
+                this.activatePb = false;
+                // show error to user
+                alert(`I could not retrieve the data, sorry for that.\nError: ${err}`);
+            });
 
     }
 
-    // check if the key pressed is "enter"
+    /**
+     * Handle if "enter" key is pressed in input field.
+     * @param  {Object} event
+     */
     handleKeyPress(event) {
         if (event.value !== '') {
             if (event.key === 'Enter') {

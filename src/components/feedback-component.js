@@ -158,7 +158,9 @@ export class FeedbackComponent extends LitElement {
         `
     }
 
-    /* allow specific users to send feedbacks */
+    /**
+     *  Open feedback paper-dialog.
+     */
     open() {
         // get the dialog
         let dialog = this.shadowRoot.getElementById(this.dialog);
@@ -166,18 +168,16 @@ export class FeedbackComponent extends LitElement {
         dialog.open();
     }
 
-    /* Reset form containing paper-input elements */
+    /** 
+     * Reset paper-input elements in feedback dialog.
+     */
     resetForm() {
         this.shadowRoot.getElementById("iron-form").reset();
     }
 
-    /* enable feedback modal dialog only if the user is enabled to */
-    enableFeedback(flag) {
-        let displayStyle = flag ? "block" : "none";
-        this.shadowRoot.getElementById(this.feedback).style.display = displayStyle;
-    }
-
-    /* send feedback to backend */
+    /**
+     * Post feedback to backend API.
+     */ 
     sendFeedback() {
         // get form item
         const form = this.shadowRoot.getElementById("iron-form");

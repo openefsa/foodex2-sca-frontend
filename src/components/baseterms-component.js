@@ -24,6 +24,13 @@ import {
 } from 'lit-element'
 
 class Term {
+    /**
+     * Constructor of term class.
+     * 
+     * @param  {String} name
+     * @param  {String} code
+     * @param  {String} acc
+     */
     constructor(name, code, acc) {
         this.name = name;
         this.code = code;
@@ -31,7 +38,9 @@ class Term {
     }
 }
 
-// overrides the toString default method
+/**
+ * Overrides default toString method.
+ */
 Term.prototype.toString = function toString() {
     var ret = 'Name: ' + this.name + 
             '\nCode: ' + this.code + 
@@ -139,7 +148,11 @@ class BasetermsComponent extends LitElement {
             `
     }
 
-    // update div ui in specific properties change
+    /**
+     * Update div UI when specific property value is changed.
+     * 
+     * @param  {*} changedProperties
+     */
     shouldUpdate(changedProperties) {
 
         var newBaseterms = changedProperties.has('baseterms');
@@ -152,7 +165,9 @@ class BasetermsComponent extends LitElement {
         return newBaseterms;
     }
 
-    // populate baseterm viewer with list of baseterms
+    /**
+     * Populate the baseterms-component with the list of returned base terms.
+     */
     populateBaseterms() {
 
         // get the fiels component
@@ -220,7 +235,11 @@ class BasetermsComponent extends LitElement {
         }, this);
     }
 
-    // method used for updating the baseterm selection
+    /**
+     * Fire a custom event to parent when base term selection changes.
+     * 
+     * @param  {Term} bt selected base term
+     */
     updatedBt(bt) {
         // fire event to parent
         let event = new CustomEvent('bt', {

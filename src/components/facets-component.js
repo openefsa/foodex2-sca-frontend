@@ -24,6 +24,14 @@ import {
 } from 'lit-element'
 
 class Facet {
+    /**
+     * Constructor of Facet class.
+     * 
+     * @param  {String} name
+     * @param  {String} code
+     * @param  {String} acc
+     * @param  {String} cat
+     */
     constructor(name, code, acc, cat) {
         this.name = name;
         this.code = code;
@@ -33,6 +41,14 @@ class Facet {
 }
 
 class Category {
+    /**
+     * Constructor of Category class.
+     * 
+     * @param  {String} name
+     * @param  {String} code
+     * @param  {String} acc
+     * @param  {Object} facets
+     */
     constructor(name, code, acc, facets) {
         this.name = name;
         this.code = code;
@@ -44,7 +60,9 @@ class Category {
 }
 
 
-// overrides the toString default method
+/**
+ * Overrides default toString method.
+ */
 Facet.prototype.toString = function toString() {
     var res = 'Name: ' + this.name +
         '\nCode: ' + this.code +
@@ -167,9 +185,9 @@ class FacetsComponent extends LitElement {
                 <label>Select facets in
                     <select required id="${this.catFieldId}" @change="${this.onCategorySelection}">
                         ${(Object.values(this.cats).length <= 0)
-                            ? html` <option>none</option>`
-                            : Object.values(this.cats).map(i => html`<option value=${i.code}>${i.code} - ${i.name} (${i.acc}%)</option>`)
-                        }
+                ? html` <option>none</option>`
+                : Object.values(this.cats).map(i => html`<option value=${i.code}>${i.code} - ${i.name} (${i.acc}%)</option>`)
+            }
                     </select>
                 </label>
             </div>
@@ -179,7 +197,8 @@ class FacetsComponent extends LitElement {
     }
 
     /**
-     * Listen for property changes
+     * Reflects property values to attributes and calls render to render DOM via lit-html.
+     * 
      * @param {*} changedProperties 
      */
     updated(changedProperties) {
@@ -189,23 +208,39 @@ class FacetsComponent extends LitElement {
         var catChanged = changedProperties.has('selCat');
         var fcsChanged = changedProperties.has('selFcs');
 
-        // if new data update categories and selected facets
+        /**
+         * If new data availble than update catefories and auto select facets (if enabled).
+         * 
+         * @param  {Boolean} newData
+         */
         if (newData) {
             this.populateCategories();
             this.autoSelectFacets();
         }
 
-        // if new list of categories than auto select first option
+        /**
+         * If new list of categories than auto select first option.
+         * 
+         * @param  {Boolean} newCats
+         */
         if (newCats) {
             this.onCategorySelection();
         }
 
-        // if facets cat changed update facets input field
+        /**
+         * If category is changed than update facet tags.
+         * 
+         * @param  {Boolean} catChanged
+         */
         if (catChanged) {
             this.populateFacets();
         }
 
-        // if selected facets changed
+        /**
+         * If facets selection is raised.
+         * 
+         * @param  {Boolean} fcsChanged
+         */
         if (fcsChanged) {
             this.updatedFcs();
         }
@@ -214,8 +249,7 @@ class FacetsComponent extends LitElement {
     }
 
     /**
-     * method used for populating the categories and calculate an average threshold 
-     * for enabling auto selection (for each category)
+     * Populate facet categories
      */
     populateCategories() {
         // return if no categories are available
@@ -231,7 +265,7 @@ class FacetsComponent extends LitElement {
     }
 
     /**
-     * hanfle event when facet category is changed
+     * handle event when facet category is changed.
      */
     onCategorySelection() {
         // get the select field component
@@ -246,7 +280,7 @@ class FacetsComponent extends LitElement {
     }
 
     /**
-     * auto select facets with accuracy higher than the min one for the specific category
+     * Auto select facets when category and facet in category have both an accuracy higher than the minimum default accuracy.
      */
     autoSelectFacets() {
         // return if auto facet selection is disabled
@@ -269,7 +303,9 @@ class FacetsComponent extends LitElement {
         }
     }
 
-    // method used for populating the facets list area
+    /**
+     *  Populate the facets-component section with the list of returned facets.
+     */
     populateFacets() {
 
         // get the select field component
@@ -319,7 +355,12 @@ class FacetsComponent extends LitElement {
         }, this);
     }
 
-    // method used for changing tag style and add facet to selected list
+    /**
+     * Changing the tag style and add facet to selected list.
+     * 
+     * @param  {Button} tag
+     * @param  {Facet} fc
+     */
     selectTag(tag, fc) {
         // change style of tag based on style property
         if (tag.style.backgroundColor == "") {
@@ -338,12 +379,20 @@ class FacetsComponent extends LitElement {
         this.updatedFcs();
     }
 
-    // method used for adding the selected facet to the list of facets to show
+    /**
+     * Add the selected facet to the list of selected facets.
+     * 
+     * @param  {Facet} fc
+     */
     addToFacets(fc) {
         this.selFcs.push(fc);
     }
 
-    // method used for removing the selected facet from the list of facets to show
+    /**
+     * Remove the selected facet from the list of selected facets.
+     * 
+     * @param  {} fc
+     */
     removeFromFacets(fc) {
         const index = this.selFcs.findIndex(facet => facet.code === fc.code);
         if (index > -1) {
@@ -351,7 +400,9 @@ class FacetsComponent extends LitElement {
         }
     }
 
-    // method used for updating the facets selection
+    /**
+     * Rise event to parent when changes occur to the list of selected facets.
+     */
     updatedFcs() {
         if (!this.selFcs)
             return;
