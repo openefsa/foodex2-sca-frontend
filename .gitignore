@@ -1,3 +1,5 @@
 # ignore folder
-doc/
 node_modules/
+
+# ignore files with extension
+doc/**/*.wsd
