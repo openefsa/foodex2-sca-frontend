@@ -72,7 +72,8 @@ If the request is handled correctly from the backend API, this will return a JSO
 #### Output Data
 * Data {Object}: JSON data file containing list of base terms, facet categories and list of facets for each category (check the [backend](https://github.com/openefsa/foodex2-sca-backend) for additional information.)
 #### Activity Diagram
-Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/baseterms-component/baseterms-component.svg).
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/input-component/input-component.svg).
+
 
 ### baseterms-component
 This web component contains a section that is populated by a series of so-called tags. The tags are arranged horizontally with respect to the section and can be scrolled through the navbar, located at the bottom, or through the shortcut ctrl+mouse wheel (or multi-touch gestures).
@@ -83,6 +84,9 @@ Each tag has the characteristic of having a grey background color by default. In
 * Baseterms {Object}: list of base terms suggested
 #### Output Data
 * Selected baseterm {Term}: object containing the term selectd.
+#### Activity Diagram
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/baseterms-component/baseterms-component.svg).
+
 
 ### facets-component
 This web component contains a section that is populated by a series of so-called tags. The tags are arranged horizontally with respect to the section and can be scrolled through the navbar, located at the bottom, or through the shortcut ctrl+mouse wheel (or multi-touch gestures).
@@ -93,6 +97,8 @@ Differently from the *baseterms-component*, the *facets-component* has a drop-do
 * FacetData {Object}: list of categories and facets.
 #### Output Data
 * Selected facets {List`<Facet>`}: object containing the facets selectd.
+#### Activity Diagram
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/facets-component/facets-component.svg).
 
 
 ### overview-component
@@ -103,6 +109,9 @@ The *"overview-component"* is a section that collects the whole list of tags sel
 * Selected Facets {List`<Facet>`}: list of facet objects populated with the properties of the chosen facets.
 #### Output Data
 * None.
+#### Activity Diagram
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/overview-component/overview-component.svg).
+
 
 ### code-component
 This component is updated every time the user interacts with the *"baseterms-component"* and *"facets-component* and allows to obtain the FoodEx2 code generated.
@@ -112,6 +121,9 @@ This component is updated every time the user interacts with the *"baseterms-com
 * Selected Facets {List`<Facet>`}: list of facet objects populated with the properties of the chosen facets.
 #### Output Data
 * None.
+#### Activity Diagram
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/code-component/code-component.svg).
+
 
 ### feedback-component
 The feedback component allows, through a specific button, to access a dialog box which exposes a series of features that allow the submission of feedback. Please note that this functionality is restricted to a limited number of users. The user, after logging in, will notice a new control button at the bottom of the homepage which, if pressed, will allow the feedback window to open. In this window we find two input fields, one dedicated to the description of the food or feed and one dedicated for the coding in FoodEx2 system. In addition, on the lower right side, there are 3 command buttons that allow us to reset the input fields, cancel the feedback operation or accept the feedback (POST request in backend).
@@ -132,6 +144,20 @@ x-access-token: mysecretkey
 * Description {String}: food/feed description typed in the *"input-component"*.
 #### Output Data
 * None.
+#### Activity Diagram
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/feedback-component/feedback-component.svg).
+
+
+### progress-bar-component
+This component is used to lock the page and show a progress bar while performing some action (e.g. retrieving data from backend).
+
+#### Input Data
+* Open {Boolean}: variable used for toggling the dialog and hence show/hide the progress bar.
+#### Output Data
+* None.
+#### Activity Diagram
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/progress-bar-component/progress-bar-component.svg).
+
 
 ## Deployment
 The following section describes how to deploy the FoodEx2 Smart Coding application locally.
