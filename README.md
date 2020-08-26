@@ -34,7 +34,7 @@ Now, move inside the project's folder just cloned and install all the required d
 npm install
 ```
 
-### Serve FoodEx2 SCA locally
+### Serve FoodEx2 SCA Locally
 In order to view the app on the browser, it is needed to serve the project using Polymer. Run the following command from the project's folder:
 ```
 polymer serve
