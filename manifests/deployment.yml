@@ -13,9 +13,9 @@ spec:
     spec:
       containers:
       - name: openefsafoodex2scafrontend
-        image: foodex2sca:frontend
-        # image: efsadsreg.azurecr.io/openefsafoodex2scafrontend
-        imagePullPolicy: Never
+        #image: foodex2sca:frontend
+        image: efsadsreg.azurecr.io/openefsafoodex2scafrontend
+        #imagePullPolicy: Never
         resources:
           limits:
             memory: "128Mi"
