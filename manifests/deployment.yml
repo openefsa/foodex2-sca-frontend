@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: openefsafoodex2scafrontend
+  name: openefsafoodexwebcomponentfrontend
 spec:
   selector:
     matchLabels:
-      app: openefsafoodex2scafrontend
+      app: openefsafoodexwebcomponentfrontend
   template:
     metadata:
       labels:
-        app: openefsafoodex2scafrontend
+        app: openefsafoodexwebcomponentfrontend
     spec:
       containers:
-      - name: openefsafoodex2scafrontend
+      - name: openefsafoodexwebcomponentfrontend
         #image: foodex2sca:frontend
-        image: efsadsreg.azurecr.io/openefsafoodex2scafrontend
+        image: efsadsreg.azurecr.io/openefsafoodexwebcomponentfrontend
         #imagePullPolicy: Never
         resources:
           limits:
@@ -26,10 +26,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: openefsafoodex2scafrontendservice
+  name: openefsafoodexwebcomponentfrontendservice
 spec:
   selector:
-    app: openefsafoodex2scafrontend
+    app: openefsafoodexwebcomponentfrontend
   ports:
   - port: 8081
   type: LoadBalancer
