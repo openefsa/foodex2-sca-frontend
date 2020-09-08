@@ -71,8 +71,8 @@ stages:
               action: deploy
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/ingress.yaml
-                $(Pipeline.Workspace)/manifests/secrets.yaml
+                $(Pipeline.Workspace)/manifests/ingress.yml
+                $(Pipeline.Workspace)/manifests/secrets.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
