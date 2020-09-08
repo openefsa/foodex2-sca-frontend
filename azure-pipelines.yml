@@ -71,7 +71,8 @@ stages:
               action: deploy
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/foodex-frontend-ingress.yaml
+                $(Pipeline.Workspace)/manifests/ingress.yaml
+                $(Pipeline.Workspace)/manifests/secrets.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
