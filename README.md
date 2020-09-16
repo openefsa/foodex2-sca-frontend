@@ -4,8 +4,8 @@
 	<img src="http://www.efsa.europa.eu/profiles/efsa/themes/responsive_efsa/logo.png" alt="European Food Safety Authority"/>
 </p>
 
-## FoodEx2 Smart Coding Application - Frontend
-The FoodEx2 Smart Coding Application is designed and developed internally in the European Food Safety Authority (DATA and AMU units). The frontend of the FoodEx2 Smart Coding Application is fully open source and aims to simplify coding in FoodEx2 by making use of free text food and feed description. More specifically, the application is composed of several web components which allow interfacing with the APIs available on the backend. Please note that the components can also be extracted and hence used outside the scope of the application itself (e.g. in another web platform).
+## FoodEx2 Smart Coding Application (front-end)
+The FoodEx2 Smart Coding Application is designed and developed internally in the European Food Safety Authority (DATA and AMU units). This project aims to simplify the FoodEx2 coding process of food starting from a given free text description. The FoodEx2 Smart Coding Application's front-end is composed of several web components which allow interfacing with the APIs available on the [back-end](https://github.com/openefsa/foodex2-sca-backend/wiki). Please note that the components can also be extracted and hence used outside the scope of the application itself (e.g. in another web platform).
 
 <p align="center">
     <img src="src/icons/FE2_POSI.jpg" alt="FoodEx2_SCA"/>
@@ -160,7 +160,7 @@ This component is used to lock the page and show a progress bar while performing
 
 
 ## Deployment
-The following section describes how to deploy the FoodEx2 Smart Coding application locally.
+The following section describes how to deploy the FoodEx2 Smart Coding Application's front-end locally.
 
 ### Docker build
 Install [Docker](https://docs.docker.com/get-docker/) and configure it on your local computer. From the main folder of the foodex2-sca-frontend project run the following command:
