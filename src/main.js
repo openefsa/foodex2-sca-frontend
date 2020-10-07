@@ -35,6 +35,7 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-dialog/paper-dialog.js';
 
 import Navigo from 'navigo/lib/navigo.es.js';
 
@@ -44,13 +45,13 @@ class MainApp extends LitElement {
         return {
             router: { type: Object },
             route: { type: Object },
-            loggedIn: { type: Boolean}
+            loggedIn: { type: Boolean},
+            tou: { type: String }
         }
     }
 
     static get styles() {
         return css`
-
             :host {
                 --primary-color: #18A592; //green
                 --background-color: red;
@@ -82,7 +83,7 @@ class MainApp extends LitElement {
             }
 
             iron-pages{
-                /* calculate page height, remove footer height */
+                width: 100%;
                 height: calc(100% - 30px);
             }
 
@@ -96,13 +97,19 @@ class MainApp extends LitElement {
                 background-color: var(--primary-color);
                 color: var(--text-color);
                 text-align: center;
+                font-size: 12px;
             }
-          
+            
+            #ToU:hover {
+                cursor:pointer;
+                background-color: lightblue;
+            }
         `;
     }
 
     constructor() {
         super();
+        this.tou = "termsOfUse";
         this.router = new Navigo("/", true, "#")
 
         this.router.on("home", () => {
@@ -185,14 +192,31 @@ class MainApp extends LitElement {
                         <login-page name="login" @userStatus="${(e) => this.loggedIn=e.detail.loggedIn}"></login-page>
                     </iron-pages>
 
-                    <!-- footer -->
-                    <footer>
-                        European Food Safety Authority
-                    </footer>
-
                 </app-header-layout>
+
+                <!-- footer -->
+                <footer>
+                    European Food Safety Authority
+                </footer>
+
             </app-drawer-layout>
+
+            <terms-of-use id="${this.tou}"></terms-of-use>
         `
+    }
+
+    
+    /**
+     *  Open terms of use dialog.
+     */
+    open() {
+        // get the component
+        let c = this.shadowRoot.getElementById(this.tou);
+        
+        // show the dialog
+        if (c) {
+            c.open();
+        }
     }
 }
 

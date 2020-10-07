@@ -12,7 +12,8 @@
         "src/components/overview-component.js",
         "src/components/code-component.js",
         "src/components/feedback-component.js",
-        "src/components/progress-bar-component.js"
+        "src/components/progress-bar-component.js",
+        "src/components/terms-of-use.js"
     ],
     "npm": true,
     "moduleResolution": "node",
