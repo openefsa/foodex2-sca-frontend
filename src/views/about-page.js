@@ -7,7 +7,7 @@
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: Thursday, 24th June 2020
+ * | Last Modified: Thursday, 7 October 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -26,16 +26,13 @@ import {
 class AboutPage extends LitElement {
 
     static get properties() {
-        return { }
+        return {}
     }
 
     static get styles() {
         return css`
         .content {
             height: 100%;
-        }
-
-        .content > * {
             margin: 5px;
             padding: 5px;
         }
@@ -48,14 +45,20 @@ class AboutPage extends LitElement {
 
     render() {
 
-        return html `
+        return html`
         <div class="content">
-            <h2>FoodEx2 Smart Coding App - Test v.1.2<h2>
-            <h4>Github frontend: <a href="https://github.com/openefsa/foodex2-sca-frontend" target="_blank">link</a>.</h4>
-            <h4>Github backend: <a href="https://github.com/openefsa/foodex2-sca-backend" target="_blank">link</a>.</h4>
-            <h4>Frequently asked questions: <a href="url" target="_blank">link</a>.</h4>
-            <h4>EFSA Data Standardisation: <a href="http://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">link</a>.</h4>
-            <h4>EFSA web site: <a href="http://www.efsa.europa.eu/en/" target="_blank">link</a>.</h4>
+            <h2>FoodEx2 Smart Coding Application - Test v.1.0</h2>
+            The FoodEx2 Smart Coding Application is a new platform, developed in EFSA through a cross collaboration between DATA and AMU units and aims to help data providers to faster codify according to the FoodEx2 classification and description the food items they need to submit to EFSA. It adopts different techniques of artificial intelligence, more specifically machine learning and text mining. This allows to get FoodEx2 codes suggestions starting from a free text which describes a particular food that the data provider inputs.
+            </br><b>Please note that the tool is in the testing phase.</b>
+            </br></br>Useful links:</br>
+
+            <ul>
+                <li>Github frontend: <a href="https://github.com/openefsa/foodex2-sca-frontend/wiki" target="_blank">link</a></li>
+                <li>Github backend: <a href="https://github.com/openefsa/foodex2-sca-backend/wiki" target="_blank">link</a></li>
+                <li>Frequently asked questions: <a href="url" target="_blank">link</a>.</li>
+                <li>EFSA Data Standardisation: <a href="http://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">link</a></li>
+                <li>EFSA web site: <a href="http://www.efsa.europa.eu/en/" target="_blank">link</a></li>
+            </ul>
         </div>
         `
     }
