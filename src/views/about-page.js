@@ -53,11 +53,11 @@ class AboutPage extends LitElement {
             </br></br>Useful links:</br>
 
             <ul>
-                <li>Github frontend: <a href="https://github.com/openefsa/foodex2-sca-frontend/wiki" target="_blank">link</a></li>
-                <li>Github backend: <a href="https://github.com/openefsa/foodex2-sca-backend/wiki" target="_blank">link</a></li>
-                <li>Frequently asked questions: <a href="url" target="_blank">link</a>.</li>
-                <li>EFSA Data Standardisation: <a href="http://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">link</a></li>
-                <li>EFSA web site: <a href="http://www.efsa.europa.eu/en/" target="_blank">link</a></li>
+                <li><a href="https://github.com/openefsa/foodex2-sca-frontend/wiki" target="_blank">Github front-end</a></li>
+                <li><a href="https://github.com/openefsa/foodex2-sca-backend/wiki" target="_blank">Github back-end</a></li>
+                <li><a href="url" target="_blank">Frequently Asked Questions</a>.</li>
+                <li><a href="http://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">EFSA Data Standardisation</a></li>
+                <li><a href="http://www.efsa.europa.eu/en/" target="_blank">EFSA web site</a></li>
             </ul>
         </div>
         `
