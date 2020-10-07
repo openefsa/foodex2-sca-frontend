@@ -196,7 +196,8 @@ class MainApp extends LitElement {
 
                 <!-- footer -->
                 <footer>
-                    European Food Safety Authority
+                    European Food Safety Authority - 
+                    <a id="ToU" @click="${this.open}">Terms of use</a>
                 </footer>
 
             </app-drawer-layout>
