@@ -7,7 +7,6 @@
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: Thursday, 24th June 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -24,7 +23,6 @@ import {
 } from 'lit-element';
 
 import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-slider/paper-slider.js';
 import '@polymer/paper-item/paper-item-body.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
@@ -43,7 +41,7 @@ class SettingsPage extends LitElement {
             btAutoSel: {
                 type: String
             },
-            fcAutoSel: {
+            fcsAutoSel: {
                 type: String
             },
             settingsProp: {
@@ -54,16 +52,31 @@ class SettingsPage extends LitElement {
 
     static get styles() {
         return css`
-        div[role="listbox"] {
-            border: 1px solid #e5e5e5;
-        }
+            .slider-div {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: flex-end;
+            }
+            
+            .slider {
+                min-width: 200px;
+            }
+
+            .custom {
+                border: 0;
+                outline:0;
+                text-align: right;
+                font-size: 12px;
+                width: 80px;
+            }
         `;
     }
 
     constructor() {
         super();
         // settings properties
-        this.settingsProp = ["lang", "acc", "btAutoSel", "fcAutoSel"];
+        this.settingsProp = ["lang", "acc", "btAutoSel", "fcsAutoSel"];
         
         if (localStorage.getItem("lang") === null)
             localStorage.setItem("lang", "en");
@@ -72,20 +85,20 @@ class SettingsPage extends LitElement {
             localStorage.setItem("acc", 5);
         this.acc = localStorage.getItem('acc');
         if (localStorage.getItem("btAutoSel") === null)
-            localStorage.setItem("btAutoSel", "true");
+            localStorage.setItem("btAutoSel", "false");
         this.btAutoSel = localStorage.getItem('btAutoSel');
-        if (localStorage.getItem("fcAutoSel") === null)
-            localStorage.setItem("fcAutoSel", "false");
-        this.fcAutoSel = localStorage.getItem('fcAutoSel');
+        if (localStorage.getItem("fcsAutoSel") === null)
+            localStorage.setItem("fcsAutoSel", "false");
+        this.fcsAutoSel = localStorage.getItem('fcsAutoSel');
     }
 
     render() {
         return html`
-        <div role="listbox">
+        <paper-listbox>
             <paper-item>
                 <paper-item-body two-line>
                     <div>Language</div>
-                    <div secondary>Select the language in which you want to get your FoodEx2 suggestions.</div>
+                    <div secondary>System language</div>
                 </paper-item-body>
                 <paper-dropdown-menu-light noink no-animations>
                     <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="${this.lang}">
@@ -96,29 +109,44 @@ class SettingsPage extends LitElement {
             <paper-item>
                 <paper-item-body two-line>
                     <div>Threshold results (in %)</div>
-                    <div secondary>Select the threshold percentage for the suggestions shown (only those with a higher percentage will be displayed).</div>
+                    <div secondary>Shows only terms with an accuracy percentage higher than the set threshold</div>
                 </paper-item-body>
-                <paper-slider pin min="1" max="99" step="1" value="${this.acc}" @change="${(e) => this.updateValue(1, e.target.value)}" editable></paper-slider>
+                <div class="slider-div">
+                    <div>
+                        <input class="custom" type="number" value="${this.acc}" readonly>%</input>
+                    </div>
+                    <div>
+                        <input type="range" class="slider" name="volume" min="0.001" max="99.999" step="0.001" list="tickmarks" value="${this.acc}" @change="${(e) => this.updateValue(1, e.target.value)}">
+                            <datalist id="tickmarks">
+                                <option value="0.001" label="0.001%"></option>
+                                <option value="25" label="25%"></option>
+                                <option value="50" label="50%"></option>
+                                <option value="75" label="75%"></option>
+                                <option value="99.999" label="99.999%"></option>
+                            </datalist>
+                        </input>
+                    </div>
+                </div>
             </paper-item>
             <paper-item>
                 <paper-item-body two-line>
                     <div>Auto select base term</div>
-                    <div secondary>Enable the auto selection for the base term with the highest percentage of accuracy (the first one shown in the list).</div>
+                    <div secondary>Auto select the base term with higher percentage of accuracy</div>
                 </paper-item-body>
-                <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(2, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.btAutoSel === "true") ? true : false}>
+                <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(2, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.btAutoSel === "true")}>
                     ${(this.btAutoSel === "true") ? "Enabled" : "Disabled"}
                 </paper-toggle-button>
             </paper-item>
             <paper-item>
                 <paper-item-body two-line>
-                    <div>Auto select facets [BETA]</div>
-                    <div secondary>Enable the auto selection for the facets having a high percentage of accuracy (only in categories having an accuracy > 50%).</div>
+                    <div>Auto select facets</div>
+                    <div secondary>Auto select facets having at least 50% of accuracy (applied to both categories and facets)</div>
                 </paper-item-body>
-                <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(3, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.fcAutoSel === "true") ? true : false}>
-                    ${(this.fcAutoSel === "true") ? "Enabled" : "Disabled"}
+                <paper-toggle-button id="toggle" role="toggle" @click="${(e) => this.updateValue(3, e.target.getAttribute("aria-pressed").toString())}" noink invalid ?checked=${(this.fcsAutoSel === "true")}>
+                    ${(this.fcsAutoSel === "true") ? "Enabled" : "Disabled"}
                 </paper-toggle-button>
             </paper-item>
-        </div>
+        </paper-listbox>
 
         `
     }
@@ -138,7 +166,6 @@ class SettingsPage extends LitElement {
 
     /* Save the new selected setting */
     updateValue(i, val) {
-
         // get property by index
         let property = this.settingsProp[i];
 
