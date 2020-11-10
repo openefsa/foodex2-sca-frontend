@@ -23,6 +23,10 @@ import {
     css
 } from 'lit-element'
 
+import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/paper-icon-button/paper-icon-button-light.js';
+
 class CodeComponent extends LitElement {
 
     static get properties() {
@@ -35,6 +39,12 @@ class CodeComponent extends LitElement {
             },
             code: {
                 type: String
+            },
+            codeViewer: {
+                type: String
+            },
+            codeTooltip: {
+                type: String
             }
         }
     }
@@ -42,18 +52,65 @@ class CodeComponent extends LitElement {
     static get styles() {
         return css`
 
-            #codeViewer {
-                font-family: Arial;
-                color: red; 
-                text-align: center;
-                font-size: 14px;
-                line-height: 40px;
-                height: 40px;
+            .container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;    
                 border:1px solid lightgray;
                 border-radius: 4px;
+            }
+
+            input {
+                border: 0px;
+                border-radius: 4px;
+            }
+
+            #codeViewer {
+                flex: 1;
+                color: red; 
+                font-size: 14px;
+                font-family: Arial;
+                text-align: center;
                 overflow-x: auto;
                 overflow-y: hidden;
                 white-space: nowrap;
+                line-height: 40px;
+                height: 40px;
+                margin-right: 5px;
+            }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 140px;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px;
+                position: absolute;
+                z-index: 1;
+                bottom: 150%;
+                left: 50%;
+                margin-left: -140px;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+                
+            .tooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: 55px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+            }
+                
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
             }
 
             /* width */
@@ -89,12 +146,24 @@ class CodeComponent extends LitElement {
         this.bt = null;
         this.fcs = new Array();
         this.code = "";
+        this.codeViewer = "codeViewer";
+        this.codeTooltip = "codeTooltip";
     }
 
     render() {
         return html`
             <div>FoodEx2 Code</div>
-            <div id="codeViewer">${this.code}</div>
+            <div class="container">
+                <input id="${this.codeViewer}" type="text" value="${this.code}" readonly></input>
+                <div class="tooltip">
+                    <paper-icon-button-light>
+                        <button title="Copy code" @click="${this.copyCode}" @mouseout="${this.resetTooltip}">
+                            <span class="tooltiptext" id="${this.codeTooltip}">Copy to clipboard</span>
+                            <iron-icon icon="content-copy"></iron-icon>
+                        </button>
+                    </paper-icon-button-light>
+                </div>
+            </div>
         `
     }
 
@@ -134,6 +203,32 @@ class CodeComponent extends LitElement {
                 if (i < fcsLen - 1)
                     this.code = this.code + "$";
             }
+        }
+    }
+
+    /**
+     * this method allows to copy the FoodEx2 code generated
+     */
+    copyCode() {
+        var copyCode = this.shadowRoot.getElementById(this.codeViewer);
+        // show alert if no code is available
+        if(copyCode.value.length<=0) {
+            alert("Nothing to copy.");
+        }
+        copyCode.select();
+        document.execCommand("copy");
+        // show the tooltip with the code copied
+        var tooltip = this.shadowRoot.getElementById(this.codeTooltip);
+        tooltip.innerHTML = "Copied: " + copyCode.value;
+    }
+
+    /**
+     * Reset tooltip
+     */
+    resetTooltip() {
+        var tooltip = this.shadowRoot.getElementById(this.codeTooltip);
+        if(tooltip) {
+            tooltip.innerHTML = "Copy to clipboard";
         }
     }
 
