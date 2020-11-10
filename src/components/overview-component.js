@@ -41,9 +41,9 @@ class OverviewComponent extends LitElement {
 
     static get styles() {
         return css`
-
             #overview {
-                height: 90%;
+                min-height: 100px;
+                height: calc(100% - 25px);
                 border:1px solid lightgray;
                 border-radius: 4px;
                 overflow-y: auto;
@@ -63,8 +63,9 @@ class OverviewComponent extends LitElement {
                 padding: 5px; 
                 background: #bad0e7;
                 float: left;
+                cursor: pointer;
             }
-    
+
             .selected-fc {
                 font-family: Arial;
                 font-size:13px;
@@ -75,8 +76,9 @@ class OverviewComponent extends LitElement {
                 padding: 5px; 
                 background: #cde69c;
                 float: left;
+                cursor: pointer;
             }
-    
+
             .inner-bt{
                 font-family: Arial;
                 font-size:13px;
@@ -96,7 +98,6 @@ class OverviewComponent extends LitElement {
                 background: #1f3f2b;
                 color: #cde69c;
             }
-    
         `;
     }
 
@@ -125,9 +126,9 @@ class OverviewComponent extends LitElement {
         var changedFcs = changedProperties.has('fcs');
 
         // update the tags field if bt/fc is selected
-        if (changedBt || changedFcs)
+        if (changedBt || changedFcs) {
             this.populateTags();
-        
+        }
         return changedBt || changedFcs;
     }
 
@@ -147,9 +148,9 @@ class OverviewComponent extends LitElement {
         tagInput.innerHTML = null;
 
         // add baseterm
-        if (this.bt)
+        if (this.bt) {
             this.addTag(tagInput, this.bt, "bt");
-
+        }
         // add facets
         if (this.fcs) {
             this.fcs.forEach(fc => {
@@ -175,6 +176,12 @@ class OverviewComponent extends LitElement {
         innerTag.setAttribute('class', 'inner-' + type);
         innerTag.innerHTML = (type === "bt") ? type.toUpperCase() : term.cat;
         tag.appendChild(innerTag);
+        // when clicking on tag
+        tag.onclick = () => {
+            // fire event to parent
+            let event = new CustomEvent('showInfo', {detail: term});
+            this.dispatchEvent(event);
+        }
         // append main tag to overview field
         tagInput.appendChild(tag);
     }
