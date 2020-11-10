@@ -54,9 +54,6 @@ export class LoginPage extends LitElement {
             },
             activatePb: {
                 type: Boolean
-            },
-            remember: {
-                type: Boolean
             }
         }
     }
@@ -96,7 +93,6 @@ export class LoginPage extends LitElement {
         super();
         this.user = new User();
         this.activatePb = false;
-        this.remember = JSON.parse(localStorage.getItem('remember'));
     }
 
     render() {
@@ -114,9 +110,6 @@ export class LoginPage extends LitElement {
                             <paper-password-input name="token" label="Token" required auto-validate error-message="Please provide a token"></paper-password-input>
                         </form>
                     </iron-form>
-                    <div>
-                        <input type="checkbox" value="lsRememberMe" .checked="${this.remember}" @click="${this.toggleCheck}"> <label for="rememberMe">Remember me</label>
-                    </div>
                     <paper-button raised @click="${this.login}">Login</paper-button>
                 `
             }
@@ -137,14 +130,9 @@ export class LoginPage extends LitElement {
             this.user = new User(u.username, u.token);
             // fire event to parent
             this.updateUser();
+        } else {
+            this.updateUser();
         }
-    }
-
-    /* toggle the remember me flag */
-    toggleCheck() {
-        this.remember = !this.remember;
-        localStorage.setItem('remember', this.remember);
-        
     }
 
     /* save new status on local storage */
@@ -152,17 +140,9 @@ export class LoginPage extends LitElement {
         // hide progress bar dialog
         this.activatePb = false;
         // save new user on local storage
-        if (this.remember) {
-            localStorage.setItem('user', JSON.stringify(this.user));
-        } else {
-            localStorage.removeItem('user');
-        }
+        localStorage.setItem('user', JSON.stringify(this.user));
         // fire event to parent
-        let event = new CustomEvent('userStatus', {
-            detail: {
-                loggedIn: this.user.isLoggedIn()
-            }
-        });
+        let event = new CustomEvent('userStatus', {detail: this.user.isLoggedIn()});
         this.dispatchEvent(event);
     }
 
