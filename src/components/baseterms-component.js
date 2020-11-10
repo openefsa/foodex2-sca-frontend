@@ -7,7 +7,7 @@
  * | Author: Alban Shahaj (shahaal)
  * | Email: data.collection@efsa.europa.eu
  * | -----------------------------------------------------------------  
- * | Last Modified: Thursday, 4th June 2020
+ * | Last Modified: Thursday, 7th October 2020
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
  * | Copyright (c) 2020 European Food Safety Authority (EFSA)
@@ -27,14 +27,20 @@ class Term {
     /**
      * Constructor of term class.
      * 
-     * @param  {String} name
-     * @param  {String} code
-     * @param  {String} acc
+     * @param {*} code 
+     * @param {*} obj 
      */
-    constructor(name, code, acc) {
-        this.name = name;
+    constructor(code, obj) {
         this.code = code;
-        this.acc = parseFloat((acc*100).toFixed(2));
+        this.name = obj.termExtendedName;
+        this.commonName = obj.commonNames;
+        this.scientificName = obj.scientificNames;
+        this.scopeNote = obj.termScopeNote;
+        this.termType = obj.termType;
+        this.detailLevel = obj.detailLevel;
+        this.deprecated = obj.deprecated;
+        this.implicitFacets = obj.allFacets;
+        this.acc = parseInt(obj.acc*100);
     }
 }
 
@@ -42,8 +48,8 @@ class Term {
  * Overrides default toString method.
  */
 Term.prototype.toString = function toString() {
-    var ret = 'Name: ' + this.name + 
-            '\nCode: ' + this.code + 
+    var ret = 'Code: ' + this.code + 
+            '\nName: ' + this.name + 
             '\nAccuracy: ' + this.acc + "%";
     return ret;
 }
@@ -68,7 +74,7 @@ class BasetermsComponent extends LitElement {
                 height:40px;
                 border:1px solid lightgray;
                 border-radius: 4px;
-                overflow: auto;
+                overflow-x: auto;
                 white-space: nowrap;
             }
 
@@ -144,7 +150,6 @@ class BasetermsComponent extends LitElement {
         return html `
             <div>Select a base term</div>
             <div id="${this.fieldId}"></div>
-            
             `
     }
 
@@ -179,10 +184,10 @@ class BasetermsComponent extends LitElement {
 
         // clean the component content
         tagInput.innerHTML = null;
-
+        
         // map each baseterm
-        var results = Object.entries(this.baseterms).map(([key, value]) => new Term(value.name, key, value.acc));
-
+        var results = Object.entries(this.baseterms).map(([k, v]) => new Term(k, v));
+        
         // flag for auto-selecting first term
         var flag = true;
 
@@ -241,12 +246,7 @@ class BasetermsComponent extends LitElement {
      * @param  {Term} bt selected base term
      */
     updatedBt(bt) {
-        // fire event to parent
-        let event = new CustomEvent('bt', {
-            detail: {
-                selectedBt: bt
-            }
-        });
+        let event = new CustomEvent('bt', {detail: bt});
         this.dispatchEvent(event);
     }
 
