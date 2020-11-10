@@ -45,7 +45,7 @@ class MainApp extends LitElement {
         return {
             router: { type: Object },
             route: { type: Object },
-            loggedIn: { type: Boolean},
+            loggedIn: { type: Boolean },
             tou: { type: String }
         }
     }
@@ -54,8 +54,8 @@ class MainApp extends LitElement {
         return css`
             :host {
                 --primary-color: #18A592; //green
-                --background-color: red;
-                --text-color: #fff; //white
+                --background-color: white;
+                --text-color: white; //white
 
                 --app-drawer-width: 200px;
             }
@@ -63,12 +63,13 @@ class MainApp extends LitElement {
             app-toolbar {
                 background-color: var(--primary-color);
                 color: var(--text-color);
+                height: 50px;
             }
     
             app-drawer-layout:not([narrow]) [drawer-toggle] {
                 display: none;
             }
-    
+            
             paper-item {
                 height: 54px;
             }
@@ -81,14 +82,17 @@ class MainApp extends LitElement {
                 text-decoration: none;
                 color: black;
             }
-
+            
             iron-pages{
                 width: 100%;
-                height: calc(100% - 30px);
+                height: 100%;
+                padding-bottom: 30px;
+                clear: both;
             }
 
             footer {
-                position:fixed;
+                display: flex;
+                position: fixed;
                 bottom:0;
                 width: 100%;
                 line-height: 30px;
@@ -96,10 +100,32 @@ class MainApp extends LitElement {
                 clear: both;
                 background-color: var(--primary-color);
                 color: var(--text-color);
-                text-align: center;
                 font-size: 12px;
+                align-items: center;
+            }
+
+            .left-content {
+                flex: 1;
             }
             
+            .right-content {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+            .flex-item {
+                height: 30px;
+                margin: 0 5px;
+            }
+
+            .separator {
+                border: 0.1px solid white;
+                background-color: white;
+                height: 20px;
+            }
+
             #ToU:hover {
                 cursor:pointer;
                 background-color: lightblue;
@@ -123,9 +149,8 @@ class MainApp extends LitElement {
         }).on('*', () => {
             this.router.navigate('/home');
         }).resolve();
-
     }
-    
+
     render() {
 
         return html`
@@ -176,7 +201,8 @@ class MainApp extends LitElement {
                         <!-- top toolbar -->
                         <app-toolbar>
                             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                                <div main-title>FoodEx2 Smart Coding App</div>
+                            <div main-title>FoodEx2 Smart Coding App</div>
+                            <paper-icon-button icon="settings" @click="${() => this.router.navigate("#/settings")}"></paper-icon-button>
                             <paper-icon-button icon="home" @click="${() => this.router.navigate("#/home")}"></paper-icon-button>
                         </app-toolbar>
 
@@ -189,15 +215,25 @@ class MainApp extends LitElement {
                         <home-page name="home" .loggedIn="${this.loggedIn}"></home-page>
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
-                        <login-page name="login" @userStatus="${(e) => this.loggedIn=e.detail.loggedIn}"></login-page>
+                        <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
                     </iron-pages>
 
                 </app-header-layout>
 
                 <!-- footer -->
                 <footer>
-                    European Food Safety Authority - 
-                    <a id="ToU" @click="${this.open}">Terms of use</a>
+                    <div class="left-content">
+                        <div class="flex-item">European Food Safety Authority - <a id="ToU" @click="${this.open}">Terms of use</a></div>
+                    </div>
+                    <div class="right-content">
+                        <div class="flex-item">Logged in: ${(localStorage["user"]!="{}")?"🟢":"🔴"}</div>
+                        <div class="separator"></div>
+                        <div class="flex-item">Lang: ${localStorage["lang"]}</div>
+                        <div class="separator"></div>
+                        <div class="flex-item">Threshold: ${localStorage["acc"]}%</div>
+                        <div class="separator"></div>
+                        <div class="flex-item">Autosel [bt: ${(localStorage["btAutoSel"]==="true")?"🟢":"🔴"}, fcs: ${(localStorage.getItem("fcsAutoSel")==="true")?"🟢":"🔴"}]</div>
+                    </div>
                 </footer>
 
             </app-drawer-layout>
@@ -206,14 +242,13 @@ class MainApp extends LitElement {
         `
     }
 
-    
     /**
      *  Open terms of use dialog.
      */
     open() {
         // get the component
         let c = this.shadowRoot.getElementById(this.tou);
-        
+
         // show the dialog
         if (c) {
             c.open();
