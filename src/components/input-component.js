@@ -50,16 +50,11 @@ class InputComponent extends LitElement {
             .flex-container {
                 display: flex;
                 flex-direction: row;
-                justify-content: stretch; 
                 width: 100%;
             }
 
-            .flex-container > .flex-item {
+            .flex-item {
                 flex: 1;
-            }
-
-            .flex-container > .col-item {
-                width: auto;
             }
 
             input {
@@ -73,7 +68,6 @@ class InputComponent extends LitElement {
             paper-button {
                 background-color: lightgray;
                 color: black;
-                margin: 0 0 0 3px;
             }
     
             paper-button:hover {
@@ -89,18 +83,17 @@ class InputComponent extends LitElement {
         this.activatePb = false;
         this.freeText = '';
         // k8s_hostname:port/api_name
-        this.url = new URL(config.BASE_URL + 'predictAll');
+        this.url = new URL(config.BASE_URL + 'predict_all');
     }
 
     render() {
         return html`
-            <label>
-                Food Description
-                <div class="flex-container">
-                    <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress=${this.handleKeyPress}"></input>
-                    <paper-button class="col-item" @click="${this.getSuggestions}">SEND</paper-button>
-                </div>
-            </label>
+            <div>Food Description</div>
+            <div class="flex-container">
+                <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress="${this.handleKeyPress}"></input>
+                <paper-button @click="${this.getSuggestions}">GO</paper-button>
+            </div>
+            
             <progress-bar .activate="${this.activatePb}"></progress-bar>
         `
     }
