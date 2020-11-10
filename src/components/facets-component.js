@@ -27,16 +27,21 @@ class Facet {
     /**
      * Constructor of Facet class.
      * 
-     * @param  {String} name
-     * @param  {String} code
-     * @param  {String} acc
-     * @param  {String} cat
+     * @param {*} code 
+     * @param {*} cat 
+     * @param {*} obj 
      */
-    constructor(name, code, acc, cat) {
-        this.name = name;
+    constructor(code, cat, obj) {
         this.code = code;
-        this.acc = parseFloat((acc * 100).toFixed(2));
+        this.name = obj.termExtendedName;
+        this.commonName = obj.commonNames;
+        this.scientificName = obj.scientificName;
+        this.scopeNote = obj.termScopeNote;
+        this.termType = obj.termType;
+        this.detailLevel = obj.detailLevel;
+        this.deprecated = obj.deprecated;
         this.cat = cat;
+        this.acc = parseInt(obj.acc * 100);
     }
 }
 
@@ -44,18 +49,19 @@ class Category {
     /**
      * Constructor of Category class.
      * 
-     * @param  {String} name
-     * @param  {String} code
-     * @param  {String} acc
-     * @param  {Object} facets
+     * @param {*} code 
+     * @param {*} obj 
      */
-    constructor(name, code, acc, facets) {
-        this.name = name;
+    constructor(code, obj) {
         this.code = code;
-        this.acc = parseFloat((acc * 100).toFixed(2));
-        this.facets = Object.entries(facets).map(([k, v]) =>
-            new Facet(v.name, k, v.acc, code)
-        );
+        this.label = obj.label;
+        this.name = obj.name;
+        this.scopeNote = obj.scopeNote;
+        this.deprecated = obj.deprecated;
+        this.attributeReportable = obj.attributeReportable;
+        this.attributeSingleOrRepeatable = obj.attributeSingleOrRepeatable;
+        this.acc = parseInt(obj.acc * 100);
+        this.facets = Object.entries(obj.facets).map(([k, v]) => new Facet(k, code, v));
     }
 }
 
@@ -185,9 +191,9 @@ class FacetsComponent extends LitElement {
                 <label>Select facets in
                     <select required id="${this.catFieldId}" @change="${this.onCategorySelection}">
                         ${(Object.values(this.cats).length <= 0)
-                ? html` <option>none</option>`
-                : Object.values(this.cats).map(i => html`<option value=${i.code}>${i.code} - ${i.name} (${i.acc}%)</option>`)
-            }
+                            ? html` <option>none</option>`
+                            : Object.values(this.cats).map(i => html`<option value=${i.code}>${i.code} - ${i.label} (${i.acc}%)</option>`)
+                        }
                     </select>
                 </label>
             </div>
@@ -260,7 +266,7 @@ class FacetsComponent extends LitElement {
         this.selFcs = new Array();
         // map each facet for the selected category
         Object.entries(this.data).map(([k, v]) => {
-            this.cats[k] = new Category(v.name, k, v.acc, v.facets);
+            this.cats[k] = new Category(k, v);
         });
     }
 
@@ -284,7 +290,7 @@ class FacetsComponent extends LitElement {
      */
     autoSelectFacets() {
         // return if auto facet selection is disabled
-        if (localStorage.getItem('fcAutoSel') === 'true') {
+        if (localStorage.getItem('fcsAutoSel') === 'true') {
             var temp = [];
             // iterate over facet categories
             Object.values(this.cats).forEach(c => {
@@ -406,12 +412,7 @@ class FacetsComponent extends LitElement {
     updatedFcs() {
         if (!this.selFcs)
             return;
-        // fire event to parent
-        let event = new CustomEvent('fcs', {
-            detail: {
-                selectedFcs: this.selFcs
-            }
-        });
+        let event = new CustomEvent('fcs', {detail: this.selFcs});
         this.dispatchEvent(event);
     }
 }
