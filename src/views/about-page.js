@@ -46,7 +46,7 @@ class AboutPage extends LitElement {
 
         return html`
         <div class="content">
-            <h2>FoodEx2 Smart Coding Application - Test v.1.0</h2>
+            <h2>FoodEx2 Smart Coding Application - Test v.1.1</h2>
             The FoodEx2 Smart Coding Application is a new platform, developed in EFSA through a cross collaboration between DATA and AMU units and aims to help data providers to faster codify according to the FoodEx2 classification and description the food items they need to submit to EFSA. It adopts different techniques of artificial intelligence, more specifically machine learning and text mining. This allows to get FoodEx2 codes suggestions starting from a free text which describes a particular food that the data provider inputs.
             </br><b>Please note that the tool is in the testing phase.</b>
             </br></br>Useful links:</br>
