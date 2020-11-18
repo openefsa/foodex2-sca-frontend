@@ -165,7 +165,7 @@ The following section describes how to deploy the FoodEx2 Smart Coding Applicati
 ### Docker build
 Install [Docker](https://docs.docker.com/get-docker/) and configure it on your local computer. From the main folder of the foodex2-sca-frontend project run the following command:
 ```
-docker build -t name:tag
+docker build -t name:tag .
 ```
 
 This command will use the **DOCKERFILE**, present in the main folder, for creating the docker image. Check if the docker image is present by launching the following command:
