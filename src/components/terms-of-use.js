@@ -36,8 +36,12 @@ class TermsOfUse extends LitElement {
 
     static get styles() {
         return css`
-            h2 {
+            h4 {
                 text-align: center;
+            }
+
+            h5 {
+                font-size: 14px;
             }
 
             mark {
@@ -55,9 +59,8 @@ class TermsOfUse extends LitElement {
 
         return html`
             <paper-dialog id="${this.dialog}">
-                <h2>EFSA FoodEx2 Smart Coding Web Application</br>Terms of Use</h2>
+                <h4> EFSA FoodEx2 Smart Coding Application</br>Terms of Use</br>02 October 2020</h4>
                 <paper-dialog-scrollable>
-                    <h3>Version 1.0 – 02 October 2020</h3>
                     </br>
                     The present Terms and Conditions of Use (the "Terms of Use") apply to the FoodEx2 Smart Coding application (hereinafter "FoodEx2 SCA") web site located at http://20.50.52.9/.  
 
@@ -67,7 +70,7 @@ class TermsOfUse extends LitElement {
                     </center>
                     EFSA reserves the right, at its sole discretion, to change, modify, add or remove portions of these Terms of Use, at any time. It is your responsibility to check these Terms of Use periodically for changes. Your continued use of FoodEx2 SCA following the posting of changes will mean that you accept and agree to the changes. As long as you comply with these Terms of Use, EFSA grants you a personal, non-exclusive, non-transferable, limited privilege to enter and use FoodEx2 SCA.
                     
-                    <h3>1. General information and purpose of the FoodEx2 SCA</h3>
+                    <h5>1. General information and purpose of the FoodEx2 SCA</h5>
                     
                     It is EFSA’s goal to simplify the process of coding food and feed.  
 
@@ -81,7 +84,7 @@ class TermsOfUse extends LitElement {
 
                     FoodEx2 SCA is also equipped with a function able to <b>send feedbacks</b>. This will allow EFSA to retrain the models and eventually increase the accuracy of the code proposed. That said, the models will be subject to new training periodically, which could alter the proposed suggestions and the percentage of accuracy attributed to each term. EFSA will take technical details related to the models in use respecting privacy rules in place between EFSA and the data providers. 
                                         
-                    <h3>2. Scope</h3>
+                    <h5>2. Scope</h5>
                     These terms apply between the user and the European Food Safety Authority (EFSA) and they set out the conditions applicable to the use of the FoodEx2 SCA.  
 
                     The "user" means the natural or legal person (e.g. the individual, company, organisation) subject to the terms and conditions of these terms, who has created user account to use the Tool.  
@@ -93,7 +96,7 @@ class TermsOfUse extends LitElement {
                     
                     By the acceptance of these terms by the user, EFSA grants the user a revocable, non-exclusive, non-transferable and limited license to use the FoodEx2 SCA solely for personal purposes strictly in accordance with the terms of this Agreement.                    
                     
-                    <h3>3. Intellectual Property Rights</h3>
+                    <h5>3. Intellectual Property Rights</h5>
                     EFSA owns the FoodEx2 SCA. <b>Copyright (©)</b> is asserted by EFSA for the FoodEx2 SCA, unless otherwise stated. By providing access to the EFSA FoodEx2 SCA to users, EFSA does not waive ownership on the FoodEx2 SCA and reserves all rights to maintain it, update it, or improve it as it sees it fit.  
 
                     The FoodEx2 SCA does not disclose any commercially sensitive or otherwise confidential information. 
@@ -102,7 +105,7 @@ class TermsOfUse extends LitElement {
 
                     The <b>EFSA logo</b> is the exclusive property of the European Food Safety Authority – EFSA’s name and its logo are registered under Article 6ter of the Paris Convention for the protection of industrial property. Their use is prohibited without the prior written permission of EFSA. 
 
-                    <h3>4. Liability</h3>
+                    <h5>4. Liability</h5>
                     EFSA’s goal is to keep this information timely and accurate. FoodEx2 SCA is therefore meant as a <mark>living software working as a web application</mark>, to be <b>regularly updated and maintained by EFSA</b> to the best of its knowledge and available resources in connection to the data collected. FoodEx2 SCA will not store any sensitive information other than those already stored by other EFSA systems, or other data resulting from its use. If factual errors are brought to EFSA’s attention, EFSA intends doing its utmost to correct them as soon as possible. The EFSA FoodEx2 SCA may also be updated to incorporate new information, codes or data resulting from EFSA’s scientific activities and data collections. EFSA does not provide any reassurance on the accuracy or suitability of any document, information, data provided as a result of the use of the FoodEx2 SCA by the user and is without prejudice to the outcome of EFSA’s evaluation processes. 
 
                     Obtaining access to the FoodEx2 SCA does not establish any contractual relationship between the user and EFSA. Any user of the FoodEx2 SCA is advised to consult with an attorney, consultant or other professional to determine what may be best for their respective individual needs. By acceding the FoodEx2 SCA, the user also acknowledges that the documents, data or information made available by EFSA may contain inaccuracies or errors. The content of the information provided as a result of the use of the FoodEx2 SCA is for information only. 
@@ -115,11 +118,11 @@ class TermsOfUse extends LitElement {
 
                     This disclaimer is not intended to limit EFSA’s liability in contravention of any requirements laid down in applicable national or EU law nor to exclude its liability for matters which may not be excluded under such laws.  
 
-                    <h3>5. Restrictions</h3>
+                    <h5>5. Restrictions</h5>
                     The user agrees not to license, sell, rent, lease, assign, distribute, transmit, host, outsource, disclose or otherwise exploit the FoodEx2 SCA as well as to make the use of the FoodEx2 SCA available to any third party provided with the user’s account. The same rules apply to any others who have in any case access to the user account. 
                 </paper-dialog-scrollable>
                 <div class="buttons">
-                    <paper-button dialog-confirm>Tap me to close</paper-button>
+                    <paper-button dialog-confirm>Close</paper-button>
                 </div>
             </paper-dialog>
         `
