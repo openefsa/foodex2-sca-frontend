@@ -63,16 +63,12 @@ export class LoginPage extends LitElement {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
-        }
-
-        .flex-container > * {
-            margin: 20px;
-            padding: 5px;
+            justify-content: space-around;
+            height: 100%;
         }
 
         paper-input {
-            width: 400px;
+            min-width: 300px;
             max-width:700px;
         }
 
