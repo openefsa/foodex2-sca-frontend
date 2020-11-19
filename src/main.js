@@ -129,6 +129,13 @@ class MainApp extends LitElement {
                 cursor:pointer;
                 background-color: lightblue;
             }
+
+            /* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
+            @media screen and (max-width: 600px) {
+            .right-content {
+                display: none !important;
+            }
+    }
         `;
     }
 
@@ -231,7 +238,7 @@ class MainApp extends LitElement {
                         <div class="separator"></div>
                         <div class="flex-item">Threshold: ${localStorage["acc"]}%</div>
                         <div class="separator"></div>
-                        <div class="flex-item">Autosel [bt: ${(localStorage["btAutoSel"]==="true")?"🟢":"🔴"}, fcs: ${(localStorage.getItem("fcsAutoSel")==="true")?"🟢":"🔴"}]</div>
+                        <div class="flex-item">Autosel[bt:${(localStorage["btAutoSel"]==="true")?"🟢":"🔴"},fcs:${(localStorage.getItem("fcsAutoSel")==="true")?"🟢":"🔴"}]</div>
                     </div>
                 </footer>
 
