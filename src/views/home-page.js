@@ -91,7 +91,6 @@ export class HomePage extends LitElement {
       display: flex;
       flex-direction: column;
       flex: 2;
-      width: 200px;
       padding: 5px;
     }
 
@@ -159,12 +158,6 @@ export class HomePage extends LitElement {
     @media screen and (max-width: 600px) {
       .flexbox {
         flex-direction: column;
-      }
-
-      .main-panel {
-        flex-direction: column;
-        min-height: 60%;
-        width: 100%;
       }
 
       .info-panel {
