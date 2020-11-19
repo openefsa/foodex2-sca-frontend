@@ -91,6 +91,7 @@ export class HomePage extends LitElement {
       display: flex;
       flex-direction: column;
       flex: 2;
+      min-width: 200px;
       padding: 5px;
     }
 
