@@ -27,6 +27,7 @@ import '@polymer/paper-item/paper-item-body.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu-light.js';
+import '@polymer/paper-input/paper-input.js';
 
 class SettingsPage extends LitElement {
 
@@ -52,23 +53,10 @@ class SettingsPage extends LitElement {
 
     static get styles() {
         return css`
-            .slider-div {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                justify-content: flex-end;
-            }
-            
-            .slider {
-                min-width: 200px;
-            }
-
-            .custom {
-                border: 0;
-                outline:0;
+            .thd-input {
+                min-width: 150px;
+                width: auto;
                 text-align: right;
-                font-size: 12px;
-                width: 80px;
             }
         `;
     }
@@ -77,7 +65,7 @@ class SettingsPage extends LitElement {
         super();
         // settings properties
         this.settingsProp = ["lang", "acc", "btAutoSel", "fcsAutoSel"];
-        
+
         if (localStorage.getItem("lang") === null)
             localStorage.setItem("lang", "en");
         this.lang = localStorage.getItem('lang');
@@ -111,22 +99,21 @@ class SettingsPage extends LitElement {
                     <div>Threshold results (in %)</div>
                     <div secondary>Shows only terms with an accuracy percentage higher than the set threshold</div>
                 </paper-item-body>
-                <div class="slider-div">
-                    <div>
-                        <input class="custom" type="number" value="${this.acc}" readonly>%</input>
-                    </div>
-                    <div>
-                        <input type="range" class="slider" name="volume" min="0.001" max="99.999" step="0.001" list="tickmarks" value="${this.acc}" @change="${(e) => this.updateValue(1, e.target.value)}">
-                            <datalist id="tickmarks">
-                                <option value="0.001" label="0.001%"></option>
-                                <option value="25" label="25%"></option>
-                                <option value="50" label="50%"></option>
-                                <option value="75" label="75%"></option>
-                                <option value="99.999" label="99.999%"></option>
-                            </datalist>
-                        </input>
-                    </div>
-                </div>
+                <paper-input 
+                    class="thd-input" 
+                    type="number" 
+                    label="From 0.001 to 99.999%" 
+                    value="${this.acc}" 
+                    min="0.001" 
+                    max="99.999" 
+                    step="0.001" 
+                    @change="${(e) => (e.target.invalid) ? "" : this.updateValue(1, e.target.value)}"
+                    always-float-label
+                    auto-validate 
+                    validator="${this.handleChange}"
+                    error-message="Incorrect value">
+                    <div slot="suffix">%</div>
+                </paper-input>
             </paper-item>
             <paper-item>
                 <paper-item-body two-line>
@@ -151,6 +138,16 @@ class SettingsPage extends LitElement {
         `
     }
 
+    /**
+     * Check if input value is within the valid range
+     * 
+     * @param {*} v 
+     */
+    handleChange(v) {
+        return (v >= 0.001 && v <= 99.999)
+    }
+
+
     /* Called after the element’s DOM has been updated the first time, immediately before updated is called. */
     firstUpdated() {
         // iterate keys of default array properties
@@ -166,6 +163,7 @@ class SettingsPage extends LitElement {
 
     /* Save the new selected setting */
     updateValue(i, val) {
+
         // get property by index
         let property = this.settingsProp[i];
 
