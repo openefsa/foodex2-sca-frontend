@@ -58,7 +58,7 @@ class TermsOfUse extends LitElement {
     render() {
 
         return html`
-            <paper-dialog id="${this.dialog}">
+            <paper-dialog id="${this.dialog}" no-cancel-on-outside-click>
                 <h4> EFSA FoodEx2 Smart Coding Application</br>Terms of Use</br>02 October 2020</h4>
                 <paper-dialog-scrollable>
                     </br>
