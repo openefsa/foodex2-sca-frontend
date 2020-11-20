@@ -104,8 +104,8 @@ export class FeedbackComponent extends LitElement {
         }
 
         paper-dialog {
-            max-height: 550px;
-            width: 100%;
+            min-height: 50%;
+            width: 90%;
             margin: 10px;
             padding: 10px;
             border-radius: 5px;
@@ -157,12 +157,11 @@ export class FeedbackComponent extends LitElement {
             </div>
             
             <paper-dialog id="${this.dialog}" no-cancel-on-outside-click>
-                
-                <h2>Feedback section</h2>
-                
-                <div>
-                    ${this.enableFastFeedback
-                ? html`
+                <h3>Feedback section</h3>
+                <paper-dialog-scrollable>
+                    <div>
+                        ${this.enableFastFeedback
+                        ? html`
                         <!-- enable fats feedback engine (only internal users) -->
                         <fieldset>
                             <legend>Improve exsisting codes</legend>
@@ -176,30 +175,27 @@ export class FeedbackComponent extends LitElement {
                                 <paper-icon-button title="Send feedback" icon="send" @click="${() => this.sendFeedback(this.form1)}"></paper-icon-button>
                             </iron-form>    
                         </fieldset>
-                      `
-                : ``}
-                    
-                    <fieldset>
-                        <legend>Submit new codes</legend>
-                        <label>
-                            <iron-form id="${this.form2}">
-                                <form>
-                                    <paper-input type="text" name="desc" label="Food Description" value="${this.dftDesc}" required auto-validate error-message="FoodEx2 description not valid"></paper-input>
-                                    <paper-input type="text" name="code" label="FoodEx2 Code" pattern="^${this.pattern}" required auto-validate error-message="FoodEx2 code not valid"></paper-input>          
-                                </form>
-                            </iron-form>
-                            <paper-icon-button title="Clean form" icon="clear" @click="${() => this.resetForm(this.form2)}"></paper-icon-button>
-                            <paper-icon-button title="Send feedback" icon="send" @click="${() => this.sendFeedback(this.form2)}"></paper-icon-button>
-                        </label>
-                    </fieldset>
-                </div>
-
+                        ` : ``}
+                        
+                        <fieldset>
+                            <legend>Submit new codes</legend>
+                            <label>
+                                <iron-form id="${this.form2}">
+                                    <form>
+                                        <paper-input type="text" name="desc" label="Food Description" value="${this.dftDesc}" required auto-validate error-message="FoodEx2 description not valid"></paper-input>
+                                        <paper-input type="text" name="code" label="FoodEx2 Code" pattern="^${this.pattern}" required auto-validate error-message="FoodEx2 code not valid"></paper-input>          
+                                    </form>
+                                </iron-form>
+                                <paper-icon-button title="Clean form" icon="clear" @click="${() => this.resetForm(this.form2)}"></paper-icon-button>
+                                <paper-icon-button title="Send feedback" icon="send" @click="${() => this.sendFeedback(this.form2)}"></paper-icon-button>
+                            </label>
+                        </fieldset>
+                    </div>
+                </paper-dialog-scrollable>
                 <div class="buttons">
                     <paper-button dialog-dismiss>Close</paper-button>
-                </div>
-                        
+                </div>           
             </paper-dialog>
-            
         `
     }
 
