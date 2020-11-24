@@ -117,7 +117,7 @@ export class HomePage extends LitElement {
 
     .fill {
       flex-grow: 1;
-      max-height: 100vh;
+      max-height: 100%;
     }
 
     .btn {
@@ -166,7 +166,7 @@ export class HomePage extends LitElement {
         border-left: none;
         flex-direction: column;
         min-height: 60%;
-        margin-bottom: 30px;
+        padding-bottom: 35px;
       }
     }
 
