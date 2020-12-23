@@ -170,6 +170,27 @@ class BasetermsComponent extends LitElement {
     }
 
     /**
+     * Method used to create term's tag
+     * 
+     * @param {*} tagType 
+     * @param {*} tagClass 
+     * @param {*} disable 
+     * @param {*} tagLabel 
+     * @param {*} tagTitle 
+     */
+    createTag (tagType, tagClass, disable, tagLabel, tagTitle) {
+        var tag = document.createElement(tagType);
+        if(tagClass!=null)
+            tag.setAttribute('class', tagClass);
+        tag.disabled = disable;
+        tag.innerHTML = tagLabel;
+        if(tagTitle!=null) {
+            tag.title = tagTitle; 
+        }
+        return tag;
+    }
+
+    /**
      * Populate the baseterms-component with the list of returned base terms.
      */
     populateBaseterms() {
@@ -190,53 +211,56 @@ class BasetermsComponent extends LitElement {
         // flag for auto-selecting first term
         var flag = true;
 
-        // iterate each baseterm in list
-        results.forEach(term => {
+        if (results.length>0) {
 
-            // create inner tag with baseterm properties
-            var tag = document.createElement('button');
-            tag.setAttribute('class', 'bt');
-            tag.innerHTML = term.name;
-            // use the toString and shows the tooltip with term information
-            tag.title = term; 
-            
-            // append the inner label to the tag
-            var innerTag = document.createElement('tag');
-            innerTag.setAttribute('class', 'inner-tag');
-            innerTag.innerHTML = term.acc+"%";
-            tag.appendChild(innerTag);
+            // iterate each baseterm in list
+            results.forEach(term => {
+                // create inner tag with baseterm properties
+                var tag = this.createTag('button', 'bt', false, term.name, term);
+                // append the inner label to the tag
+                var innerTag = this.createTag('tag', 'inner-tag', true, term.acc+"%", null);
+                // append inner tag to tag
+                tag.appendChild(innerTag);
 
-            // when clicking on tag
-            tag.onclick = () => {
-                
-                if (tag.style.backgroundColor === "") {
-                    // clean all buttons styles since only single term can be selected
-                    Array.from(tagInput.getElementsByTagName("button")).forEach(term => {
-                        term.style.background = ""
-                    });
-                    // apply the selection only to single term (since olny one baseterm can be selected)
-                    tag.style.backgroundColor = "#bad0e7";
+                // when clicking on tag
+                tag.onclick = () => {
                     
-                    // update the selected baseterm
-                    this.updatedBt(term);
-                } else {
-                    // reset button style
-                    tag.style.backgroundColor = "";
-                    // update the selected baseterm
-                    this.updatedBt(null);
+                    if (tag.style.backgroundColor === "") {
+                        // clean all buttons styles since only single term can be selected
+                        Array.from(tagInput.getElementsByTagName("button")).forEach(t => {
+                            t.style.background = ""
+                        });
+                        // apply the selection only to single term (since olny one baseterm can be selected)
+                        tag.style.backgroundColor = "#bad0e7";
+                        
+                        // update the selected baseterm
+                        this.updatedBt(term);
+                    } else {
+                        // reset button style
+                        tag.style.backgroundColor = "";
+                        // update the selected baseterm
+                        this.updatedBt(null);
+                    }
+                };
+
+                // append the new inner tag
+                tagInput.appendChild(tag);
+
+                // auto select first term
+                if(localStorage.getItem('btAutoSel')==='true' && flag){
+                    tag.onclick.apply(tag);
+                    flag=!flag;
                 }
-            };
 
+            }, this);
+        } else {
+            // create empty tag
+            var termName = "No suggestions found";
+            var termTitle = "I'm sorry but I couldn't find any foodex2 terms relevant to the description provided, please change the food description and try again."; 
+            var emptyTag = this.createTag('button', null, true, termName, termTitle);
             // append the new inner tag
-            tagInput.appendChild(tag);
-
-            // auto select first term
-            if(localStorage.getItem('btAutoSel')==='true' && flag){
-                tag.onclick.apply(tag);
-                flag=!flag;
-            }
-
-        }, this);
+            tagInput.appendChild(emptyTag);
+        }
     }
 
     /**

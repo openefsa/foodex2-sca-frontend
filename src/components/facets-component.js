@@ -309,6 +309,26 @@ class FacetsComponent extends LitElement {
     }
 
     /**
+     * Method used to create term's tag
+     * 
+     * @param {*} tagType 
+     * @param {*} tagClass 
+     * @param {*} disable 
+     * @param {*} tagLabel 
+     * @param {*} tagTitle 
+     */
+    createTag (tagType, tagClass, disable, tagLabel, tagTitle) {
+        var tag = document.createElement(tagType);
+        if(tagClass!=null)
+            tag.setAttribute('class', tagClass);
+        tag.disabled = disable;
+        tag.innerHTML = tagLabel;
+        if(tagTitle!=null)
+            tag.title = tagTitle; 
+        return tag;
+    }
+
+    /**
      *  Populate the facets-component section with the list of returned facets.
      */
     populateFacets() {
@@ -325,39 +345,42 @@ class FacetsComponent extends LitElement {
         if (!this.selCat) {
             return;
         }
-        // iterate each facet
-        this.selCat.facets.forEach(fc => {
 
-            var tag = document.createElement('button');
-            tag.setAttribute('class', 'fc');
-            tag.innerHTML = fc.name;
-            tag.value = fc.code;
-            // use the toString and shows the tooltip with facet information
-            tag.title = fc;
+        if (this.selCat.facets.length>0) {
+            // iterate each facet
+            this.selCat.facets.forEach(fc => {
+                // create inner tag with baseterm properties
+                var tag = this.createTag('button', 'fc', false, fc.name, fc);
+                // append the inner label to the tag
+                var innerTag = this.createTag('tag', 'inner-tag', true, fc.acc+"%", null);
+                // append inner tag to tag
+                tag.appendChild(innerTag);
 
-            // append the inner label to the tag
-            var innerTag = document.createElement('tag');
-            innerTag.setAttribute('class', 'inner-tag');
-            innerTag.innerHTML = fc.acc + "%";
-            tag.appendChild(innerTag);
+                //check if facet in selected facets
+                const index = this.selFcs.findIndex(f => (f.code === fc.code && f.cat == fc.cat));
 
-            //check if facet in selected facets
-            const index = this.selFcs.findIndex(f => (f.code === fc.code && f.cat == fc.cat));
+                // if term already selected change background color
+                if (index > -1) {
+                    tag.style.backgroundColor = "#cde69c";
+                }
 
-            // if term already selected change background color
-            if (index > -1) {
-                tag.style.backgroundColor = "#cde69c";
-            }
+                // when clicking on tag
+                tag.onclick = () => {
+                    this.selectTag(tag, fc);
+                };
 
-            // when clicking on tag
-            tag.onclick = () => {
-                this.selectTag(tag, fc);
-            };
+                // append the new inner tag
+                tagInput.appendChild(tag);
 
+            }, this);
+        } else {
+            // create empty tag
+            var termName = "No suggestions found";
+            var termTitle = "I'm sorry but I couldn't find any foodex2 terms relevant to the description provided, please change the food description and try again."; 
+            var emptyTag = this.createTag('button', null, true, termName, termTitle);
             // append the new inner tag
-            tagInput.appendChild(tag);
-
-        }, this);
+            tagInput.appendChild(emptyTag);
+        }
     }
 
     /**
