@@ -22,6 +22,8 @@ import {
     css
 } from 'lit-element';
 
+import config from "../../config.js";
+
 import '@polymer/paper-input/paper-input.js';
 import '@cwmr/paper-password-input/paper-password-input.js';
 
@@ -88,6 +90,7 @@ export class LoginPage extends LitElement {
         super();
         this.user = new User();
         this.activatePb = false;
+        this.url = new URL(config.BASE_URL + 'get_codes');
     }
 
     render() {
@@ -131,9 +134,11 @@ export class LoginPage extends LitElement {
     }
 
     /* save new status on local storage */
-    updateUser() {
+    updateUser(data) {
         // hide progress bar dialog
         this.activatePb = false;
+        // create a new user 
+        this.user = (data==null) ? new User() : new User(data.username, data.token);
         // save new user on local storage
         localStorage.setItem('user', JSON.stringify(this.user));
         // fire event to parent
@@ -158,21 +163,46 @@ export class LoginPage extends LitElement {
 
         // jsonify the object
         var data = form.serializeForm();
-
-        // create a new user 
-        this.user = new User(data.username, data.token);
         
-        // fire event to parent
-        this.updateUser();
-
+        // check if correct credentials
+        var body = JSON.stringify({ "n": 1 });
+        
+        this.postLoginRequest(this.url, data, body);
     }
 
     /* method used for performing logout */
     logout() {
-        // update user
-        this.user = new User();
         // fire event to parent
-        this.updateUser();
+        this.updateUser(null);
+    }
+
+    /**
+     * Post request to back-end API
+     * 
+     * @param {*} url // url to fetch
+     * @param {*} token // x-access-token
+     * @param {*} data // body data
+     */
+    postLoginRequest(url, user, data) {
+        var error_msg = "Oops sorry, something went wrong.\nTry again using a valid password."
+        var success_msg = "Logged in successfully."
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': user.token
+            },
+            body: data,
+        }).then(res => res.json()
+        ).then(res => {
+            if (res.message == undefined) {
+                alert(success_msg);
+                this.updateUser(user);
+            } else {
+                alert(error_msg);
+            }
+        }).catch(err => alert(error_msg, err));
     }
 }
 
