@@ -45,6 +45,7 @@ class MainApp extends LitElement {
             router: { type: Object },
             route: { type: Object },
             loggedIn: { type: Boolean },
+            enableFeedback: { type: Boolean },
             tou: { type: String }
         }
     }
@@ -143,7 +144,8 @@ class MainApp extends LitElement {
         super();
         this.tou = "termsOfUse";
         this.router = new Navigo("/", true, "#")
-
+        this.enableFeedback = !(window.location.hostname.includes('https://r4eu.efsa.europa.eu/'));
+        
         this.router.on("home", () => {
             this.route = 'home'
         }).on("settings", () => {
@@ -190,10 +192,14 @@ class MainApp extends LitElement {
                                 <iron-icon icon="info"></iron-icon>
                                 <a href="#/about" drawer-toggle>About</a>
                             </paper-item>
-                            <paper-item name="login">
-                                <iron-icon icon="input"></iron-icon>
-                                <a href="#/login" drawer-toggle>Login</a>
-                            </paper-item>
+                            ${this.enableFeedback
+                            ? html`
+                                <paper-item name="login">
+                                    <iron-icon icon="input"></iron-icon>
+                                    <a href="#/login" drawer-toggle>Login</a>
+                                </paper-item>
+                                `
+                            : ``}
                         </paper-listbox>
 
                     </app-header-layout>
@@ -221,7 +227,11 @@ class MainApp extends LitElement {
                         <home-page name="home" .loggedIn="${this.loggedIn}"></home-page>
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
-                        <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
+                        ${this.enableFeedback
+                        ? html`
+                            <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
+                        `
+                        : ``}
                     </iron-pages>
 
                 </app-header-layout>

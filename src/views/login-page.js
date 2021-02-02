@@ -138,11 +138,11 @@ export class LoginPage extends LitElement {
         // hide progress bar dialog
         this.activatePb = false;
         // create a new user 
-        this.user = (data==null) ? new User() : new User(data.username, data.token);
+        this.user = (data == null) ? new User() : new User(data.username, data.token);
         // save new user on local storage
         localStorage.setItem('user', JSON.stringify(this.user));
         // fire event to parent
-        let event = new CustomEvent('userStatus', {detail: this.user.isLoggedIn()});
+        let event = new CustomEvent('userStatus', { detail: this.user.isLoggedIn() });
         this.dispatchEvent(event);
     }
 
@@ -163,10 +163,10 @@ export class LoginPage extends LitElement {
 
         // jsonify the object
         var data = form.serializeForm();
-        
+
         // check if correct credentials
         var body = JSON.stringify({ "n": 1 });
-        
+
         this.postLoginRequest(this.url, data, body);
     }
 
