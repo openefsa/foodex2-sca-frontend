@@ -1,6 +1,4 @@
-# FROM node:alpine
-FROM node:slim
-# FROM node:12.18.2-slim
+FROM node:14.15.4-slim
 
 ENV NODE_ENV production
 
