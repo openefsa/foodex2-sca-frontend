@@ -22,9 +22,6 @@ import {
     css
 } from 'lit-element';
 
-import '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-
-import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-header-layout/app-header-layout.js';
@@ -34,7 +31,6 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-dialog/paper-dialog.js';
 
 import Navigo from 'navigo/lib/navigo.es.js';
 
@@ -145,7 +141,7 @@ class MainApp extends LitElement {
         this.tou = "termsOfUse";
         this.router = new Navigo("/", true, "#")
         this.enableFeedback = !(window.location.hostname.includes('https://r4eu.efsa.europa.eu/'));
-        
+
         this.router.on("home", () => {
             this.route = 'home'
         }).on("settings", () => {
@@ -193,13 +189,13 @@ class MainApp extends LitElement {
                                 <a href="#/about" drawer-toggle>About</a>
                             </paper-item>
                             ${this.enableFeedback
-                            ? html`
+                ? html`
                                 <paper-item name="login">
                                     <iron-icon icon="input"></iron-icon>
                                     <a href="#/login" drawer-toggle>Login</a>
                                 </paper-item>
                                 `
-                            : ``}
+                : ``}
                         </paper-listbox>
 
                     </app-header-layout>
@@ -228,10 +224,10 @@ class MainApp extends LitElement {
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
                         ${this.enableFeedback
-                        ? html`
+                ? html`
                             <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
                         `
-                        : ``}
+                : ``}
                     </iron-pages>
 
                 </app-header-layout>
@@ -242,13 +238,13 @@ class MainApp extends LitElement {
                         <div class="flex-item">European Food Safety Authority - <a id="ToU" @click="${this.open}">Terms of use</a></div>
                     </div>
                     <div class="right-content">
-                        <div class="flex-item">Logged in: ${(localStorage["user"]!="{}")?"🟢":"🔴"}</div>
+                        <div class="flex-item">Logged in: ${(localStorage["user"] != "{}") ? "🟢" : "🔴"}</div>
                         <div class="separator"></div>
                         <div class="flex-item">Lang: ${localStorage["lang"]}</div>
                         <div class="separator"></div>
                         <div class="flex-item">Threshold: ${localStorage["acc"]}%</div>
                         <div class="separator"></div>
-                        <div class="flex-item">Autosel[bt:${(localStorage["btAutoSel"]==="true")?"🟢":"🔴"},fcs:${(localStorage.getItem("fcsAutoSel")==="true")?"🟢":"🔴"}]</div>
+                        <div class="flex-item">Autosel[bt:${(localStorage["btAutoSel"] === "true") ? "🟢" : "🔴"},fcs:${(localStorage.getItem("fcsAutoSel") === "true") ? "🟢" : "🔴"}]</div>
                     </div>
                 </footer>
 
