@@ -99,6 +99,9 @@ class FacetsComponent extends LitElement {
             catFieldId: {
                 type: String
             },
+            bt: {
+                type: Object
+            },
             data: {
                 type: Object
             },
@@ -204,25 +207,18 @@ class FacetsComponent extends LitElement {
                 <label>Select facets in
                     <select required id="${this.catFieldId}" @change="${this.onCategorySelection}">
                         ${(Object.values(this.cats).length <= 0)
-                            ? html`<option>none</option>`
-                            : Object.values(this.cats).map(i => html`
+                ? html`<option>none</option>`
+                : Object.values(this.cats).map(i => html`
                                 <option value="${i.code}" title="${i}">
                                     ${i.code} ${i.label} (${i.acc}%) - ${i.noFacets} facets
                                 </option>`)
-                        }
+            }
                     </select>
                 </label>
             </div>
             <div id="${this.fcsFieldId}"></div>
             
             `
-    }
-
-    openDropdown() {
-        var dd = this.shadowRoot.getElementById("dropdown");
-        if (dd) {
-            dd.open();
-        }
     }
 
     /**
@@ -232,18 +228,27 @@ class FacetsComponent extends LitElement {
      */
     updated(changedProperties) {
 
+        var btChanged = changedProperties.has('bt');
         var newData = changedProperties.has('data');
         var newCats = changedProperties.has('cats');
         var catChanged = changedProperties.has('selCat');
         var fcsChanged = changedProperties.has('selFcs');
 
         /**
-         * If new data availble than update catefories and auto select facets (if enabled).
+         * If new data available than update categories and auto select facets (if enabled).
          * 
          * @param  {Boolean} newData
          */
         if (newData) {
             this.populateCategories();
+        }
+
+        /**
+         * If new bt selected than than auto select facets (if enabled).
+         * 
+         * @param  {Boolean} newData
+         */
+        if (btChanged) {
             this.autoSelectFacets();
         }
 
@@ -261,7 +266,7 @@ class FacetsComponent extends LitElement {
          * 
          * @param  {Boolean} catChanged
          */
-        if (catChanged) {
+        if (catChanged || btChanged) {
             this.populateFacets();
         }
 
@@ -274,7 +279,7 @@ class FacetsComponent extends LitElement {
             this.updatedFcs();
         }
 
-        return newData || catChanged || fcsChanged;
+        return newData || catChanged || btChanged || fcsChanged;
     }
 
     /**
@@ -321,7 +326,7 @@ class FacetsComponent extends LitElement {
                     // iterate facets in category
                     Object.values(c.facets).forEach(f => {
                         // add the facet object if accuracy higher than threshold in category
-                        if (f.acc > this.minCatAcc) {
+                        if (f.code != this.bt.code && f.acc > this.minCatAcc) {
                             temp.push(f);
                         }
                     });
@@ -341,14 +346,14 @@ class FacetsComponent extends LitElement {
      * @param {*} tagLabel 
      * @param {*} tagTitle 
      */
-    createTag (tagType, tagClass, disable, tagLabel, tagTitle) {
+    createTag(tagType, tagClass, disable, tagLabel, tagTitle) {
         var tag = document.createElement(tagType);
-        if(tagClass!=null)
+        if (tagClass != null)
             tag.setAttribute('class', tagClass);
         tag.disabled = disable;
         tag.innerHTML = tagLabel;
-        if(tagTitle!=null)
-            tag.title = tagTitle; 
+        if (tagTitle != null)
+            tag.title = tagTitle;
         return tag;
     }
 
@@ -370,15 +375,19 @@ class FacetsComponent extends LitElement {
             return;
         }
 
-        if (this.selCat.facets.length>0) {
+        if (this.selCat.facets.length > 0) {
             // iterate each facet
             this.selCat.facets.forEach(fc => {
                 // create inner tag with baseterm properties
                 var tag = this.createTag('button', 'fc', false, fc.name, fc);
                 // append the inner label to the tag
-                var innerTag = this.createTag('tag', 'inner-tag', true, fc.acc+"%", null);
+                var innerTag = this.createTag('tag', 'inner-tag', true, fc.acc + "%", null);
                 // append inner tag to tag
                 tag.appendChild(innerTag);
+                // if bt is selected than not allow selection of facet equal to bt
+                if (this.bt) {
+                    tag.disabled = (this.bt.code === fc.code);
+                }
 
                 //check if facet in selected facets
                 const index = this.selFcs.findIndex(f => (f.code === fc.code && f.cat == fc.cat));
@@ -400,7 +409,7 @@ class FacetsComponent extends LitElement {
         } else {
             // create empty tag
             var termName = "No suggestions found";
-            var termTitle = "I'm sorry but I couldn't find any foodex2 terms relevant to the description provided, please change the food description and try again."; 
+            var termTitle = "I'm sorry but I couldn't find any foodex2 terms relevant to the description provided, please change the food description and try again.";
             var emptyTag = this.createTag('button', null, true, termName, termTitle);
             // append the new inner tag
             tagInput.appendChild(emptyTag);
@@ -458,7 +467,7 @@ class FacetsComponent extends LitElement {
     updatedFcs() {
         if (!this.selFcs)
             return;
-        let event = new CustomEvent('fcs', {detail: this.selFcs});
+        let event = new CustomEvent('fcs', { detail: this.selFcs });
         this.dispatchEvent(event);
     }
 }

@@ -202,7 +202,7 @@ export class HomePage extends LitElement {
           <baseterms-component class="component" .baseterms="${this.baseterms}" @bt="${(e) => (this.updateBaseterm(e))}"></baseterms-component>
         
           <!-- component for showing facets -->
-          <facets-component class="component" .data="${this.facetData}" @fcs="${(e) => (this.updateFacets(e))}"></facets-component>
+          <facets-component class="component" .bt="${this.selectedBt}" .data="${this.facetData}" @fcs="${(e) => (this.updateFacets(e))}"></facets-component>
         
           <!-- component for showing overview of user interaction -->
           <overview-component class="component fill" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}" @showInfo="${(e) => (this.showInfo(e))}"></overview-component>

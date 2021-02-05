@@ -73,10 +73,10 @@ class SettingsPage extends LitElement {
             localStorage.setItem("acc", 5);
         this.acc = localStorage.getItem('acc');
         if (localStorage.getItem("btAutoSel") === null)
-            localStorage.setItem("btAutoSel", "false");
+            localStorage.setItem("btAutoSel", "true");
         this.btAutoSel = localStorage.getItem('btAutoSel');
         if (localStorage.getItem("fcsAutoSel") === null)
-            localStorage.setItem("fcsAutoSel", "false");
+            localStorage.setItem("fcsAutoSel", "true");
         this.fcsAutoSel = localStorage.getItem('fcsAutoSel');
     }
 
