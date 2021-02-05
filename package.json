@@ -9,6 +9,7 @@
         "@polymer/iron-icons": "^3.0.1",
         "@polymer/iron-meta": "^3.0.1",
         "@polymer/iron-pages": "^3.0.1",
+        "@polymer/neon-animation": "^3.0.1",
         "@polymer/paper-button": "^3.0.1",
         "@polymer/paper-dialog": "^3.0.1",
         "@polymer/paper-dialog-behavior": "^3.0.1",
@@ -32,6 +33,5 @@
         "type": "git",
         "url": "git://github.com/openefsa/foodex2-sca-frontend"
     },
-    "license": "EUPL-1.2",
-    "devDependencies": {}
+    "license": "EUPL-1.2"
 }

@@ -22,6 +22,7 @@ import {
     css
 } from 'lit-element'
 
+
 class Facet {
     /**
      * Constructor of Facet class.
@@ -61,6 +62,7 @@ class Category {
         this.attributeSingleOrRepeatable = obj.attributeSingleOrRepeatable;
         this.acc = parseInt(obj.acc * 100);
         this.facets = Object.entries(obj.facets).map(([k, v]) => new Facet(k, code, v));
+        this.noFacets = this.facets.length;
     }
 }
 
@@ -73,6 +75,18 @@ Facet.prototype.toString = function toString() {
         '\nCode: ' + this.code +
         '\nAccuracy: ' + this.acc + "%" +
         '\nCategory: ' + this.cat;
+    return res;
+}
+
+/**
+ * Overrides default toString method.
+ */
+Category.prototype.toString = function toString() {
+    var res = 'Name: ' + this.name +
+        '\nLabel: ' + this.label +
+        '\nCode: ' + this.code +
+        '\nAccuracy: ' + this.acc + "%" +
+        '\nFacets suggested: ' + this.noFacets;
     return res;
 }
 
@@ -190,8 +204,11 @@ class FacetsComponent extends LitElement {
                 <label>Select facets in
                     <select required id="${this.catFieldId}" @change="${this.onCategorySelection}">
                         ${(Object.values(this.cats).length <= 0)
-                            ? html` <option>none</option>`
-                            : Object.values(this.cats).map(i => html`<option value=${i.code}>${i.code} - ${i.label} (${i.acc}%)</option>`)
+                            ? html`<option>none</option>`
+                            : Object.values(this.cats).map(i => html`
+                                <option value="${i.code}" title="${i}">
+                                    ${i.code} ${i.label} (${i.acc}%) - ${i.noFacets} facets
+                                </option>`)
                         }
                     </select>
                 </label>
@@ -199,6 +216,13 @@ class FacetsComponent extends LitElement {
             <div id="${this.fcsFieldId}"></div>
             
             `
+    }
+
+    openDropdown() {
+        var dd = this.shadowRoot.getElementById("dropdown");
+        if (dd) {
+            dd.open();
+        }
     }
 
     /**
