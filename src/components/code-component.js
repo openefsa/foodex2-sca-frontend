@@ -194,6 +194,8 @@ class CodeComponent extends LitElement {
             this.code = this.bt.code;
 
             var fcsLen = this.fcs.length;
+            // sort list by category (if cat same than by code)
+            this.fcs = this.fcs.sort((a, b) => (a.cat > b.cat) ? 1 : (a.cat === b.cat) ? ((a.code > b.code) ? 1 : -1) : -1 );
             for (var i = 0; i < fcsLen; i++) {
                 if (i == 0)
                     this.code += "#";
