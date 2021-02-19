@@ -1,5 +1,6 @@
 # ignore folder
 node_modules/
+.vscode/
 
 # ignore files with extension
 doc/**/*.wsd
