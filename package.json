@@ -1,6 +1,10 @@
 {
     "name": "foodex2-smart-coding-app-frontend",
     "version": "1.2.0",
+    "description": "FoodEx2 SCA frontend project",
+    "scripts": {
+        "start": "polymer serve --module-resolution=node"
+    },
     "dependencies": {
         "@cwmr/paper-password-input": "^3.0.1",
         "@polymer/app-layout": "^3.1.0",
@@ -23,15 +27,19 @@
         "@polymer/paper-progress": "^3.0.1",
         "@polymer/paper-slider": "^3.0.1",
         "@polymer/paper-toggle-button": "^3.0.1",
-        "@webcomponents/webcomponentsjs": "^2.4.3",
+        "@webcomponents/webcomponentsjs": "^2.4.4",
         "custom-elements-es5-adapter": "^1.0.0",
-        "lit-element": "^2.3.1",
-        "navigo": "^7.1.2",
+        "lit-element": "^2.4.0",
+        "navigo": "^8.8.12",
+        "@polymer/polymer": "^3.3.1",
         "polymer-cli": "^1.9.11"
     },
     "repository": {
         "type": "git",
         "url": "git://github.com/openefsa/foodex2-sca-frontend"
     },
-    "license": "EUPL-1.2"
+    "license": "EUPL-1.2",
+    "engines": {
+        "node": "10.x"
+    }
 }
