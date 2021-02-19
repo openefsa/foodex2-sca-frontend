@@ -3,7 +3,7 @@
     "version": "1.2.0",
     "description": "FoodEx2 SCA frontend project",
     "scripts": {
-        "start": "polymer serve --module-resolution=node"
+        "start": "polymer serve"
     },
     "dependencies": {
         "@cwmr/paper-password-input": "^3.0.1",
