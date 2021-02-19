@@ -2,9 +2,6 @@
     "name": "foodex2-smart-coding-app-frontend",
     "version": "1.2.0",
     "description": "FoodEx2 SCA frontend project",
-    "scripts": {
-        "start": "polymer serve"
-    },
     "dependencies": {
         "@cwmr/paper-password-input": "^3.0.1",
         "@polymer/app-layout": "^3.1.0",
