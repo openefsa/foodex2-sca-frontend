@@ -29,11 +29,9 @@ class Term {
      * @param {*} code 
      * @param {*} obj 
      */
-    constructor(code, obj) {
-        this.code = code;
+    constructor(obj) {
+        this.code = obj.termCode;
         this.name = obj.termExtendedName;
-        this.commonName = obj.commonNames;
-        this.scientificName = obj.scientificNames;
         this.scopeNote = obj.termScopeNote;
         this.termType = obj.termType;
         this.detailLevel = obj.detailLevel;
@@ -206,7 +204,7 @@ class BasetermsComponent extends LitElement {
         tagInput.innerHTML = null;
         
         // map each baseterm
-        var results = Object.entries(this.baseterms).map(([k, v]) => new Term(k, v));
+        var results = Object.values(this.baseterms).map(obj => new Term(obj));
         
         // flag for auto-selecting first term
         var flag = true;

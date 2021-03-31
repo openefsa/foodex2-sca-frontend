@@ -31,11 +31,9 @@ class Facet {
      * @param {*} cat 
      * @param {*} obj 
      */
-    constructor(code, cat, obj) {
-        this.code = code;
+    constructor(cat, obj) {
+        this.code = obj.termCode;
         this.name = obj.termExtendedName;
-        this.commonName = obj.commonNames;
-        this.scientificName = obj.scientificName;
         this.scopeNote = obj.termScopeNote;
         this.termType = obj.termType;
         this.detailLevel = obj.detailLevel;
@@ -52,8 +50,8 @@ class Category {
      * @param {*} code 
      * @param {*} obj 
      */
-    constructor(code, obj) {
-        this.code = code;
+    constructor(obj) {
+        this.code = obj.code;
         this.label = obj.label;
         this.name = obj.name;
         this.scopeNote = obj.scopeNote;
@@ -61,7 +59,7 @@ class Category {
         this.attributeReportable = obj.attributeReportable;
         this.attributeSingleOrRepeatable = obj.attributeSingleOrRepeatable;
         this.acc = parseInt(obj.acc * 100);
-        this.facets = Object.entries(obj.facets).map(([k, v]) => new Facet(k, code, v));
+        this.facets = Object.values(obj.facets).map(ob => new Facet(this.code, ob));
         this.noFacets = this.facets.length;
     }
 }
@@ -293,8 +291,8 @@ class FacetsComponent extends LitElement {
         this.cats = new Object();
         this.selFcs = new Array();
         // map each facet for the selected category
-        Object.entries(this.data).map(([k, v]) => {
-            this.cats[k] = new Category(k, v);
+        Object.values(this.data).map(obj => {
+            this.cats[obj.code] = new Category(obj);
         });
     }
 
