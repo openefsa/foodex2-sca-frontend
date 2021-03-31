@@ -224,10 +224,10 @@ class MainApp extends LitElement {
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
                         ${this.enableFeedback
-                ? html`
+                         ? html`
                             <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
                         `
-                : ``}
+                        : ``}
                     </iron-pages>
 
                 </app-header-layout>

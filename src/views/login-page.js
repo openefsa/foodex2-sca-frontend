@@ -114,7 +114,7 @@ export class LoginPage extends LitElement {
 
             <label>You ${this.user.isLoggedIn() ? html`are` : html`are not`} logged in<label>
         </div>
-        <progress-bar .activate="${this.activatePb}"></progress-bar>
+        <progress-bar-component .activate="${this.activatePb}"></progress-bar-component>
         `
     }
 
@@ -122,28 +122,20 @@ export class LoginPage extends LitElement {
     firstUpdated() {
         // get the item from default object
         let u = JSON.parse(localStorage.getItem('user'));
-        // if a custom value exsists update default one
-        if (u != null) {
-            // update user
-            this.user = new User(u.username, u.token);
-            // fire event to parent
-            this.updateUser();
-        } else {
-            this.updateUser();
-        }
+        // if user already logged
+        this.user = (u != null) ? new User(u.username, u.token) : new User();
+        // update user status
+        this.updateUser();
     }
 
     /* save new status on local storage */
-    updateUser(data) {
+    updateUser() {
         // hide progress bar dialog
         this.activatePb = false;
-        // create a new user 
-        this.user = (data == null) ? new User() : new User(data.username, data.token);
         // save new user on local storage
         localStorage.setItem('user', JSON.stringify(this.user));
         // fire event to parent
-        let event = new CustomEvent('userStatus', { detail: this.user.isLoggedIn() });
-        this.dispatchEvent(event);
+        this.dispatchEvent(new CustomEvent('userStatus', { detail: this.user.isLoggedIn() }));
     }
 
     /* method used for performing login (limited users) */
@@ -172,8 +164,10 @@ export class LoginPage extends LitElement {
 
     /* method used for performing logout */
     logout() {
+        // clean user data
+        this.user = new User();
         // fire event to parent
-        this.updateUser(null);
+        this.updateUser();
     }
 
     /**
@@ -198,7 +192,8 @@ export class LoginPage extends LitElement {
         ).then(res => {
             if (res.message == undefined) {
                 alert(success_msg);
-                this.updateUser(user);
+                this.user = new User(user.username, user.token);
+                this.updateUser();
             } else {
                 alert(error_msg);
             }
