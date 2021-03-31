@@ -23,6 +23,7 @@ import {
 } from 'lit-element';
 
 import config from "../../config.js";
+import '@polymer/iron-icon/iron-icon.js';
 
 class InputComponent extends LitElement {
 
@@ -37,6 +38,9 @@ class InputComponent extends LitElement {
             freeText: {
                 type: String
             },
+            trsl: {
+                type: String
+            },
             url: {
                 type: URL
             }
@@ -45,7 +49,6 @@ class InputComponent extends LitElement {
 
     static get styles() {
         return css`
-
             .flex-container {
                 display: flex;
                 flex-direction: row;
@@ -73,6 +76,11 @@ class InputComponent extends LitElement {
                 background-color: var(--primary-color); 
                 color: white;
             }
+
+            iron-icon.tiny {
+                --iron-icon-height: 16px;
+                --iron-icon-width: 16px;
+            }
         `;
     }
 
@@ -81,19 +89,23 @@ class InputComponent extends LitElement {
         this.fieldId = 'description';
         this.activatePb = false;
         this.freeText = '';
+        this.trsl = '';
         // k8s_hostname:port/api_name
         this.url = new URL(config.BASE_URL + 'predict_all');
     }
 
     render() {
         return html`
-            <div>Food Description</div>
+            <div>
+                Food Description ${this.nonEn}
+                <iron-icon title="English translation used:\n${this.trsl}" icon="info" class="tiny"></iron-icon>
+            </div>
             <div class="flex-container">
                 <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress="${this.handleKeyPress}"></input>
                 <paper-button @click="${this.getSuggestions}">GO</paper-button>
             </div>
             
-            <progress-bar .activate="${this.activatePb}"></progress-bar>
+            <progress-bar-component .activate="${this.activatePb}"></progress-bar-component>
         `
     }
 
@@ -105,15 +117,10 @@ class InputComponent extends LitElement {
     fireEvent(results) {
         // hide dialog
         this.activatePb = false;
-
+        // show translated text
+        this.trsl = results.desc.trsl;
         // fire event to parent
-        let event = new CustomEvent('data', {
-            detail: {
-                res: results,
-                text: this.freeText
-            }
-        });
-        this.dispatchEvent(event);
+        this.dispatchEvent(new CustomEvent('data', { detail: results }));
     }
 
     // method used for calling the APIs required
@@ -132,8 +139,9 @@ class InputComponent extends LitElement {
 
         // url params 
         const params = {
-            'text': this.freeText,
-            'threshold': localStorage.getItem('acc') / 100
+            'desc': this.freeText,
+            'thld': localStorage.getItem('acc') / 100,
+            'lang': localStorage.getItem('lang')
         };
 
         // set params in url

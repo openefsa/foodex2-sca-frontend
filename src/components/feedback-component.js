@@ -28,6 +28,7 @@ import '@polymer/paper-fab/paper-fab.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-button/paper-button.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/iron-form/iron-form.js';
 
 export class FeedbackComponent extends LitElement {
@@ -253,8 +254,13 @@ export class FeedbackComponent extends LitElement {
             alert("The fields cannot be empty.");
             return;
         }
+
         // add form and username to data to post
-        var data = JSON.stringify(form.serializeForm());
+        var data = form.serializeForm();
+        // add the from language to the json obj
+        data.lang = localStorage.getItem('lang');
+        // stringify the obj
+        data = JSON.stringify(data);
 
         // ask reconfirmation to user
         var choice = confirm("Please confirm the data before submitting: \n" + data);

@@ -64,7 +64,7 @@ export class HomePage extends LitElement {
       termToShow: {
         type: Object
       },
-      text: {
+      desc: {
         type: String
       },
       secondPanel: {
@@ -180,7 +180,7 @@ export class HomePage extends LitElement {
     this.termToShow = new Object();
     this.selectedBt = null;
     this.selectedFcs = new Array();
-    this.text = "";
+    this.desc = "";
     this.secondPanel = "secondPanel";
     this.iconName = "chevron-left";
   }
@@ -213,7 +213,7 @@ export class HomePage extends LitElement {
           ${this.loggedIn
           ? html`
               <!-- component for activating feedback section -->
-              <feedback-component class="component" .dftDesc="${this.text}"></feedback-component>
+              <feedback-component class="component" .dftDesc="${this.desc}"></feedback-component>
             `
           : ``}
         </div>
@@ -280,10 +280,10 @@ export class HomePage extends LitElement {
    * @param {*} event 
    */
   updateData(event) {
-    var res = event.detail.res;
+    var res = event.detail;
     this.baseterms = res.bt;
     this.facetData = res.cat;
-    this.text = event.detail.text;
+    this.desc = res.desc.orig;
     this.selectedBt = null;
     this.selectedFcs = [];
     this.termToShow = new Object();
