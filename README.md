@@ -1,7 +1,7 @@
 # &#9888; The following project is under development and therefore may be subject to changes until official release
 
 <p align="center">
-	<img src="http://www.efsa.europa.eu/profiles/efsa/themes/responsive_efsa/logo.png" alt="European Food Safety Authority"/>
+	<img src="https://www.efsa.europa.eu/themes/custom/efsa_theme/logo.svg" alt="European Food Safety Authority"/>
 </p>
 
 ## FoodEx2 Smart Coding Application (front-end)
@@ -54,7 +54,7 @@ In this section we describe the various web components that make up the home pag
 ### input-component
 This web component consists of an input field and a button. The input field allows the insertion of a free text that, in the case of the FoodEx2 SCA project, should describe a particular, simple or compound, food or feed (e.g. *"chocolate"* or *"white chocolate with hazelnuts"*). The *"SEND"* button, situated just next to the input field, allows to get the content of the input field and hence create and make a GET request to the backend API. More specifically the GET request is built using the free text description and a threshold value (which filter those terms not having the same or greather percentage of accuracy). Here is the structure of the GET request called when the *"SEND"* button is pressed:
 ```
-GET http://hostname:port/predictAll HTTP/1.1
+GET http://hostname:port/predict_all HTTP/1.1
 content-type: application/json
 
 {
