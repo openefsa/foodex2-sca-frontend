@@ -90,7 +90,21 @@ class SettingsPage extends LitElement {
                 </paper-item-body>
                 <paper-dropdown-menu-light noink no-animations>
                     <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="${this.lang}">
+                        <paper-item value="hr" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Croatian</paper-item>
+                        <paper-item value="cs" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Czech</paper-item>
+                        <paper-item value="da" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Danish</paper-item>
+                        <paper-item value="nl" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Dutch</paper-item>
                         <paper-item value="en" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">English</paper-item>
+                        <paper-item value="fi" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Finnish</paper-item>
+                        <paper-item value="fr" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">French</paper-item>
+                        <paper-item value="de" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">German</paper-item>
+                        <paper-item value="el" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Greek</paper-item>
+                        <paper-item value="hu" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Hungarian</paper-item>
+                        <paper-item value="it" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Italian</paper-item>
+                        <paper-item value="nb" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Norwegian</paper-item>
+                        <paper-item value="pt" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Portuguese</paper-item>
+                        <paper-item value="es" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Spanish</paper-item>
+                        <paper-item value="sv" @click="${(e) => this.updateValue(0, e.target.getAttribute("value"))}">Swedish</paper-item>
                     </paper-listbox>
                 </paper-dropdown-menu-light>
             </paper-item>
@@ -163,7 +177,7 @@ class SettingsPage extends LitElement {
 
     /* Save the new selected setting */
     updateValue(i, val) {
-
+        
         // get property by index
         let property = this.settingsProp[i];
 
