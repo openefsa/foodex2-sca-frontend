@@ -32,4 +32,4 @@ spec:
     app: openefsafoodexwebcomponentfrontend
   ports:
   - port: 8081
-  type: LoadBalancer
+    targetPort: 8081
