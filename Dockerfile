@@ -1,15 +1,16 @@
-FROM node:14.16.0-slim
+# get node slim
+FROM node:14.16.1-slim
 
-ENV NODE_ENV production
+# Copy current directory into /app
+ADD . /foodex2sca_front
 
-WORKDIR /usr/src/app
+# Set working direcrory
+WORKDIR /foodex2sca_front
 
-COPY ["package.json", "package-lock.json*", "./"]
-
+# create polymer build
 RUN npm i --production --silent .
 
-COPY . .
-
+# start server
+WORKDIR /foodex2sca_front
 EXPOSE 8081
-
 CMD ["./node_modules/.bin/polymer", "serve", "-H", "0.0.0.0"]
