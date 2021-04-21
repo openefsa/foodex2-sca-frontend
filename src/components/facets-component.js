@@ -320,15 +320,16 @@ class FacetsComponent extends LitElement {
             var temp = [];
             // iterate over facet categories
             Object.values(this.cats).forEach(c => {
-                if (c.acc > this.minCatAcc) {
-                    // iterate facets in category
-                    Object.values(c.facets).forEach(f => {
-                        // add the facet object if accuracy higher than threshold in category
-                        if (f.code != this.bt.code && f.acc > this.minCatAcc) {
-                            temp.push(f);
-                        }
-                    });
-                }
+                // more weight it is given to the category accuracy
+                var catAcc = c.acc * 2; 
+                // iterate facets in category
+                Object.values(c.facets).forEach(f => {
+                    var totAcc = (catAcc + f.acc)/3;
+                    // add the facet object if accuracy higher than threshold in category
+                    if (f.code != this.bt.code && totAcc > this.minCatAcc) {
+                        temp.push(f);
+                    }
+                });
             });
             // update the selected facets
             this.selFcs = temp;
