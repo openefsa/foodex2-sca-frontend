@@ -114,6 +114,9 @@ class FacetsComponent extends LitElement {
             },
             minCatAcc: {
                 type: Number
+            },
+            minFcAcc: {
+                type: Number
             }
         }
     }
@@ -197,6 +200,7 @@ class FacetsComponent extends LitElement {
         this.catFieldId = "catViewer";
         this.cats = {};
         this.minCatAcc = 50;
+        this.minFcAcc = 10;
     }
 
     render() {
@@ -324,10 +328,14 @@ class FacetsComponent extends LitElement {
                 var catAcc = c.acc * 2; 
                 // iterate facets in category
                 Object.values(c.facets).forEach(f => {
-                    var totAcc = (catAcc + f.acc)/3;
-                    // add the facet object if accuracy higher than threshold in category
-                    if (f.code != this.bt.code && totAcc > this.minCatAcc) {
-                        temp.push(f);
+                    // if the facet is not the baseterm
+                    if (f.code != this.bt.code) {
+                        // calculate avg accuracy
+                        var totAcc = (catAcc + f.acc)/3;
+                        // add the facet object if avg greater than cat threshold and facet acc above min
+                        if (f.acc > this.minFcAcc && totAcc > this.minCatAcc) {
+                            temp.push(f);
+                        }
                     }
                 });
             });
