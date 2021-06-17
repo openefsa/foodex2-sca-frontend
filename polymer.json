@@ -1,8 +1,9 @@
 {
-    "shell": "src/main.js",
+    "shell": "src/main-app.js",
     "entrypoint": "src/index.html",
     "fragments": [
         "src/views/home-page.js",
+        "src/views/mul-encode-page.js",
         "src/views/settings-page.js",
         "src/views/about-page.js",
         "src/views/login-page.js",
@@ -27,6 +28,7 @@
     "builds": [
         {
             "name": "prod",
+            "preset": "es6-bundled",
             "bundle": {
                 "stripComments": true,
                 "inlineCss": false,
@@ -34,15 +36,23 @@
             },
             "addServiceWorker": true,
             "addPushManifest": true,
-            "js": {"minify": true},
-            "css": {"minify": true},
-            "html": {"minify": true}
+            "js": {
+                "minify": true
+            },
+            "css": {
+                "minify": true
+            },
+            "html": {
+                "minify": true
+            }
         }
     ],
     "lint": {
         "rules": [
             "polymer-3"
         ],
-        "ignoreWarnings": ["could-not-resolve-reference"]
+        "ignoreWarnings": [
+            "could-not-resolve-reference"
+        ]
     }
 }
