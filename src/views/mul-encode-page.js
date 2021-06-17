@@ -427,9 +427,9 @@ class MulEncodePage extends LitElement {
                     if (facet.termCode === bt.termCode)
                         return;
                     // calculate the weighted arithmetic mean
-                    let avg_acc = ((category.acc * 2) + facet.acc) / 3;
+                    let avg_acc = (category.acc + facet.acc) / 2;
                     // TODO use set threshold (add parameter in settings "min avg correlation between category and facet")
-                    if (avg_acc > 0.60) {
+                    if (avg_acc > 0.50) {
                         final_facets.push(category.code + "." + facet.termCode);
                         final_acc.push(avg_acc);
                     }
