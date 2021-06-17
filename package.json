@@ -1,10 +1,9 @@
 {
     "name": "foodex2-smart-coding-app-frontend",
-    "version": "1.2.0",
+    "version": "1.4.0",
     "description": "FoodEx2 SCA frontend project",
-    "scripts": {
-        "start": "polymer serve --module-resolution=node"
-    },
+    "repository": "git://github.com/openefsa/foodex2-sca-frontend",
+    "license": "EUPL-1.2",
     "dependencies": {
         "@cwmr/paper-password-input": "^3.0.1",
         "@polymer/app-layout": "^3.1.0",
@@ -15,6 +14,7 @@
         "@polymer/iron-pages": "^3.0.1",
         "@polymer/neon-animation": "^3.0.1",
         "@polymer/paper-button": "^3.0.1",
+        "@polymer/paper-checkbox": "^3.1.0",
         "@polymer/paper-dialog": "^3.0.1",
         "@polymer/paper-dialog-behavior": "^3.0.1",
         "@polymer/paper-dialog-scrollable": "^3.0.1",
@@ -28,18 +28,15 @@
         "@polymer/paper-slider": "^3.0.1",
         "@polymer/paper-toggle-button": "^3.0.1",
         "@polymer/polymer": "^3.3.1",
-        "@webcomponents/webcomponentsjs": "^2.4.4",
-        "custom-elements-es5-adapter": "^1.0.0",
-        "lit-element": "^2.4.0",
-        "navigo": "7.1.2",
-        "polymer-cli": "^1.9.11"
+        "@webcomponents/webcomponentsjs": "^2.5.0",
+        "lit-element": "^2.5.1",
+        "lit-html": "^1.4.1",
+        "navigo": "^7.1.2"
     },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/openefsa/foodex2-sca-frontend"
+    "scripts": {
+        "start": "polymer serve --module-resolution=node"
     },
-    "license": "EUPL-1.2",
     "engines": {
-        "node": "10.x"
+        "node": "14.17.0"
     }
 }
