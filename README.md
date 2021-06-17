@@ -45,7 +45,7 @@ Click on the link which will appear on the terminal; this will automatically ope
 *Please note that FoodEx2 Smart Coding Application fully support the latest version of Chrome and Firefox.*
 
 ## Web components
-The fronted for the FoodEx2 Smart Coding Application has been developed starting from the base class provided by [Lit-Element](https://lit-element.polymer-project.org/) (from Polymer project). Each component has been built starting from the base Lit-Element class and hence connected to each other following the Polymer 3 framework requirements.
+The fronted for the FoodEx2 Smart Coding Application has been developed starting from the base class provided by [Lit](https://lit.dev/) (from Polymer project). Each component has been built starting from the base Lit class and hence connected to each other following the Polymer 3 framework requirements.
 
 In this section we describe the various web components that make up the home page of FoodEx2 SCA. These, in fact, have been designed exclusively to follow the web component directives and therefore allow reusability outside of this project.
 
@@ -75,7 +75,7 @@ If the request is handled correctly from the backend API, this will return a JSO
 * Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/input-component/input-component.svg).
 
 
-### baseterms-component
+### baseterm-component
 This web component contains a section that is populated by a series of so-called tags. The tags are arranged horizontally with respect to the section and can be scrolled through the navbar, located at the bottom, or through the shortcut ctrl+mouse wheel (or multi-touch gestures).
 
 Each tag has the characteristic of having a grey background color by default. Instead, if the term is selected a **blue** background color will be applied. Inside each tag is shown the name of the term returned from the backend API as well as an inner-tag that allows to know the percentage with which the models are sure about the suggestion made. In addition, you can learn more information about each tag by hovering the cursor on the tag. By doing so, a mini window will appear showing the name, the code and the percentage of accuracy for the specific term. In this section all the tags are sorted in descending order by percentage of accuracy. Please use the specific web component propety if the auto selection of the first lef-term is requested.
@@ -85,13 +85,13 @@ Each tag has the characteristic of having a grey background color by default. In
 #### Output Data
 * Selected baseterm {Term}: object containing the term selectd.
 #### Activity Diagram
-* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/baseterms-component/baseterms-component.svg).
+* Find the UML activity diagram (created with PlantUML) at the following [link](doc/components/baseterm-component/baseterm-component.svg).
 
 
 ### facets-component
 This web component contains a section that is populated by a series of so-called tags. The tags are arranged horizontally with respect to the section and can be scrolled through the navbar, located at the bottom, or through the shortcut ctrl+mouse wheel (or multi-touch gestures).
 
-Differently from the *baseterms-component*, the *facets-component* has a drop-down list which allows the selection of the facet category of interest. At each facet category selection an event is raised which refresh the section below with the list of tags that can be applied to it. Each tag has the characteristic of having a grey background color by default. Instead, if one or more terms are selected a **green** background color will be applied. Inside each tag is shown the name of the term returned from the backend API as well as an inner-tag that allows to know the percentage with which the models are sure about the suggestion made. In addition, you can learn more information about each tag by hovering the cursor on the tag. By doing so, a mini window will appear showing the name, the code, the category to which it belongs to and the percentage of accuracy for the specific term. In this section all the tags are sorted in descending order by percentage of accuracy. Please use the specific web component propety if the auto selection of the terms is requested.
+Differently from the *baseterm-component*, the *facets-component* has a drop-down list which allows the selection of the facet category of interest. At each facet category selection an event is raised which refresh the section below with the list of tags that can be applied to it. Each tag has the characteristic of having a grey background color by default. Instead, if one or more terms are selected a **green** background color will be applied. Inside each tag is shown the name of the term returned from the backend API as well as an inner-tag that allows to know the percentage with which the models are sure about the suggestion made. In addition, you can learn more information about each tag by hovering the cursor on the tag. By doing so, a mini window will appear showing the name, the code, the category to which it belongs to and the percentage of accuracy for the specific term. In this section all the tags are sorted in descending order by percentage of accuracy. Please use the specific web component propety if the auto selection of the terms is requested.
 
 #### Input Data
 * FacetData {Object}: list of categories and facets.
@@ -102,7 +102,7 @@ Differently from the *baseterms-component*, the *facets-component* has a drop-do
 
 
 ### overview-component
-The *"overview-component"* is a section that collects the whole list of tags selected in the *"baseterms-component"* and *"facets-component"*. This, is particularly useful especially in the selection of facets as it allows to have an overview of all the selected facets for each category.
+The *"overview-component"* is a section that collects the whole list of tags selected in the *"baseterm-component"* and *"facets-component"*. This, is particularly useful especially in the selection of facets as it allows to have an overview of all the selected facets for each category.
 
 #### Input Data
 * Selected Baseterm {Term}: term object populated with the properties of the chosen base term.
@@ -114,7 +114,7 @@ The *"overview-component"* is a section that collects the whole list of tags sel
 
 
 ### code-component
-This component is updated every time the user interacts with the *"baseterms-component"* and *"facets-component* and allows to obtain the FoodEx2 code generated.
+This component is updated every time the user interacts with the *"baseterm-component"* and *"facets-component* and allows to obtain the FoodEx2 code generated.
 
 #### Input Data
 * Selected Baseterm {Term}: term object populated with the properties of the chosen base term.
