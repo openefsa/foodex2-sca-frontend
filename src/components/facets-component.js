@@ -9,7 +9,7 @@
  * | -----------------------------------------------------------------  
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
- * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * | Copyright (c) 2021 European Food Safety Authority (EFSA)
  * |                                                                    
  * *********************************************************************
  */
@@ -148,7 +148,7 @@ class FacetsComponent extends LitElement {
             cursor: pointer;
         }
                
-        .fc:hover {
+        .fc:hover:enabled {
             background: #cde69c;
             color: #1f3f2b;
         }
@@ -199,8 +199,7 @@ class FacetsComponent extends LitElement {
         this.fcsFieldId = "fcsViewer";
         this.catFieldId = "catViewer";
         this.cats = {};
-        this.minCatAcc = 50;
-        this.minFcAcc = 10;
+        this.minAcc = 50;
     }
 
     render() {
@@ -320,20 +319,18 @@ class FacetsComponent extends LitElement {
      */
     autoSelectFacets() {
         // return if auto facet selection is disabled
-        if (localStorage.getItem('fcsAutoSel') === 'true') {
+        if (localStorage.getItem('autoSelFcs')) {
             var temp = [];
             // iterate over facet categories
             Object.values(this.cats).forEach(c => {
-                // more weight it is given to the category accuracy
-                var catAcc = c.acc * 2; 
                 // iterate facets in category
                 Object.values(c.facets).forEach(f => {
                     // if the facet is not the baseterm
-                    if (f.code != this.bt.code) {
-                        // calculate avg accuracy
-                        var totAcc = (catAcc + f.acc)/3;
-                        // add the facet object if avg greater than cat threshold and facet acc above min
-                        if (f.acc > this.minFcAcc && totAcc > this.minCatAcc) {
+                    if (this.bt && f.code !== this.bt.code) {
+                        // calculate average accuracy between category and facet
+                        let avg_acc = (c.acc + f.acc)/2;
+                        // if avg accuracy > minimum accepted
+                        if(avg_acc > this.minAcc) {
                             temp.push(f);
                         }
                     }

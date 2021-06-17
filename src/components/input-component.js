@@ -9,7 +9,7 @@
  * | -----------------------------------------------------------------  
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
- * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * | Copyright (c) 2021 European Food Safety Authority (EFSA)
  * |                                                                    
  * *********************************************************************
  */
@@ -91,14 +91,17 @@ class InputComponent extends LitElement {
         this.freeText = '';
         this.trsl = '';
         // k8s_hostname:port/api_name
-        this.url = new URL(config.BASE_URL + 'predict_all');
+        this.url = new URL(config.BASE_URL + 'predict');
     }
 
     render() {
         return html`
             <div>
-                Food Description ${this.nonEn}
-                <iron-icon title="English translation used:\n${this.trsl}" icon="info" class="tiny"></iron-icon>
+                Food Description
+                ${(this.trsl !== '')
+                ? html`<iron-icon title="English translation used:\n${this.trsl}" icon="info" class="tiny"></iron-icon>`
+                : ""
+            }
             </div>
             <div class="flex-container">
                 <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress="${this.handleKeyPress}"></input>
@@ -118,7 +121,7 @@ class InputComponent extends LitElement {
         // hide dialog
         this.activatePb = false;
         // show translated text
-        this.trsl = results.desc.trsl;
+        this.trsl = (localStorage['lang'] !== 'en') ? results.desc.trsl : '';
         // fire event to parent
         this.dispatchEvent(new CustomEvent('data', { detail: results }));
     }
@@ -140,7 +143,8 @@ class InputComponent extends LitElement {
         // url params 
         const params = {
             'desc': this.freeText,
-            'thld': localStorage.getItem('acc') / 100,
+            'thld': localStorage.getItem('thld'),
+            'smartAcc': localStorage.getItem('smartAcc'),
             'lang': localStorage.getItem('lang')
         };
 

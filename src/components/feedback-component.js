@@ -9,7 +9,7 @@
  * | -----------------------------------------------------------------  
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
- * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * | Copyright (c) 2021 European Food Safety Authority (EFSA)
  * |                                                                    
  * *********************************************************************
  */
@@ -163,13 +163,13 @@ export class FeedbackComponent extends LitElement {
                     <div>
                         ${this.enableFastFeedback
                         ? html`
-                        <!-- enable fats feedback engine (only internal users) -->
+                        <!-- enable fast feedback engine (only internal users) -->
                         <fieldset>
                             <legend>Improve exsisting codes</legend>
                             <iron-form id="${this.form1}">
                                 <form>
-                                    <paper-input type="text" label="Food interpretation for: ${(this.record) ? this.record[0] : ""}" value="${(this.record) ? this.record[1] : ""}" readonly></paper-input>
-                                    <paper-input type="text" name="code" value="${(this.record) ? this.record[0] : ""}" readonly hidden></paper-input>
+                                    <paper-input type="text" label="Food interpretation for: ${(this.record) ? this.record[0] : ''}" value="${(this.record) ? this.record[1] : ''}" readonly></paper-input>
+                                    <paper-input type="text" name="code" value="${(this.record) ? this.record[0] : ''}" readonly hidden></paper-input>
                                     <paper-input type="text" name="desc" label="Type an English description for the above term" required auto-validate error-message="Please type a description"></paper-input>          
                                 </form>
                                 <paper-icon-button title="Refresh code" icon="refresh" @click="${this.populateForm}"></paper-icon-button>

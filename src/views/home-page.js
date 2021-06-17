@@ -9,7 +9,7 @@
  * | -----------------------------------------------------------------  
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
- * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * | Copyright (c) 2021 European Food Safety Authority (EFSA)
  * |                                                                    
  * *********************************************************************
  */
@@ -199,7 +199,7 @@ export class HomePage extends LitElement {
           <input-component class="component" @data="${(e) => (this.updateData(e))}"></input-component>
 
           <!-- component for showing baseterm -->
-          <baseterms-component class="component" .baseterms="${this.baseterms}" @bt="${(e) => (this.updateBaseterm(e))}"></baseterms-component>
+          <baseterm-component class="component" .baseterms="${this.baseterms}" @bt="${(e) => (this.updateBaseterm(e))}"></baseterm-component>
         
           <!-- component for showing facets -->
           <facets-component class="component" .bt="${this.selectedBt}" .data="${this.facetData}" @fcs="${(e) => (this.updateFacets(e))}"></facets-component>

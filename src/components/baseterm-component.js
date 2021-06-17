@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\components\baseterms-component.js
+ * | File: \src\components\baseterm-component.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 2nd April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -9,7 +9,7 @@
  * | -----------------------------------------------------------------  
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
- * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * | Copyright (c) 2021 European Food Safety Authority (EFSA)
  * |                                                                    
  * *********************************************************************
  */
@@ -51,7 +51,7 @@ Term.prototype.toString = function toString() {
     return ret;
 }
 
-class BasetermsComponent extends LitElement {
+class BasetermComponent extends LitElement {
     
     static get properties() {
         return {
@@ -189,7 +189,7 @@ class BasetermsComponent extends LitElement {
     }
 
     /**
-     * Populate the baseterms-component with the list of returned base terms.
+     * Populate the baseterm-component with the list of returned base terms.
      */
     populateBaseterms() {
 
@@ -245,7 +245,7 @@ class BasetermsComponent extends LitElement {
                 tagInput.appendChild(tag);
 
                 // auto select first term
-                if(localStorage.getItem('btAutoSel')==='true' && flag){
+                if(localStorage.getItem('autoSelBt') && flag){
                     tag.onclick.apply(tag);
                     flag=!flag;
                 }
@@ -273,4 +273,4 @@ class BasetermsComponent extends LitElement {
 
 }
 
-customElements.define("baseterms-component", BasetermsComponent)
+customElements.define("baseterm-component", BasetermComponent)

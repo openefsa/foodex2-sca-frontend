@@ -9,7 +9,7 @@
  * | -----------------------------------------------------------------  
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
- * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * | Copyright (c) 2021 European Food Safety Authority (EFSA)
  * |                                                                    
  * *********************************************************************
  */
@@ -21,6 +21,8 @@ import {
     html,
     css
 } from 'lit-element';
+
+import config from "../../config.js";
 
 class AboutPage extends LitElement {
 
@@ -46,17 +48,13 @@ class AboutPage extends LitElement {
 
         return html`
         <div class="content">
-            <h2>FoodEx2 Smart Coding Application - Test v.1.1</h2>
-            The FoodEx2 Smart Coding Application is a new platform, developed in EFSA through a cross collaboration between DATA and AMU units and aims to help data providers to faster codify according to the FoodEx2 classification and description the food items they need to submit to EFSA. It adopts different techniques of artificial intelligence, more specifically machine learning and text mining. This allows to get FoodEx2 codes suggestions starting from a free text which describes a particular food that the data provider inputs.
-            </br><b>Please note that the tool is in the testing phase.</b>
-            </br></br>Useful links:</br>
+            <h2>FoodEx2 Smart Coding Application - version ${config.VERSION}</h2>
 
             <ul>
-                <li><a href="https://github.com/openefsa/foodex2-sca-frontend/wiki" target="_blank">Github front-end</a></li>
-                <li><a href="https://github.com/openefsa/foodex2-sca-backend/wiki" target="_blank">Github back-end</a></li>
-                <li><a href="url" target="_blank">Frequently Asked Questions</a>.</li>
+                <li><a href="https://github.com/openefsa/foodex2-sca-frontend/wiki" target="_blank">Github front end</a></li>
+                <li><a href="https://github.com/openefsa/foodex2-sca-backend/wiki" target="_blank">Github back end</a></li>
                 <li><a href="http://www.efsa.europa.eu/en/data/data-standardisation" target="_blank">EFSA Data Standardisation</a></li>
-                <li><a href="http://www.efsa.europa.eu/en/" target="_blank">EFSA web site</a></li>
+                <li><a href="http://www.efsa.europa.eu/en/" target="_blank">EFSA website</a></li>
             </ul>
         </div>
         `

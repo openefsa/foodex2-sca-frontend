@@ -1,7 +1,7 @@
 /*
  * *********************************************************************
  * |                                                                    
- * | File: \src\main.js
+ * | File: \src\main-app.js
  * | Project: foodex2-smart-coding-app-frontend
  * | Created Date: 3rd April 2020
  * | Author: Alban Shahaj (shahaal)
@@ -9,7 +9,7 @@
  * | -----------------------------------------------------------------  
  * | Modified By: Alban Shahaj (shahaal)
  * | -----------------------------------------------------------------  
- * | Copyright (c) 2020 European Food Safety Authority (EFSA)
+ * | Copyright (c) 2021 European Food Safety Authority (EFSA)
  * |                                                                    
  * *********************************************************************
  */
@@ -23,6 +23,7 @@ import {
 } from 'lit-element';
 
 import '@polymer/iron-pages/iron-pages.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-header-layout/app-header-layout.js';
 import '@polymer/app-layout/app-drawer/app-drawer.js';
@@ -144,6 +145,8 @@ class MainApp extends LitElement {
 
         this.router.on("home", () => {
             this.route = 'home'
+        }).on("mul-encode", () => {
+            this.route = 'mul-encode'
         }).on("settings", () => {
             this.route = 'settings'
         }).on("about", () => {
@@ -180,6 +183,10 @@ class MainApp extends LitElement {
                                 <iron-icon icon="home"></iron-icon>
                                 <a href="#/home" drawer-toggle>Home</a>
                             </paper-item>
+                            <paper-item name="mul-encode">
+                                <iron-icon icon="view-module"></iron-icon>
+                                <a href="#/mul-encode" drawer-toggle>Multi Encodes</a>
+                            </paper-item>
                             <paper-item name="settings">
                                 <iron-icon icon="settings"></iron-icon>
                                 <a href="#/settings" drawer-toggle>Settings</a>
@@ -195,7 +202,7 @@ class MainApp extends LitElement {
                                     <a href="#/login" drawer-toggle>Login</a>
                                 </paper-item>
                                 `
-                : ``}
+                : ''}
                         </paper-listbox>
 
                     </app-header-layout>
@@ -221,13 +228,14 @@ class MainApp extends LitElement {
                     <!-- list/detail pages -->
                     <iron-pages selected="${this.route}" attr-for-selected="name">
                         <home-page name="home" .loggedIn="${this.loggedIn}"></home-page>
+                        <mul-encode-page name="mul-encode"></mul-encode-page>
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
                         ${this.enableFeedback
-                         ? html`
+                ? html`
                             <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
                         `
-                        : ``}
+                : ''}
                     </iron-pages>
 
                 </app-header-layout>
@@ -238,13 +246,15 @@ class MainApp extends LitElement {
                         <div class="flex-item">European Food Safety Authority - <a id="ToU" @click="${this.open}">Terms of use</a></div>
                     </div>
                     <div class="right-content">
-                        <div class="flex-item">Logged in: ${(localStorage["user"] != "{}") ? "🟢" : "🔴"}</div>
+                        <div class="flex-item" title="Logged in">Logged: ${(localStorage["user"] != "{}") ? "🟢" : "🔴"}</div>
                         <div class="separator"></div>
-                        <div class="flex-item">Lang: ${localStorage["lang"]}</div>
+                        <div class="flex-item" title="Language">Lang: ${localStorage["lang"]}</div>
                         <div class="separator"></div>
-                        <div class="flex-item">Threshold: ${localStorage["acc"]}%</div>
+                        <div class="flex-item" title="Threshold">Thld: ${localStorage["thld"]}%</div>
                         <div class="separator"></div>
-                        <div class="flex-item">Autosel[bt:${(localStorage["btAutoSel"] === "true") ? "🟢" : "🔴"},fcs:${(localStorage.getItem("fcsAutoSel") === "true") ? "🟢" : "🔴"}]</div>
+                        <div class="flex-item" title="Smart Accuracy">SmartAcc: ${(localStorage["smartAcc"]) ? "🟢" : "🔴"}</div>
+                        <div class="separator"></div>
+                        <div class="flex-item" title="Auto base term/facets selection">Autosel[bt:${(localStorage["autoSelBt"]) ? "🟢" : "🔴"},fcs:${(localStorage.getItem("autoSelFcs")) ? "🟢" : "🔴"}]</div>
                     </div>
                 </footer>
 
