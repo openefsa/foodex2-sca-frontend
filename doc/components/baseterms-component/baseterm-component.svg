@@ -12,7 +12,7 @@ link Apply dft style to selection. to BEFORE_UPDATE--><path d="M334.68,448.148 C
 link BEFORE_UPDATE to Update selected baseterm.--><path d="M219.228,500.587 C217.483,507.57 213.101,525.097 209.483,539.567 " fill="none" id="BEFORE_UPDATE-&gt;Update selected baseterm." style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="208.191,544.734,214.2544,536.9729,209.4037,539.8833,206.4933,535.0326,208.191,544.734" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[ba62787fa517e27a605e76609ca7981c]
 link Update selected baseterm. to Raise event to parent.--><path d="M200.596,580.292 C198.467,590.794 195.704,604.429 193.408,615.754 " fill="none" id="Update selected baseterm.-&gt;Raise event to parent." style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="192.39,620.775,198.0976,612.7486,193.3829,615.8746,190.257,611.1599,192.39,620.775" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[158907bb6ff461cd5abf5afee94cfa02]
 link Raise event to parent. to end--><path d="M174.289,656.1797 C160.301,672.039 139.665,695.4365 127.652,709.0569 " fill="none" id="Raise event to parent.-&gt;end" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="124.217,712.9509,133.1701,708.847,127.5243,709.201,127.1703,703.5553,124.217,712.9509" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="75" x="157" y="688.4189">Ending process</text><!--MD5=[b839aabdbeba8bcf2f02bdc87439ab35]
-@startuml "baseterms-component"
+@startuml "baseterm-component"
 (*) - -> "rendering"
 if "Baseterm list is empty" then
     - ->[true] "Render section w/o tags."
