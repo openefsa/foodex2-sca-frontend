@@ -1,7 +1,7 @@
 <!--
 *********************************************************************
 |                                                                    
-| File: \src\index.html
+| File: index.html
 | Project: foodex2-smart-coding-app-frontend
 | Created Date: 31st March 2020
 | Author: Alban Shahaj (shahaal)
@@ -9,7 +9,7 @@
 | -----------------------------------------------------------------  
 | Modified By: Alban Shahaj (shahaal)
 | -----------------------------------------------------------------  
-| Copyright (c) 2020 European Food Safety Authority (EFSA)
+| Copyright (c) 2021 European Food Safety Authority (EFSA)
 |                                                                    
 *********************************************************************
 -->
@@ -20,44 +20,33 @@
 <html lang="en">
 
 <head>
-    <title>FoodEx2 SCA</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <link rel="icon" type="image/png" href="src/asset/icons/FE2_POSI_icon.jpg" />
-    <meta name="theme-color" content="#18A592" />
-    <meta name="description" content="FoodEx2 Smart Coding Application." />
+    <title>FoodEx2 SCA</title>
+    <meta name="description" content="FoodEx2 Smart Coding Application">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/png" href="src/asset/icons/FE2_POSI_icon.jpg" />
+    <meta name="theme-color" content="#18A592">
 
     <!-- Load polyfills -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" defer></script>
-
-    <style>
-        html,
-        body {
-            position: relative;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            min-width: 350px;
-            min-height: 350px;
-        }
-    </style>
 
     <script type="module">
         window.WebComponents = window.WebComponents || {
             waitFor(cb) { addEventListener('WebComponentsReady', cb) }
         }
         WebComponents.waitFor(async () => {
-            import('./src/main.js')
+            import('./src/main-app.js')
             import('./src/views/home-page.js')
+            import('./src/views/mul-encode-page.js')
             import('./src/views/settings-page.js')
             import('./src/views/about-page.js')
             import('./src/views/login-page.js')
             import('./src/components/input-component.js')
-            import('./src/components/baseterms-component.js')
+            import('./src/components/baseterm-component.js')
             import('./src/components/facets-component.js')
             import('./src/components/overview-component.js')
             import('./src/components/code-component.js')
@@ -66,14 +55,12 @@
             import('./src/components/terms-of-use.js')
         })
     </script>
-    <script src="node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
     <!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
 </head>
 
 <body>
-    <main-app>
-        Loading...
-    </main-app>
+    <main-app>Loading...</main-app>
 </body>
 
 </html>
