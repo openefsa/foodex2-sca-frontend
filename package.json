@@ -31,7 +31,8 @@
         "@webcomponents/webcomponentsjs": "^2.5.0",
         "lit-element": "^2.5.1",
         "lit-html": "^1.4.1",
-        "navigo": "^7.1.2"
+        "navigo": "^7.1.2",
+        "polymer-cli": "^1.9.11"
     },
     "scripts": {
         "start": "polymer serve --module-resolution=node"
