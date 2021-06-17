@@ -72,7 +72,6 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/ingress.yml
-                $(Pipeline.Workspace)/manifests/secrets.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
