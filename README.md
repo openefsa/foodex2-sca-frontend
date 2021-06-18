@@ -1,5 +1,3 @@
-# &#9888; The following project is under development and therefore may be subject to changes until official release
-
 <p align="center">
 	<img src="https://www.efsa.europa.eu/themes/custom/efsa_theme/logo.svg" alt="European Food Safety Authority"/>
 </p>
@@ -17,13 +15,7 @@ The FoodEx2 Smart Coding Application is designed and developed internally in the
 * [Node.js](https://nodejs.org/en/)
 * [npm](https://www.npmjs.com/)
 
-### Install Polymer CLI
-After installing the prerequisities listed above, run the following command in order to install the Polymer CLI globally:
-```
-npm install -g polymer-cli
-```
-
-### Clone and install
+### Clone and install dependencies
 Clone the project locally in your workspace using the following command:
 ```
 git clone https://github.com/openefsa/foodex2-sca-frontend.git
@@ -45,24 +37,27 @@ Click on the link which will appear on the terminal; this will automatically ope
 *Please note that FoodEx2 Smart Coding Application fully support the latest version of Chrome and Firefox.*
 
 ## Web components
-The fronted for the FoodEx2 Smart Coding Application has been developed starting from the base class provided by [Lit](https://lit.dev/) (from Polymer project). Each component has been built starting from the base Lit class and hence connected to each other following the Polymer 3 framework requirements.
+The fronted for the FoodEx2 Smart Coding Application has been developed starting from the base class provided by [LitElement](https://lit-element.polymer-project.org/guide) (from Polymer project). Each component has been built starting from the base LitElement class and hence connected to each other following the Polymer 3 framework requirements.
 
 In this section we describe the various web components that make up the home page of FoodEx2 SCA. These, in fact, have been designed exclusively to follow the web component directives and therefore allow reusability outside of this project.
 
-*Please note that the web components are using pre-built paper-elements available from Polymer at the following [link](https://www.webcomponents.org/collection/PolymerElements/paper-elements). In particular circumstances, custom elements have been developed in order to meet the system requirements.*
+_Please note that the web components are using pre-built paper-elements available from Polymer at the following [link](https://www.webcomponents.org/collection/PolymerElements/paper-elements). In particular circumstances, custom elements have been developed in order to meet the system requirements._
 
 ### input-component
-This web component consists of an input field and a button. The input field allows the insertion of a free text that, in the case of the FoodEx2 SCA project, should describe a particular, simple or compound, food or feed (e.g. *"chocolate"* or *"white chocolate with hazelnuts"*). The *"SEND"* button, situated just next to the input field, allows to get the content of the input field and hence create and make a GET request to the backend API. More specifically the GET request is built using the free text description and a threshold value (which filter those terms not having the same or greather percentage of accuracy). Here is the structure of the GET request called when the *"SEND"* button is pressed:
+This web component consists of an input field and a button. The input field allows the insertion of a free text that, in the case of the FoodEx2 SCA project, should describe a particular, simple or compound, food (e.g. _"chocolate"_ or _"white chocolate with hazelnuts"_). The **GO** button, situated just next to the input field, allows to get the content of the input field and hence create and make a GET request to the backend API. More specifically the GET request is built using the free text description,the threshold value (which filter those terms not having the same or greather percentage of accuracy), the smartAcc flag which tells the backend to use smart accuracy (uses text similarity to increase or decrease the percentage of accuracy attributed to each term) and the language of input. Here is the structure of the GET request called when the *"SEND"* button is pressed:
 ```
-GET http://hostname:port/predict_all HTTP/1.1
+GET http://hostname:port/predict HTTP/1.1
 content-type: application/json
 
 {
-    "text":"white chocolate",
-    "threshold": "0.1"
+    "desc":"white chocolate",
+    "thld": "0.1",
+    "smartAcc": "true",
+    "lang": "en"
 }
 ```
 If the request is handled correctly from the backend API, this will return a JSON object containing:
+* original text description and it's tranlsation in English,
 * list of base terms,
 * list of facet categories,
 * for each category the list of facets that can be applied to it.
@@ -130,12 +125,13 @@ The feedback component allows, through a specific button, to access a dialog box
 
 An example of the POST request submitted to the backend looks like the following:
 ```
-OST http://127.0.0.1:5000/postFeedback HTTP/1.1
+OST http://127.0.0.1:5000/post_feedback HTTP/1.1
 Content-Type: "application/json"
 x-access-token: mysecretkey
 
 {
     "desc": "hazelnuts",
+    "lang": "en",
     "code": "A034L"
 }
 ```
