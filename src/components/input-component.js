@@ -75,6 +75,12 @@ class InputComponent extends LitElement {
                 background-color: var(--primary-color); 
                 color: white;
             }
+
+            .trslBox {
+                font-size: 12px;
+                color: dimgrey;
+                height: 15px;
+            }
         `;
     }
 
@@ -89,7 +95,7 @@ class InputComponent extends LitElement {
     }
 
     render() {
-        var translation = "English translation used: "+ this.trsl;
+        var translation = "English translation: "+ this.trsl;
         return html`
             <div>
                 Food Description
@@ -100,7 +106,7 @@ class InputComponent extends LitElement {
             </div>
             
                 
-            <div style="font-size: 12px; height: 15px;">
+            <div class="trslBox">
                 ${(this.trsl !== '')
                 ? translation
                 : ""
