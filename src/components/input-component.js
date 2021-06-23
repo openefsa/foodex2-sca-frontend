@@ -23,7 +23,6 @@ import {
 } from 'lit-element';
 
 import config from "../../config.js";
-import '@polymer/iron-icon/iron-icon.js';
 
 class InputComponent extends LitElement {
 
@@ -76,11 +75,6 @@ class InputComponent extends LitElement {
                 background-color: var(--primary-color); 
                 color: white;
             }
-
-            iron-icon.tiny {
-                --iron-icon-height: 16px;
-                --iron-icon-width: 16px;
-            }
         `;
     }
 
@@ -95,19 +89,24 @@ class InputComponent extends LitElement {
     }
 
     render() {
+        var translation = "English translation used: "+ this.trsl;
         return html`
             <div>
                 Food Description
-                ${(this.trsl !== '')
-                ? html`<iron-icon title="English translation used:\n${this.trsl}" icon="info" class="tiny"></iron-icon>`
-                : ""
-            }
             </div>
             <div class="flex-container">
                 <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress="${this.handleKeyPress}"></input>
                 <paper-button @click="${this.getSuggestions}">GO</paper-button>
             </div>
             
+                
+            <div style="font-size: 12px; height: 15px;">
+                ${(this.trsl !== '')
+                ? translation
+                : ""
+                }
+            </div>
+
             <progress-bar-component .activate="${this.activatePb}"></progress-bar-component>
         `
     }
