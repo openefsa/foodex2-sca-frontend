@@ -244,8 +244,9 @@ class BasetermComponent extends LitElement {
                 // append the new inner tag
                 tagInput.appendChild(tag);
 
+                console.log(localStorage.getItem('autoSelBt'), flag);
                 // auto select first term
-                if(localStorage.getItem('autoSelBt') && flag){
+                if((localStorage.getItem('autoSelBt')==="true") && flag){
                     tag.onclick.apply(tag);
                     flag=!flag;
                 }

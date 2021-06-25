@@ -319,7 +319,7 @@ class FacetsComponent extends LitElement {
      */
     autoSelectFacets() {
         // return if auto facet selection is disabled
-        if (localStorage.getItem('autoSelFcs')) {
+        if (localStorage.getItem('autoSelFcs')==="true") {
             var temp = [];
             // iterate over facet categories
             Object.values(this.cats).forEach(c => {

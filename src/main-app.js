@@ -252,9 +252,9 @@ class MainApp extends LitElement {
                         <div class="separator"></div>
                         <div class="flex-item" title="Threshold">Thld: ${localStorage["thld"]}%</div>
                         <div class="separator"></div>
-                        <div class="flex-item" title="Smart Accuracy">SmartAcc: ${(localStorage["smartAcc"]) ? "🟢" : "🔴"}</div>
+                        <div class="flex-item" title="Smart Accuracy">SmartAcc: ${(localStorage["smartAcc"]==="true") ? "🟢" : "🔴"}</div>
                         <div class="separator"></div>
-                        <div class="flex-item" title="Auto base term/facets selection">Autosel[bt:${(localStorage["autoSelBt"]) ? "🟢" : "🔴"},fcs:${(localStorage.getItem("autoSelFcs")) ? "🟢" : "🔴"}]</div>
+                        <div class="flex-item" title="Auto base term/facets selection">Autosel[bt:${(localStorage["autoSelBt"]==="true") ? "🟢" : "🔴"},fcs:${(localStorage["autoSelFcs"]==="true") ? "🟢" : "🔴"}]</div>
                     </div>
                 </footer>
 

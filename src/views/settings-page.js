@@ -107,8 +107,8 @@ class SettingsPage extends LitElement {
                 <paper-dropdown-menu-light noink no-animations>
                     <paper-listbox slot="dropdown-content" attr-for-selected="value" selected="${this.lang}" @click="${(e) => this.updateValue(e.target.id, e.target.getAttribute("value"))}">
                         ${Object.entries(languages).map(([val, label]) => {
-                            return html`<paper-item id="lang" value="${val}">${label}</paper-item>`
-                        })}
+            return html`<paper-item id="lang" value="${val}">${label}</paper-item>`
+        })}
                     </paper-listbox>
                 </paper-dropdown-menu-light>
             </paper-item>
@@ -165,7 +165,14 @@ class SettingsPage extends LitElement {
                 </paper-item-body>
                 <div>
                     <span class="toggle-left-label">${(this.autoSelFcs === "true") ? "Enabled" : "Disabled"}</span>
-                    <paper-toggle-button id="autoSelFcs" role="toggle" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" noink invalid ?checked=${(this.autoSelFcs === "true")}></paper-toggle-button>
+                    <paper-toggle-button 
+                        id="autoSelFcs"
+                        ?disabled="${(this.autoSelBt === "true")}" 
+                        role="toggle" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" 
+                        noink 
+                        invalid 
+                        ?checked=${(this.autoSelFcs === "true")}>
+                    </paper-toggle-button>
                 </div>
             </paper-item>
             
@@ -194,6 +201,7 @@ class SettingsPage extends LitElement {
 
     /* Save the new selected setting */
     updateValue(key, val) {
+        console.log(key, val);
         // Check browser support
         if (typeof (Storage) !== "undefined") {
             // update property
