@@ -167,7 +167,7 @@ class SettingsPage extends LitElement {
                     <span class="toggle-left-label">${(this.autoSelFcs === "true") ? "Enabled" : "Disabled"}</span>
                     <paper-toggle-button 
                         id="autoSelFcs"
-                        ?disabled="${(this.autoSelBt === "true")}" 
+                        ?disabled="${(this.autoSelBt === "false")}" 
                         role="toggle" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" 
                         noink 
                         invalid 
