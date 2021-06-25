@@ -201,7 +201,6 @@ class SettingsPage extends LitElement {
 
     /* Save the new selected setting */
     updateValue(key, val) {
-        console.log(key, val);
         // Check browser support
         if (typeof (Storage) !== "undefined") {
             // update property
