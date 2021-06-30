@@ -46,10 +46,10 @@ export class FeedbackComponent extends LitElement {
                 type: String
             },
             postUrl: {
-                type: URL
+                type: Object
             },
             getUrl: {
-                type: URL
+                type: Object
             },
             token: {
                 type: String
@@ -149,6 +149,32 @@ export class FeedbackComponent extends LitElement {
         this.getUrl = new URL(config.BASE_URL + 'get_codes');
     }
 
+    /**
+     * if the user has the rights show the fast feedback form
+     * @returns 
+     */
+    showFastFeedbackForm() {
+        if (this.enableFastFeedback) {
+            return html`
+            <!-- enable fast feedback engine (only internal users) -->
+            <fieldset>
+                <legend>Improve exsisting codes</legend>
+                <iron-form id="${this.form1}">
+                    <form>
+                        <paper-input type="text" label="Food interpretation for: ${(this.record) ? this.record[0] : ''}" value="${(this.record) ? this.record[1] : ''}" readonly></paper-input>
+                        <paper-input type="text" name="code" value="${(this.record) ? this.record[0] : ''}" readonly hidden></paper-input>
+                        <paper-input type="text" name="desc" label="Type an English description for the above term" required auto-validate error-message="Please type a description"></paper-input>          
+                    </form>
+                    <paper-icon-button title="Refresh code" icon="refresh" @click="${this.populateForm}"></paper-icon-button>
+                    <paper-icon-button title="Send feedback" icon="send" @click="${() => this.sendFeedback(this.form1)}"></paper-icon-button>
+                </iron-form>    
+            </fieldset>
+            `
+        }
+
+        return ``;
+    }
+
     render() {
 
         return html`
@@ -161,22 +187,7 @@ export class FeedbackComponent extends LitElement {
                 <h3>Feedback section</h3>
                 <paper-dialog-scrollable>
                     <div>
-                        ${this.enableFastFeedback
-                        ? html`
-                        <!-- enable fast feedback engine (only internal users) -->
-                        <fieldset>
-                            <legend>Improve exsisting codes</legend>
-                            <iron-form id="${this.form1}">
-                                <form>
-                                    <paper-input type="text" label="Food interpretation for: ${(this.record) ? this.record[0] : ''}" value="${(this.record) ? this.record[1] : ''}" readonly></paper-input>
-                                    <paper-input type="text" name="code" value="${(this.record) ? this.record[0] : ''}" readonly hidden></paper-input>
-                                    <paper-input type="text" name="desc" label="Type an English description for the above term" required auto-validate error-message="Please type a description"></paper-input>          
-                                </form>
-                                <paper-icon-button title="Refresh code" icon="refresh" @click="${this.populateForm}"></paper-icon-button>
-                                <paper-icon-button title="Send feedback" icon="send" @click="${() => this.sendFeedback(this.form1)}"></paper-icon-button>
-                            </iron-form>    
-                        </fieldset>
-                        ` : ``}
+                        ${this.showFastFeedbackForm()}
                         
                         <fieldset>
                             <legend>Submit new codes</legend>

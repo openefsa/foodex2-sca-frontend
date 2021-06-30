@@ -45,10 +45,9 @@ class Term {
  * Overrides default toString method.
  */
 Term.prototype.toString = function toString() {
-    var ret = 'Code: ' + this.code + 
+    return 'Code: ' + this.code + 
             '\nName: ' + this.name + 
             '\nAccuracy: ' + this.acc + "%";
-    return ret;
 }
 
 class BasetermComponent extends LitElement {

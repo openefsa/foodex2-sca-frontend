@@ -48,10 +48,10 @@ export class LoginPage extends LitElement {
     static get properties() {
         return {
             url: {
-                type: URL
+                type: Object
             },
             user: {
-                type: User
+                type: Object
             },
             activatePb: {
                 type: Boolean
@@ -93,15 +93,24 @@ export class LoginPage extends LitElement {
         this.url = new URL(config.BASE_URL + 'get_codes');
     }
 
-    render() {
+    /**
+     * show username info if logged in
+     * @param {*} username 
+     * @returns 
+     */
+    showLoggedInInfo(username) {
         return html`
-        <div class="flex-container">
-            ${this.user.isLoggedIn()
-                ? html`
-                    <label>Username: ${this.user.getUsername()}</label>
+                    <label>Username: ${username}</label>
                     <paper-button raised @click="${this.logout}">Logout</paper-button>
-                `
-                : html`
+                    `;
+    }
+
+    /**
+     * show form to be filled in order to login
+     * @returns 
+     */
+    showNotLoggedInInfo() {
+        return html`
                     <iron-form id="iron-form">
                         <form>
                             <paper-input type="username" name="username" label="Username" required auto-validate error-message="Please provide a username"></paper-input>
@@ -109,10 +118,18 @@ export class LoginPage extends LitElement {
                         </form>
                     </iron-form>
                     <paper-button raised @click="${this.login}">Login</paper-button>
-                `
+                    `;
+    }
+
+    render() {
+        return html`
+        <div class="flex-container">
+            ${this.user.isLoggedIn()
+                ? this.showLoggedInInfo(this.user.getUsername())
+                : this.showNotLoggedInInfo()
             }
 
-            <label>You ${this.user.isLoggedIn() ? html`are` : html`are not`} logged in<label>
+            <label>You ${this.user.isLoggedIn() ? "are" : "are not"} logged in</label>
         </div>
         <progress-bar-component .activate="${this.activatePb}"></progress-bar-component>
         `

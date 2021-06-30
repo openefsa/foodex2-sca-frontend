@@ -41,7 +41,7 @@ class InputComponent extends LitElement {
                 type: String
             },
             url: {
-                type: URL
+                type: Object
             }
         }
     }

@@ -158,6 +158,33 @@ class MainApp extends LitElement {
         }).resolve();
     }
 
+    /**
+     * show the login button in the hamburger menu only if not in production
+     * @returns 
+     */
+    showLoginButton() {
+        return (this.enableFeedback)
+            ? html`
+                <paper-item name="login">
+                    <iron-icon icon="input"></iron-icon>
+                    <a href="#/login" drawer-toggle>Login</a>
+                </paper-item>
+                `
+            : '';
+    }
+
+    /**
+     * allow the accessibility to the login component
+     * @returns 
+     */
+    showLoginPage() {
+        return (this.enableFeedback)
+            ? html`
+                    <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
+                `
+            : '';
+    }
+
     render() {
 
         return html`
@@ -195,14 +222,7 @@ class MainApp extends LitElement {
                                 <iron-icon icon="info"></iron-icon>
                                 <a href="#/about" drawer-toggle>About</a>
                             </paper-item>
-                            ${this.enableFeedback
-                ? html`
-                                <paper-item name="login">
-                                    <iron-icon icon="input"></iron-icon>
-                                    <a href="#/login" drawer-toggle>Login</a>
-                                </paper-item>
-                                `
-                : ''}
+                            ${this.showLoginButton()}
                         </paper-listbox>
 
                     </app-header-layout>
@@ -231,11 +251,7 @@ class MainApp extends LitElement {
                         <mul-encode-page name="mul-encode"></mul-encode-page>
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
-                        ${this.enableFeedback
-                ? html`
-                            <login-page name="login" @userStatus="${(e) => this.loggedIn = e.detail}"></login-page>
-                        `
-                : ''}
+                        ${this.showLoginPage()}
                     </iron-pages>
 
                 </app-header-layout>
@@ -252,9 +268,9 @@ class MainApp extends LitElement {
                         <div class="separator"></div>
                         <div class="flex-item" title="Threshold">Thld: ${localStorage["thld"]}%</div>
                         <div class="separator"></div>
-                        <div class="flex-item" title="Smart Accuracy">SmartAcc: ${(localStorage["smartAcc"]==="true") ? "🟢" : "🔴"}</div>
+                        <div class="flex-item" title="Smart Accuracy">SmartAcc: ${(localStorage["smartAcc"] === "true") ? "🟢" : "🔴"}</div>
                         <div class="separator"></div>
-                        <div class="flex-item" title="Auto base term/facets selection">Autosel[bt:${(localStorage["autoSelBt"]==="true") ? "🟢" : "🔴"},fcs:${(localStorage["autoSelFcs"]==="true") ? "🟢" : "🔴"}]</div>
+                        <div class="flex-item" title="Auto base term/facets selection">Autosel[bt:${(localStorage["autoSelBt"] === "true") ? "🟢" : "🔴"},fcs:${(localStorage["autoSelFcs"] === "true") ? "🟢" : "🔴"}]</div>
                     </div>
                 </footer>
 

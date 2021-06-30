@@ -185,6 +185,31 @@ export class HomePage extends LitElement {
     this.iconName = "chevron-left";
   }
 
+  /**
+   * allow to access the feedback dialog if the user is correctly logged in
+   * @returns 
+   */
+  showFeedbackButton() {
+    return (this.loggedIn)
+      ? html`
+          <!-- component for activating feedback section -->
+          <feedback-component class="component" .dftDesc="${this.desc}"></feedback-component>
+        `
+      : ``;
+  }
+
+  /**
+   * if the term has links show them as hyperlink elements
+   * @returns 
+   */
+  showLinks() {
+    return (this.termToShow.links && this.termToShow.links.length > 0)
+      ? Object.values(this.termToShow.links).map(e =>
+        html`<label><a href="${e}" target="_blank">${(new URL(e)).hostname}</a></label>`
+      )
+      : html`<label>None</label>`;
+  }
+
   render() {
     return html`
       <div class="flexbox">
@@ -210,12 +235,7 @@ export class HomePage extends LitElement {
           <!-- component for showing the foodex2 code -->
           <code-component class="component" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></code-component>
         
-          ${this.loggedIn
-          ? html`
-              <!-- component for activating feedback section -->
-              <feedback-component class="component" .dftDesc="${this.desc}"></feedback-component>
-            `
-          : ``}
+          ${this.showFeedbackButton()}
         </div>
         <div id="${this.secondPanel}" class="info-panel" style="display: none;">
           <div id="outer">
@@ -242,10 +262,7 @@ export class HomePage extends LitElement {
             </fieldset>
             <fieldset>
               <legend>Links</legend>
-              ${(this.termToShow.links && this.termToShow.links.length>0)
-                ? Object.values(this.termToShow.links).map(e => html`<label><a href="${e}" target="_blank">${(new URL(e)).hostname}</a></label>  `)
-                : html`<label>None</label>`
-              }
+              ${this.showLinks()}
             </fieldset>
           </div>
         </div>
@@ -264,7 +281,7 @@ export class HomePage extends LitElement {
 
     // if new data update categories and selected facets
     if (newSelBt || newSelFcs) {
-      const index = (this.selectedBt)?this.selectedFcs.findIndex(f => f.code === this.selectedBt.code):-1;
+      const index = (this.selectedBt) ? this.selectedFcs.findIndex(f => f.code === this.selectedBt.code) : -1;
       if (index > -1) {
         alert("It is not possible to have the selected baseterm as facet! Please unselect the facet or change baseterm.")
         this.selectedFcs.splice(index, 1);
@@ -309,14 +326,14 @@ export class HomePage extends LitElement {
    * show hide the term informational panel
    * 
    */
-  toggleTermInfoPanel () {
+  toggleTermInfoPanel() {
     var x = this.shadowRoot.getElementById(this.secondPanel);
     if (x.style.display === "none") {
-        x.style.display = "block";
-        this.iconName = "chevron-right";
+      x.style.display = "block";
+      this.iconName = "chevron-right";
     } else {
-        x.style.display = "none";
-        this.iconName = "chevron-left";
+      x.style.display = "none";
+      this.iconName = "chevron-left";
     }
   }
 

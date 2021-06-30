@@ -184,27 +184,42 @@ class CodeComponent extends LitElement {
     }
 
     /**
+     * used for sorting categories (if they are equal than sort inner facets)
+     * @param {*} a 
+     * @param {*} b 
+     * @returns 
+     */
+    compareCodes(a, b) {
+        if (a.cat > b.cat || (a.cat === b.cat && a.code > b.code)) {
+            return 1
+        } else {
+            return -1;
+        }
+    }
+    /**
      * Method used for updating the FoodEx2 code.
      */
     updateCode() {
 
-        if (!this.bt || this.bt == "")
+        if (!this.bt || this.bt == "") {
             this.code = "";
-        else {
-            this.code = this.bt.code;
-
-            var fcsLen = this.fcs.length;
-            // sort list by category (if cat same than by code)
-            this.fcs = this.fcs.sort((a, b) => (a.cat > b.cat) ? 1 : (a.cat === b.cat) ? ((a.code > b.code) ? 1 : -1) : -1 );
-            for (var i = 0; i < fcsLen; i++) {
-                if (i == 0)
-                    this.code += "#";
-                var fc = this.fcs[i];
-                this.code += fc.cat + "." + fc.code;
-                if (i < fcsLen - 1)
-                    this.code = this.code + "$";
-            }
+            return;
         }
+
+        this.code = this.bt.code;
+        var fcsLen = this.fcs.length;
+
+        // sort list by category (if cat same than by code)
+        this.fcs = this.fcs.sort((a, b) => this.compareCodes(a, b));
+        for (var i = 0; i < fcsLen; i++) {
+            if (i == 0)
+                this.code += "#";
+            var fc = this.fcs[i];
+            this.code += fc.cat + "." + fc.code;
+            if (i < fcsLen - 1)
+                this.code = this.code + "$";
+        }
+
     }
 
     /**
@@ -213,7 +228,7 @@ class CodeComponent extends LitElement {
     copyCode() {
         var copyCode = this.shadowRoot.getElementById(this.codeViewer);
         // show alert if no code is available
-        if(copyCode.value.length<=0) {
+        if (copyCode.value.length <= 0) {
             alert("Nothing to copy.");
         }
         copyCode.select();
@@ -228,7 +243,7 @@ class CodeComponent extends LitElement {
      */
     resetTooltip() {
         var tooltip = this.shadowRoot.getElementById(this.codeTooltip);
-        if(tooltip) {
+        if (tooltip) {
             tooltip.innerHTML = "Copy to clipboard";
         }
     }

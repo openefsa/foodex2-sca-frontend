@@ -69,23 +69,21 @@ class Category {
  * Overrides default toString method.
  */
 Facet.prototype.toString = function toString() {
-    var res = 'Name: ' + this.name +
+    return 'Name: ' + this.name +
         '\nCode: ' + this.code +
         '\nAccuracy: ' + this.acc + "%" +
         '\nCategory: ' + this.cat;
-    return res;
 }
 
 /**
  * Overrides default toString method.
  */
 Category.prototype.toString = function toString() {
-    var res = 'Name: ' + this.name +
+    return 'Name: ' + this.name +
         '\nLabel: ' + this.label +
         '\nCode: ' + this.code +
         '\nAccuracy: ' + this.acc + "%" +
         '\nFacets suggested: ' + this.noFacets;
-    return res;
 }
 
 class FacetsComponent extends LitElement {
@@ -202,17 +200,25 @@ class FacetsComponent extends LitElement {
         this.minAcc = 50;
     }
 
+    /**
+     * helper for rendering facet category list
+     * @returns 
+     */
+    generateFacetCategories() {
+        return (Object.values(this.cats).length <= 0)
+            ? html`<option>none</option>`
+            : Object.values(this.cats).map(i => html`
+                    <option value="${i.code}" title="${i}">
+                        ${i.code} ${i.label} (${i.acc}%) - ${i.noFacets} facets
+                    </option>`);
+    }
+
     render() {
         return html`
             <div>
                 <label>Select facets in
                     <select required id="${this.catFieldId}" @change="${this.onCategorySelection}">
-                        ${(Object.values(this.cats).length <= 0)
-                ? html`<option>none</option>`
-                : Object.values(this.cats).map(i => html`
-                                <option value="${i.code}" title="${i}">
-                                    ${i.code} ${i.label} (${i.acc}%) - ${i.noFacets} facets
-                                </option>`)
+                        ${this.generateFacetCategories()})
             }
                     </select>
                 </label>
@@ -319,7 +325,7 @@ class FacetsComponent extends LitElement {
      */
     autoSelectFacets() {
         // return if auto facet selection is disabled
-        if (localStorage.getItem('autoSelFcs')==="true") {
+        if (localStorage.getItem('autoSelFcs') === "true") {
             var temp = [];
             // iterate over facet categories
             Object.values(this.cats).forEach(c => {
@@ -328,9 +334,9 @@ class FacetsComponent extends LitElement {
                     // if the facet is not the baseterm
                     if (this.bt && f.code !== this.bt.code) {
                         // calculate average accuracy between category and facet
-                        let avg_acc = (c.acc + f.acc)/2;
+                        let avg_acc = (c.acc + f.acc) / 2;
                         // if avg accuracy > minimum accepted
-                        if(avg_acc > this.minAcc) {
+                        if (avg_acc > this.minAcc) {
                             temp.push(f);
                         }
                     }

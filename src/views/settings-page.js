@@ -88,6 +88,16 @@ class SettingsPage extends LitElement {
         this.autoSelFcs = localStorage.getItem('autoSelFcs');
     }
 
+    /**
+     * generate the option in the language drop-down list
+     * @param {*} val 
+     * @param {*} label 
+     * @returns 
+     */
+    listBox(val, label) {
+        return html`<paper-item id="lang" value="${val}">${label}</paper-item>`;
+    }
+
     render() {
         const languages = {
             "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch",
@@ -106,9 +116,7 @@ class SettingsPage extends LitElement {
                 </paper-item-body>
                 <paper-dropdown-menu-light noink no-animations>
                     <paper-listbox slot="dropdown-content" attr-for-selected="value" selected="${this.lang}" @click="${(e) => this.updateValue(e.target.id, e.target.getAttribute("value"))}">
-                        ${Object.entries(languages).map(([val, label]) => {
-            return html`<paper-item id="lang" value="${val}">${label}</paper-item>`
-        })}
+                        ${Object.entries(languages).map(([val, label]) => { return this.listBox(val, label); })}
                     </paper-listbox>
                 </paper-dropdown-menu-light>
             </paper-item>
@@ -143,7 +151,7 @@ class SettingsPage extends LitElement {
                 </paper-item-body>
                 <div>
                     <span class="toggle-left-label">${(this.smartAcc === "true") ? "Enabled" : "Disabled"}</span>
-                    <paper-toggle-button id="smartAcc" role="toggle" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" noink invalid ?checked=${(this.smartAcc === "true")}></paper-toggle-button>
+                    <paper-toggle-button id="smartAcc" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" noink invalid ?checked=${(this.smartAcc === "true")}></paper-toggle-button>
                 </div>
             </paper-item>
 
@@ -154,7 +162,7 @@ class SettingsPage extends LitElement {
                 </paper-item-body>
                 <div>
                     <span class="toggle-left-label">${(this.autoSelBt === "true") ? "Enabled" : "Disabled"}</span>
-                    <paper-toggle-button id="autoSelBt" role="toggle" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" noink invalid ?checked=${(this.autoSelBt === "true")}></paper-toggle-button>
+                    <paper-toggle-button id="autoSelBt" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" noink invalid ?checked=${(this.autoSelBt === "true")}></paper-toggle-button>
                 </div>
             </paper-item>
 
@@ -168,7 +176,7 @@ class SettingsPage extends LitElement {
                     <paper-toggle-button 
                         id="autoSelFcs"
                         ?disabled="${(this.autoSelBt === "false")}" 
-                        role="toggle" @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" 
+                        @click="${(e) => this.updateValue(e.target.id, e.target.checked)}" 
                         noink 
                         invalid 
                         ?checked=${(this.autoSelFcs === "true")}>
