@@ -8,6 +8,7 @@ import {
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "@polymer/paper-dialog/paper-dialog.js";
 import '@polymer/paper-progress/paper-progress.js';
+import '@polymer/paper-slider/paper-slider.js';
 
 import config from "../../config.js";
 
@@ -32,6 +33,9 @@ class MulEncodePage extends LitElement {
             },
             cols: {
                 type: Array
+            },
+            thld: {
+                type: Number
             }
         }
     }
@@ -53,7 +57,29 @@ class MulEncodePage extends LitElement {
             padding: 5px;
         }
 
-        
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+
+        .flex-item {
+            flex: 1;
+        }
+
+        .thld-label {
+            font-size: 13px;
+        }
+
+        .caption {
+            padding-left: 6px;
+            font-weight: bold;
+        }
+
+        #thld {
+            height: 1px;
+            --paper-slider-secondary-color: var(--paper-red-a200);
+        }
 
         fieldset {
             border: 0.1em solid #d6d6d6;
@@ -152,6 +178,15 @@ class MulEncodePage extends LitElement {
         this.counter = "-/-"; // fetchs executed
         this.dialog = "pDialog"; // paper-dialog id
 
+        this.thldLevels = {
+            '25': 'LOW (25%)',
+            '50': 'MEDIUM (50%)',
+            '75': 'HIGH (75%)'
+        };
+        
+        // default threshold
+        this.thld = 50;
+
         // set column properties
         this.cols = [
             { id: 0, property: 'desc', header: 'Food description' },
@@ -161,7 +196,7 @@ class MulEncodePage extends LitElement {
         ];
 
         // Track sort directions
-        this.directions = Array.from(this.cols).map(col => {
+        this.directions = Array.from(this.cols).map(() => {
             return '';
         });
     }
@@ -169,18 +204,26 @@ class MulEncodePage extends LitElement {
     render() {
         // define template html row
         const headers = this.cols.map(col => html`<th @click="${() => this.sortColumn(col.id)}">${col.header}</th>`);
-
+            
         return html`
         <div class="flexbox">
             <div class="main-panel">
                 <fieldset>
                     <legend>Toolbar</legend>
                     <label>
-                        <paper-icon-button icon="add" title="Add row" @click="${this.addRow}"></paper-icon-button>
-                        <paper-icon-button icon="content-paste" title="Paste" @click="${this.getData}"></paper-icon-button>
-                        <paper-icon-button icon="clear" title="Clean" @click="${this.cleanData}"></paper-icon-button>
-                        <paper-icon-button icon="send" title="Run" @click="${this.encodeData}"></paper-icon-button>
-                        <paper-icon-button icon="file-download" title="Export CSV" @click="${this.exportTable}"></paper-icon-button>
+                        <div class="flex-container">
+                            <div class="flex-item">
+                                <paper-icon-button icon="add" title="Add row" @click="${this.addRow}"></paper-icon-button>
+                                <paper-icon-button icon="content-paste" title="Paste" @click="${this.getData}"></paper-icon-button>
+                                <paper-icon-button icon="clear" title="Clean" @click="${this.cleanData}"></paper-icon-button>
+                                <paper-icon-button icon="send" title="Run" @click="${this.encodeData}"></paper-icon-button>
+                                <paper-icon-button icon="file-download" title="Export CSV" @click="${this.exportTable}"></paper-icon-button>
+                            </div>
+                            <div>
+                                <div class="thld-label">Threshold level:<span class="caption">${this.thldLevels[this.thld]}</span></div><br>
+                                <paper-slider id="thld" pin min="25" max="75" step="25" secondary-progress="50" value="${this.thld}" @change="${(e) => this.updateThld(e.target.value)}"></paper-slider>
+                            </div>
+                        </div>
                     </label>
                 </fieldset>
                 <div class="table">
@@ -208,12 +251,13 @@ class MulEncodePage extends LitElement {
 
         var changedData = changedProperties.has('data');
         var counter = changedProperties.has('counter');
+        var thld = changedProperties.has('thld');
 
         // update the tags field if bt/fc is selected
         if (changedData) {
             this.populateCells();
         }
-        return changedData || counter;
+        return changedData || counter || thld;
     }
 
     populateCells() {
@@ -374,7 +418,7 @@ class MulEncodePage extends LitElement {
         let progress = 0;
         requests.forEach(r => r.then(() => {
             progress++;
-            this.counter = progress + "/" + requests.length ;
+            this.counter = progress + "/" + requests.length;
         }));
     }
 
@@ -401,6 +445,16 @@ class MulEncodePage extends LitElement {
     }
 
     /**
+     * used for sorting category or facet codes
+     * @param {*} a 
+     * @param {*} b 
+     * @returns 
+     */
+    compare(a, b) {
+        return (a > b) ? 1 : -1;
+    }
+
+    /**
      * Build the final code and calculate avg accuracy
      * @param {*} value 
      */
@@ -411,7 +465,7 @@ class MulEncodePage extends LitElement {
         let final_facets = []; // final facets code (categories+terms)
         let final_acc = []; // final accuracy (bt+cat+fcs)
 
-        if (value.bt) {
+        if (value.bt && value.bt[0]) {
             // get base term with higher accuracy
             let bt = value.bt[0];
             // append to final code the base term
@@ -420,17 +474,20 @@ class MulEncodePage extends LitElement {
             final_acc.push(bt.acc);
             // iterate each category suggested
             let categories = value.cat;
+            // sort the categories
+            categories = categories.sort((a, b) => this.compare(a.code, b.code));
             categories.forEach(category => {
                 // iterate each facets found within the category
                 let facets = category.facets;
+                // sort the facets
+                facets = facets.sort((a, b) => this.compare(a.termCode, b.termCode));
                 facets.forEach(facet => {
                     // do not compute facet equal to the base term
                     if (facet.termCode === bt.termCode)
                         return;
                     // calculate the weighted arithmetic mean
                     let avg_acc = (category.acc + facet.acc) / 2;
-                    // TODO use set threshold (add parameter in settings "min avg correlation between category and facet")
-                    if (avg_acc > 0.50) {
+                    if (avg_acc > (this.thld/100)) {
                         final_facets.push(category.code + "." + facet.termCode);
                         final_acc.push(avg_acc);
                     }
@@ -538,12 +595,20 @@ class MulEncodePage extends LitElement {
 
         // create the file
         var csvFile = new Blob([csv], { type: "text/csv" });
-        
+
         // create link and download file
         var a = document.createElement("a");
         a.href = URL.createObjectURL(csvFile);
         a.setAttribute("download", "output.csv");
         a.click();
+    }
+
+    /**
+     * update the global threshold
+     * @param {Number} newVal 
+     */
+    updateThld(newVal) {
+        this.thld = newVal;
     }
 }
 
