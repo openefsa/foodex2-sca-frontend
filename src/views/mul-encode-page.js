@@ -179,9 +179,9 @@ class MulEncodePage extends LitElement {
         this.dialog = "pDialog"; // paper-dialog id
 
         this.thldLevels = {
-            '25': 'LOW (25%)',
+            '30': 'LOW (30%)',
             '50': 'MEDIUM (50%)',
-            '75': 'HIGH (75%)'
+            '70': 'HIGH (70%)'
         };
         
         // default threshold
@@ -221,7 +221,7 @@ class MulEncodePage extends LitElement {
                             </div>
                             <div>
                                 <div class="thld-label">Threshold level:<span class="caption">${this.thldLevels[this.thld]}</span></div><br>
-                                <paper-slider id="thld" pin min="25" max="75" step="25" secondary-progress="50" value="${this.thld}" @change="${(e) => this.updateThld(e.target.value)}"></paper-slider>
+                                <paper-slider id="thld" pin min="30" max="70" step="20" secondary-progress="50" value="${this.thld}" @change="${(e) => this.updateThld(e.target.value)}"></paper-slider>
                             </div>
                         </div>
                     </label>
@@ -464,7 +464,7 @@ class MulEncodePage extends LitElement {
         let final_code = "N/A"; // final FoodEx2 Code (bt+facets)
         let final_facets = []; // final facets code (categories+terms)
         let final_acc = []; // final accuracy (bt+cat+fcs)
-
+        
         if (value.bt && value.bt[0]) {
             // get base term with higher accuracy
             let bt = value.bt[0];
