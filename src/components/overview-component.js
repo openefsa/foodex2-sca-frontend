@@ -108,7 +108,7 @@ class OverviewComponent extends LitElement {
     }
 
     render() {
-        return html `
+        return html`
             <div>Overview</div>
             <div id="${this.fieldId}"></div>
         `
@@ -175,16 +175,18 @@ class OverviewComponent extends LitElement {
         innerTag.setAttribute('class', 'inner-' + type);
         innerTag.innerHTML = (type === "bt") ? type.toUpperCase() : term.cat;
         tag.appendChild(innerTag);
+
+        // TODO append remove button (allows to remove a tag directly from overview)
+
         // when clicking on tag
         tag.onclick = () => {
             // fire event to parent
-            let event = new CustomEvent('showInfo', {detail: term});
+            let event = new CustomEvent('showInfo', { detail: term });
             this.dispatchEvent(event);
         }
         // append main tag to overview field
         tagInput.appendChild(tag);
     }
-
 }
 
 customElements.define("overview-component", OverviewComponent)
