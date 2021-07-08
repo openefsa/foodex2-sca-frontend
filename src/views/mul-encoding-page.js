@@ -128,7 +128,8 @@ class MulEncodingPage extends LitElement {
 
         td {
             word-wrap: break-word;
-            max-width: 150px
+            max-width: 150px;
+            font-size: 18px;
         }
           
         tr:nth-child(even) th[scope=row] {
