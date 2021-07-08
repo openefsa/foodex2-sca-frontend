@@ -212,7 +212,7 @@ class MainApp extends LitElement {
                             </paper-item>
                             <paper-item name="mul-encode">
                                 <iron-icon icon="view-module"></iron-icon>
-                                <a href="#/mul-encode" drawer-toggle>Multi Encode</a>
+                                <a href="#/mul-encode" drawer-toggle>Multi Encoding</a>
                             </paper-item>
                             <paper-item name="settings">
                                 <iron-icon icon="settings"></iron-icon>
