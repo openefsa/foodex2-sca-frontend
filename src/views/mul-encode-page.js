@@ -183,16 +183,17 @@ class MulEncodePage extends LitElement {
             '50': 'MEDIUM (50%)',
             '70': 'HIGH (70%)'
         };
-        
+
         // default threshold
         this.thld = 50;
 
         // set column properties
         this.cols = [
             { id: 0, property: 'desc', header: 'Food description' },
-            { id: 1, property: 'code', header: 'FoodEx2 code' },
-            { id: 2, property: 'avg_acc', header: 'Average accuracy (%)' },
-            { id: 3, property: 'delete', header: 'Delete' }
+            { id: 1, property: 'interp', header: 'FoodEx2 interpretation' },
+            { id: 2, property: 'code', header: 'FoodEx2 code' },
+            { id: 3, property: 'avg_acc', header: 'Average accuracy (%)' },
+            { id: 4, property: 'delete', header: 'Delete' }
         ];
 
         // Track sort directions
@@ -204,7 +205,7 @@ class MulEncodePage extends LitElement {
     render() {
         // define template html row
         const headers = this.cols.map(col => html`<th @click="${() => this.sortColumn(col.id)}">${col.header}</th>`);
-            
+
         return html`
         <div class="flexbox">
             <div class="main-panel">
@@ -221,7 +222,16 @@ class MulEncodePage extends LitElement {
                             </div>
                             <div>
                                 <div class="thld-label">Threshold level:<span class="caption">${this.thldLevels[this.thld]}</span></div><br>
-                                <paper-slider id="thld" pin min="30" max="70" step="20" secondary-progress="50" value="${this.thld}" @change="${(e) => this.updateThld(e.target.value)}"></paper-slider>
+                                <paper-slider 
+                                    id="thld" 
+                                    pin 
+                                    min="30" 
+                                    max="70" 
+                                    step="20" 
+                                    secondary-progress="50" 
+                                    value="${this.thld}" 
+                                    @change="${(e) => this.updateThld(e.target.value)}">
+                                </paper-slider>
                             </div>
                         </div>
                     </label>
@@ -290,7 +300,7 @@ class MulEncodePage extends LitElement {
                 idx += 1;
             });
             // add remove row cell in last column
-            var delCell = row.insertCell(3);
+            var delCell = row.insertCell(4);
             delCell.innerHTML = "&#10060;";
             delCell.style.cursor = "pointer";
             // add delete listener
@@ -324,7 +334,7 @@ class MulEncodePage extends LitElement {
      */
     addRow() {
         var temp = this.data;
-        temp.unshift({ "desc": "", "code": "", "avg_acc": "" });
+        temp.unshift({ "desc": "", "interp": "", "code": "", "avg_acc": "" });
         this.data = temp.slice();
     }
 
@@ -354,7 +364,7 @@ class MulEncodePage extends LitElement {
                 }
                 // push items in global data
                 filtered.forEach(element => {
-                    this.data.push({ "desc": element, "code": "", "avg_acc": "" });
+                    this.data.push({ "desc": element, "interp": "", "code": "", "avg_acc": "" });
                 });
             }
         });
@@ -431,9 +441,10 @@ class MulEncodePage extends LitElement {
         data.forEach(value => {
             let obj = tmp.find(f => f.desc === value.desc.orig);
             if (obj) {
-                let code_acc = this.buildCode(value);
+                let code_acc = this.parseData(value);
                 obj.code = code_acc[0];
-                let acc = code_acc[1];
+                obj.interp = code_acc[1];
+                let acc = code_acc[2];
                 obj.avg_acc = (acc === "N/A") ? acc : (acc * 100).toFixed(2);
             }
         });
@@ -455,21 +466,25 @@ class MulEncodePage extends LitElement {
     }
 
     /**
-     * Build the final code and calculate avg accuracy
+     * build the final FoodEx2 interpretation, code, average accuracy
      * @param {*} value 
      */
-    buildCode(value) {
+    parseData(value) {
         let code_acc = [];
 
-        let final_code = "N/A"; // final FoodEx2 Code (bt+facets)
-        let final_facets = []; // final facets code (categories+terms)
+        let final_interp = "N/A"; // final FoodEx2 Code interpretation
+        let final_code = "N/A"; // final FoodEx2 Code interpretation
+        let final_facets = []; // final code facets (categories+terms)
+        let final_interp_facets = []; // final facets interpretation (categories+terms)
         let final_acc = []; // final accuracy (bt+cat+fcs)
-        
+
         if (value.bt && value.bt[0]) {
             // get base term with higher accuracy
             let bt = value.bt[0];
             // append to final code the base term
             final_code = bt.termCode;
+            // append to final interpret the base term
+            final_interp = bt.termExtendedName;
             // store percentage of accuracy
             final_acc.push(bt.acc);
             // iterate each category suggested
@@ -487,8 +502,9 @@ class MulEncodePage extends LitElement {
                         return;
                     // calculate the weighted arithmetic mean
                     let avg_acc = (category.acc + facet.acc) / 2;
-                    if (avg_acc > (this.thld/100)) {
+                    if (avg_acc > (this.thld / 100)) {
                         final_facets.push(category.code + "." + facet.termCode);
+                        final_interp_facets.push(category.label.toUpperCase() + " = " + facet.termExtendedName);
                         final_acc.push(avg_acc);
                     }
                 });
@@ -497,9 +513,11 @@ class MulEncodePage extends LitElement {
         // compose final code
         if (final_facets.length > 0) {
             final_code = final_code + "#" + final_facets.join("$");
+            final_interp = final_interp + ", " + final_interp_facets.join(", ");
         }
         // comine final code with final avg accuracy
         code_acc.push(final_code);
+        code_acc.push(final_interp);
         code_acc.push(this.calculateAvg(final_acc));
 
         return code_acc;
