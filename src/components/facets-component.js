@@ -218,14 +218,12 @@ class FacetsComponent extends LitElement {
             <div>
                 <label>Select facets in
                     <select required id="${this.catFieldId}" @change="${this.onCategorySelection}">
-                        ${this.generateFacetCategories()})
-            }
+                        ${this.generateFacetCategories()}
                     </select>
                 </label>
             </div>
             <div id="${this.fcsFieldId}"></div>
-            
-            `
+        `
     }
 
     /**
@@ -401,7 +399,6 @@ class FacetsComponent extends LitElement {
 
                 //check if facet in selected facets
                 const index = this.selFcs.findIndex(f => (f.code === fc.code && f.cat == fc.cat));
-
                 // if term already selected change background color
                 if (index > -1) {
                     tag.style.backgroundColor = "#cde69c";
