@@ -12,7 +12,7 @@ import '@polymer/paper-slider/paper-slider.js';
 
 import config from "../../config.js";
 
-class MulEncodePage extends LitElement {
+class MulEncodingPage extends LitElement {
 
     static get properties() {
         return {
@@ -630,4 +630,4 @@ class MulEncodePage extends LitElement {
     }
 }
 
-customElements.define('mul-encode-page', MulEncodePage)
+customElements.define('mul-encoding-page', MulEncodingPage)

@@ -145,8 +145,8 @@ class MainApp extends LitElement {
 
         this.router.on("home", () => {
             this.route = 'home'
-        }).on("mul-encode", () => {
-            this.route = 'mul-encode'
+        }).on("mul-encoding", () => {
+            this.route = 'mul-encoding'
         }).on("settings", () => {
             this.route = 'settings'
         }).on("about", () => {
@@ -210,9 +210,9 @@ class MainApp extends LitElement {
                                 <iron-icon icon="home"></iron-icon>
                                 <a href="#/home" drawer-toggle>Home</a>
                             </paper-item>
-                            <paper-item name="mul-encode">
+                            <paper-item name="mul-encoding">
                                 <iron-icon icon="view-module"></iron-icon>
-                                <a href="#/mul-encode" drawer-toggle>Multi Encoding</a>
+                                <a href="#/mul-encoding" drawer-toggle>Multi Encoding</a>
                             </paper-item>
                             <paper-item name="settings">
                                 <iron-icon icon="settings"></iron-icon>
@@ -248,7 +248,7 @@ class MainApp extends LitElement {
                     <!-- list/detail pages -->
                     <iron-pages selected="${this.route}" attr-for-selected="name">
                         <home-page name="home" .loggedIn="${this.loggedIn}"></home-page>
-                        <mul-encode-page name="mul-encode"></mul-encode-page>
+                        <mul-encoding-page name="mul-encoding"></mul-encoding-page>
                         <settings-page name="settings"></settings-page>
                         <about-page name="about"></about-page>
                         ${this.showLoginPage()}
