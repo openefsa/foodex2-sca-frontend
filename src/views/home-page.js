@@ -217,26 +217,54 @@ export class HomePage extends LitElement {
           
           <!-- div with button which shows term information panel -->
           <div>
-            <paper-icon-button class="btn" icon="${this.iconName}" @click="${this.toggleTermInfoPanel}"></paper-icon-button>
+            <paper-icon-button 
+              class="btn" 
+              icon="${this.iconName}" 
+              @click="${this.toggleTermInfoPanel}">
+            </paper-icon-button>
           </div>
 
           <!-- component for inserting food description and fetching server -->
-          <input-component class="component" @data="${(e) => (this.updateData(e))}"></input-component>
+          <input-component 
+            class="component" 
+            @data="${(e) => (this.updateData(e))}">
+          </input-component>
 
           <!-- component for showing baseterm -->
-          <baseterm-component class="component" .baseterms="${this.baseterms}" @bt="${(e) => (this.updateBaseterm(e))}"></baseterm-component>
+          <baseterm-component 
+            class="component" 
+            .baseterms="${this.baseterms}"
+            @bt="${(e) => (this.updateBaseterm(e))}">
+          </baseterm-component>
         
           <!-- component for showing facets -->
-          <facets-component class="component" .bt="${this.selectedBt}" .data="${this.facetData}" @fcs="${(e) => (this.updateFacets(e))}"></facets-component>
+          <facets-component 
+            class="component" 
+            .bt="${this.selectedBt}" 
+            .data="${this.facetData}" 
+            @fcs="${(e) => (this.updateFacets(e))}">
+          </facets-component>
         
           <!-- component for showing overview of user interaction -->
-          <overview-component class="component fill" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}" @showInfo="${(e) => (this.showInfo(e))}"></overview-component>
+          <overview-component 
+            class="component fill" 
+            .bt="${this.selectedBt}" 
+            .fcs="${this.selectedFcs}" 
+            @showInfo="${(e) => (this.showInfo(e))}">
+          </overview-component>
 
           <!-- component for showing the foodex2 code -->
-          <code-component class="component" .bt="${this.selectedBt}" .fcs="${this.selectedFcs}"></code-component>
-        
+          <code-component 
+            class="component" 
+            .bt="${this.selectedBt}" 
+            .fcs="${this.selectedFcs}">
+          </code-component>
+
+          <!-- show feedback dialog button -->
           ${this.showFeedbackButton()}
+
         </div>
+
         <div id="${this.secondPanel}" class="info-panel" style="display: none;">
           <div id="outer">
             <h3>Term information</h3>
