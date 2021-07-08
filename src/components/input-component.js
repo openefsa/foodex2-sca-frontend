@@ -101,7 +101,7 @@ class InputComponent extends LitElement {
                 Food Description
             </div>
             <div class="flex-container">
-                <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress="${this.handleKeyPress}"></input>
+                <input class="flex-item" type="text" id="${this.fieldId}" placeholder="Insert food description here" @keypress="${this.handleKeyPress}">
                 <paper-button @click="${this.getSuggestions}">GO</paper-button>
             </div>
             
