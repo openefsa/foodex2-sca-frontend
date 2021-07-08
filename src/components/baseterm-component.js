@@ -37,7 +37,7 @@ class Term {
         this.detailLevel = obj.detailLevel;
         this.deprecated = obj.deprecated;
         this.implicitFacets = obj.allFacets;
-        this.acc = parseInt(obj.acc*100);
+        this.acc = parseInt(obj.acc * 100);
     }
 }
 
@@ -45,13 +45,13 @@ class Term {
  * Overrides default toString method.
  */
 Term.prototype.toString = function toString() {
-    return 'Code: ' + this.code + 
-            '\nName: ' + this.name + 
-            '\nAccuracy: ' + this.acc + "%";
+    return 'Code: ' + this.code +
+        '\nName: ' + this.name +
+        '\nAccuracy: ' + this.acc + "%";
 }
 
 class BasetermComponent extends LitElement {
-    
+
     static get properties() {
         return {
             fieldId: {
@@ -143,7 +143,7 @@ class BasetermComponent extends LitElement {
     }
 
     render() {
-        return html `
+        return html`
             <div>Select a base term</div>
             <div id="${this.fieldId}"></div>
             `
@@ -157,12 +157,12 @@ class BasetermComponent extends LitElement {
     shouldUpdate(changedProperties) {
 
         var newBaseterms = changedProperties.has('baseterms');
-        
+
         // if new baseterms list update field
         if (newBaseterms) {
             this.populateBaseterms();
         }
-        
+
         return newBaseterms;
     }
 
@@ -173,17 +173,23 @@ class BasetermComponent extends LitElement {
      * @param {*} tagClass 
      * @param {*} disable 
      * @param {*} tagLabel 
-     * @param {*} tagTitle 
+     * @param {*} term 
      */
-    createTag (tagType, tagClass, disable, tagLabel, tagTitle) {
+    createTag(tagType, tagClass, disable, tagLabel, term) {
+        // create the tag based on the type
         var tag = document.createElement(tagType);
-        if(tagClass!=null)
+        // if class defined than set it for the tag
+        if (tagClass != null)
             tag.setAttribute('class', tagClass);
+        // set if tag to be disabled or not
         tag.disabled = disable;
+        // set the shown tag label
         tag.innerHTML = tagLabel;
-        if(tagTitle!=null) {
-            tag.title = tagTitle; 
-        }
+        // set the term code as id
+        tag.id = (term) ? term.code : '';
+        // set the term info
+        tag.title = (term) ? term : '';
+
         return tag;
     }
 
@@ -201,27 +207,27 @@ class BasetermComponent extends LitElement {
 
         // clean the component content
         tagInput.innerHTML = null;
-        
+
         // map each baseterm
         var results = Object.values(this.baseterms).map(obj => new Term(obj));
-        
+
         // flag for auto-selecting first term
         var flag = true;
 
-        if (results.length>0) {
+        if (results.length > 0) {
 
             // iterate each baseterm in list
             results.forEach(term => {
                 // create inner tag with baseterm properties
                 var tag = this.createTag('button', 'bt', false, term.name, term);
                 // append the inner label to the tag
-                var innerTag = this.createTag('tag', 'inner-tag', true, term.acc+"%", null);
+                var innerTag = this.createTag('tag', 'inner-tag', true, term.acc + "%", null);
                 // append inner tag to tag
                 tag.appendChild(innerTag);
 
                 // when clicking on tag
                 tag.onclick = () => {
-                    
+
                     if (tag.style.backgroundColor === "") {
                         // clean all buttons styles since only single term can be selected
                         Array.from(tagInput.getElementsByTagName("button")).forEach(t => {
@@ -229,7 +235,7 @@ class BasetermComponent extends LitElement {
                         });
                         // apply the selection only to single term (since olny one baseterm can be selected)
                         tag.style.backgroundColor = "#bad0e7";
-                        
+
                         // update the selected baseterm
                         this.updatedBt(term);
                     } else {
@@ -242,18 +248,18 @@ class BasetermComponent extends LitElement {
 
                 // append the new inner tag
                 tagInput.appendChild(tag);
-                
+
                 // auto select first term
-                if((localStorage.getItem('autoSelBt')==="true") && flag){
+                if ((localStorage.getItem('autoSelBt') === "true") && flag) {
                     tag.onclick.apply(tag);
-                    flag=!flag;
+                    flag = !flag;
                 }
 
             }, this);
         } else {
             // create empty tag
             var termName = "No suggestions found";
-            var termTitle = "I'm sorry but I couldn't find any foodex2 terms relevant to the description provided, please change the food description and try again."; 
+            var termTitle = "I'm sorry but I couldn't find any foodex2 terms relevant to the description provided, please change the food description and try again.";
             var emptyTag = this.createTag('button', null, true, termName, termTitle);
             // append the new inner tag
             tagInput.appendChild(emptyTag);
@@ -266,7 +272,7 @@ class BasetermComponent extends LitElement {
      * @param  {Term} bt selected base term
      */
     updatedBt(bt) {
-        let event = new CustomEvent('bt', {detail: bt});
+        let event = new CustomEvent('bt', { detail: bt });
         this.dispatchEvent(event);
     }
 
