@@ -600,11 +600,11 @@ class MulEncodingPage extends LitElement {
         var tsv = [];
         var delim = "\t";
 
-        // filter, join and add header result to csv
+        // filter, join and add header result to tsv
         var header = this.cols.filter(v => v.header != "Delete").map(item => item["header"]).join(delim);
         tsv.push(header);
 
-        // push body to csv
+        // push body to tsv
         this.data.forEach(item => {
             tsv.push(Object.values(item).join(delim));
         });
@@ -613,7 +613,7 @@ class MulEncodingPage extends LitElement {
         tsv = tsv.join("\n");
 
         // create the file
-        var csvFile = new Blob([tsv], { type: "text/csv" });
+        var csvFile = new Blob([tsv], { type: "text/tab-separated-values" });
 
         // create link and download file
         var a = document.createElement("a");
