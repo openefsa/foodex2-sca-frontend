@@ -69,6 +69,7 @@ class MulEncodingPage extends LitElement {
 
         .thld-label {
             font-size: 13px;
+            margin-bottom: 10px;
         }
 
         .caption {
@@ -168,6 +169,11 @@ class MulEncodingPage extends LitElement {
           background-color: darkgrey;
           outline: 1px solid slategrey;
         }
+
+        iron-icon.tiny {
+            --iron-icon-height: 16px;
+            --iron-icon-width: 16px;
+        }
         `;
     }
 
@@ -180,9 +186,9 @@ class MulEncodingPage extends LitElement {
         this.dialog = "pDialog"; // paper-dialog id
 
         this.thldLevels = {
-            '30': 'LOW (30%)',
-            '50': 'MEDIUM (50%)',
-            '70': 'HIGH (70%)'
+            '30': 'L (30%)',
+            '50': 'M (50%)',
+            '70': 'H (70%)'
         };
 
         // default threshold
@@ -206,6 +212,8 @@ class MulEncodingPage extends LitElement {
     render() {
         // define template html row
         const headers = this.cols.map(col => html`<th @click="${() => this.sortColumn(col.id)}">${col.header}</th>`);
+        // info to print 
+        const infoStr = "Allows you to select only those facets for which the average\naccuracy(between the facet itself and the category it belongs to)\nis greater or equal to the selected level (low, medium, high).";
 
         return html`
         <div class="flexbox">
@@ -222,7 +230,16 @@ class MulEncodingPage extends LitElement {
                                 <paper-icon-button icon="file-download" title="Export CSV" @click="${this.exportTable}"></paper-icon-button>
                             </div>
                             <div>
-                                <div class="thld-label">Threshold level:<span class="caption">${this.thldLevels[this.thld]}</span></div><br>
+                                <div class="thld-label">Facets threshold level: 
+                                    <iron-icon 
+                                        title=${infoStr}
+                                        icon="info" 
+                                        class="tiny">
+                                    </iron-icon>
+                                    <span class="caption">
+                                        ${this.thldLevels[this.thld]}
+                                    </span>
+                                </div>
                                 <paper-slider 
                                     id="thld" 
                                     pin 
