@@ -22,6 +22,7 @@ import {
     css
 } from 'lit-element';
 
+// import used dependencies
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/app-layout/app-header/app-header.js';
@@ -34,6 +35,21 @@ import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-item/paper-item.js';
 
 import Navigo from 'navigo/lib/navigo.es.js';
+
+// import web components
+import './views/home-page.js';
+import './views/mul-encoding-page.js';
+import './views/settings-page.js';
+import './views/about-page.js';
+import './views/login-page.js';
+import './components/input-component.js';
+import './components/baseterm-component.js';
+import './components/facets-component.js'
+import './components/overview-component.js';
+import './components/code-component.js';
+import './components/feedback-component.js';
+import './components/progress-bar-component.js';
+import './components/terms-of-use.js';
 
 class MainApp extends LitElement {
 
