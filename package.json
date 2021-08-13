@@ -32,6 +32,7 @@
         "lit-element": "^2.5.1",
         "lit-html": "^1.4.1",
         "navigo": "^7.1.2",
+        "pdfjs-dist": "^2.9.359",
         "polymer-cli": "^1.9.11"
     },
     "scripts": {
