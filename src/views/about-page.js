@@ -142,7 +142,7 @@ class AboutPage extends LitElement {
         <div class="content">
 
             <div class="flex-container">
-                <img src="src/asset/icons/EFSAlogo.svg" height="60px" style="padding-right: 50px;">
+                <img src="src/asset/icons/EFSALogo.svg" height="60px" style="padding-right: 50px;">
                 <h2>FoodEx2 Smart Coding App</h2>
                 
                 <div class="push">
