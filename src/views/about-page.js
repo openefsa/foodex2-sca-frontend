@@ -175,7 +175,7 @@ class AboutPage extends LitElement {
 
                 <!-- Modal content -->
                 <div class="modal-content">
-                    <iframe class="user-manual-viewer" src="/src/asset/manual/manual-cat.pdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                    <iframe class="user-manual-viewer" src="src/asset/manual/manual-cat.pdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="${this.closePDFDialog}">Dismiss</button>
                     </div>
