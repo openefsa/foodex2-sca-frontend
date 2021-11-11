@@ -1,4 +1,4 @@
-# test with docker in gitpod by launching gitpod and then running 
+# test with docker in Gitpod by launching Gitpod and then running 
 # 'bash gitpod_test_docker.sh' in a Terminal window of VS Code
 docker build -t openefsa/sca-frontend:1.6 .
 docker image ls
