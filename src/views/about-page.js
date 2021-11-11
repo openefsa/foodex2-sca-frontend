@@ -156,8 +156,8 @@ class AboutPage extends LitElement {
                         </p>
                     </div>
                     <div>
-                        <a href="https://doi.org/10.5281/zenodo.4473208" target="_blank">
-                            <img src="src/asset/icons/zenodo.4473208.svg" alt="DOI: 10.5281/zenodo.4473208">
+                        <a href="https://doi.org/10.5281/zenodo.5596611" target="_blank">
+                            <img src="src/asset/icons/zenodo.5596611.svg" alt="DOI: 10.5281/zenodo.5596611">
                         </a>
                     </div>
                 </div>
